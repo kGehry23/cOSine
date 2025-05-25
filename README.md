@@ -1,2 +1,3 @@
 # cOSine
-Self made operating system
+Self designed operating system
+
