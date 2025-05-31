@@ -1,3 +1,3 @@
 # cOSine
-Self designed operating system
+Real time operating system for raspbrerry pi 4 
 
