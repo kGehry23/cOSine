@@ -9,6 +9,9 @@
 #  */
 
 #Change to qemu directory
-cd "c:/Program Files/qemu"
-#Execute CD-ROM image for OS
-eval "./qemu-system-x86_64.exe"
+cd "boot"
+
+#Assemble boot assembly
+eval "nasm boot.asm"
+#Run qemu with os image
+eval "qemu-system-i386 boot"
