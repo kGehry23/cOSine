@@ -8,3 +8,4 @@ To boot the minimal bootloader, ensure that qemu is accessible from the command 
 
 Once executed, a qemu window should open and "Booted into cOSine" is displayed on screen.
 
+
