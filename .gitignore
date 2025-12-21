@@ -1,0 +1,6 @@
+.vscode
+process/
+
+kernel/*.o
+kernel/*.elf
+kernel/*.bin
