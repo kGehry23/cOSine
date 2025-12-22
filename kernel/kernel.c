@@ -24,7 +24,9 @@
 void kernel(void)
 {
     terminal_initialize();
-    terminal_wrestling("Booted into cOSine");
+    terminal_wrestling("Booted into cOSine\n");
+    terminal_wrestling("Tab\tTest\n");
+    terminal_wrestling("Test2");
 }
 
 

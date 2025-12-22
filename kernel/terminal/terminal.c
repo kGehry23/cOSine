@@ -143,7 +143,21 @@ void terminal_putentryat(char c, uint8_t colour, size_t x, size_t y)
  */
 void terminal_putchar(char c)
 {
-    terminal_putentryat(c, terminal_colour, terminal_column, terminal_row);
+    //Handles newlines
+    if(c == '\n')
+    {
+        //Forces text to appear at edge of screen
+        terminal_column = -1;
+        ++terminal_row;
+    }
+    //Handles the tab character (4 spaces)
+    else if(c == '\t')
+    {
+        terminal_column += 4;
+    }
+    else
+        terminal_putentryat(c, terminal_colour, terminal_column, terminal_row);
+
     
     //Wrap around back to index 0 if column or row index exceeds width
     if(++terminal_column == VGA_WIDTH)
