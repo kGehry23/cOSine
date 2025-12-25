@@ -1,6 +1,6 @@
 .vscode
 process/
 
-kernel/*.o
-kernel/*.elf
-kernel/*.bin
+*.o
+*.bin
+*.elf
