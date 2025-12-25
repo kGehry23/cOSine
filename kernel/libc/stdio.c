@@ -28,21 +28,82 @@ int puts(const char* str_data)
 }
 
 /*!
+ * @brief Writes an integer to the terminal
+ * @param arg Integer to write to the terminal
+ * @return None
+ */
+static void print_integer(int arg)
+{
+    int value = arg;
+    char string[7];
+    unsigned int i = 0;
+
+    while(value >= 10)
+    {
+        int intermediate = value%10;
+        string[i] = intermediate + '0';
+        i++;
+
+        value /= 10;
+    }
+
+    string[i] = value + '0';
+
+    for(int j = i;j>=0;--j)
+    {
+        terminal_putchar(string[j]);
+    }
+}
+
+/*!
+ * @brief Writes an integer to the terminal
+ * @param arg Integer to write to the terminal
+ * @return None
+ */
+static void print_hex(int arg)
+{
+    int value = arg;
+    char string[8];
+    unsigned int i = 0;
+
+    while(value > 0)
+    {
+        int intermediate = value%16;
+
+        if(intermediate >= 10)
+        {
+            string[i] = intermediate + 55;
+        }
+        else
+            string[i] = intermediate + '0';
+
+        i++;
+
+        value /= 16;
+    }
+
+    string[i] = value + '0';
+
+    terminal_wrestling("0x");
+
+    for(int j = i;j>=0;--j)
+    {
+        terminal_putchar(string[j]);
+    }
+}
+
+/*!
  * @brief Writes a formatted string to the terminal followed by a newline
  * @param data Character array to write to the terminal
  * @return Success code
  */
 int printf(const char* output, ...)
 {
-    //List of arguments
     va_list list;
-    //Initialize the list
     va_start(list, output);
 
-    //Integer to keep track of current string index
     unsigned int i = 0;
 
-    //Continue iterating until null terminating character is reached
     while(output[i] != '\0')
     {
         //Once a % sign is reached, each argument in the argument list is accessed sequentially
@@ -54,12 +115,14 @@ int printf(const char* output, ...)
                 case 's':
                     terminal_wrestling(va_arg(list, char*));
                     break;
-                case 'd':
-                    //Convert intended integer to correct character
-                    terminal_putchar(va_arg(list, int) + '0');
-                    break;
                 case 'c':
                     terminal_putchar(va_arg(list,int));
+                    break;
+                case 'd':
+                    print_integer(va_arg(list, int));
+                    break;
+                case 'p':
+                    print_hex(va_arg(list, int));
                     break;
             }
 
@@ -71,8 +134,6 @@ int printf(const char* output, ...)
             terminal_putchar(output[i]);
             i++;
         }
-
-        
     }
 
     //Free memory allocated for va_list
