@@ -17,6 +17,14 @@
 #include "string.h"
 #include "../../kernel/terminal/terminal.h"
 
+/************************************
+ * DEFINES
+ ************************************/
+#define INT_BASE 10
+#define HEX_BASE 16
+#define HEX_LETTER_BASE 55
+#define ASCII_TO_INT_BASE 48
+
 /*!
  * @brief Writes the pointed to string to the terminal followed by a newline
  * @param data Character array to write to the terminal
@@ -38,16 +46,17 @@ static void print_integer(int arg)
     char string[7];
     unsigned int i = 0;
 
-    while(value >= 10)
+    while(value >= INT_BASE)
     {
-        int intermediate = value%10;
-        string[i] = intermediate + '0';
+        int intermediate = value%INT_BASE;
+        string[i] = intermediate + ASCII_TO_INT_BASE;
         i++;
 
-        value /= 10;
+        //Multiplication by 0.1 more efficient than division by 10
+        value *= 0.1;
     }
 
-    string[i] = value + '0';
+    string[i] = value + ASCII_TO_INT_BASE;
 
     for(int j = i;j>=0;--j)
     {
@@ -68,23 +77,24 @@ static void print_hex(int arg)
 
     while(value > 0)
     {
-        int intermediate = value%16;
+        int intermediate = value%HEX_BASE;
 
         if(intermediate >= 10)
         {
-            string[i] = intermediate + 55;
+            string[i] = intermediate + HEX_LETTER_BASE;
         }
         else
-            string[i] = intermediate + '0';
+            string[i] = intermediate + ASCII_TO_INT_BASE;
 
         i++;
 
-        value /= 16;
+        //Bit shift by 16 (2^4). More efficient than direct division by 16
+        value >>= 4;
     }
 
-    string[i] = value + '0';
+    string[i] = value + ASCII_TO_INT_BASE;
 
-    terminal_wrestling("0x");
+    printf("0x");
 
     for(int j = i;j>=0;--j)
     {
