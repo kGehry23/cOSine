@@ -25,9 +25,8 @@
 void kernel(void)
 {
     terminal_initialize();
-
-    printf("%s\n", "test");
-    printf("%s\n", "test5");
+    printf("This is a %s and this is an integer %d. This is a character: %c.\n", "test", 3, 'a');
+    puts("This the output from puts()");
 
 }
 
