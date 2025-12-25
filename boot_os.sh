@@ -21,13 +21,14 @@ cd "terminal"
 eval "gcc -m32 -c terminal.c -o terminal.o -ffreestanding -nostdlib"
 
 cd ".."
-cd "libk"
+cd "libc"
 #Compiles terminal functions file freestanding
 eval "gcc -m32 -c string.c -o string.o -ffreestanding -nostdlib"
+eval "gcc -m32 -c stdio.c -o stdio.o -ffreestanding -nostdlib"
 
 cd ".."
 #Links asm object and c object files
-eval "ld -T linker.ld -o kernel.bin kernel_asm.o kernel.o terminal/terminal.o libk/string.o -build-id=none"
+eval "ld -T linker.ld -o kernel.bin kernel_asm.o kernel.o terminal/terminal.o libc/string.o libc/stdio.o -build-id=none"
 #Converts linked object files to appropriate format
 eval "objcopy -O elf32-i386 kernel.bin kernel_boot.elf"
 #Boots into vm

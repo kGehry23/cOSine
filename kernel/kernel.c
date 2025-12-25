@@ -16,6 +16,7 @@
  ************************************/
 #include <stdbool.h>
 #include "terminal/terminal.h"
+#include "libc/stdio.h"
 
 /*!
  * @brief Kernel
@@ -24,9 +25,10 @@
 void kernel(void)
 {
     terminal_initialize();
-    terminal_wrestling("Booted into cOSine\n");
-    terminal_wrestling("Tab\tTest\n");
-    terminal_wrestling("Test2");
+
+    printf("%s\n", "test");
+    printf("%s\n", "test5");
+
 }
 
 
