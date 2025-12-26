@@ -27,7 +27,6 @@ size_t strlen(const char* str)
     return len;
 }
 
-
 /*!
  * @brief Compares the first n bytes of of s1 to the first n bytes of s2
  * @param s1 First pointer in comparison

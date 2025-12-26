@@ -24,7 +24,6 @@
  */
 void kernel(void)
 {
-
     int t = (int)0xB8000;
     int i = 10;
     int *p = &i;
@@ -32,7 +31,6 @@ void kernel(void)
     terminal_initialize();
     printf("This is a %s and this is a hex number: %p. This is a character: %c.\n", "test", p,'a');
     puts("This the output from puts()");
-
 }
 
 

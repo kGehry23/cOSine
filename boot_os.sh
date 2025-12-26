@@ -9,10 +9,8 @@
 #  */
 
 cd "kernel"
-
 #Assembles kernel assembly file
 eval "nasm -f elf32 kernel.asm -o kernel_asm.o"
-
 #Compiles basic kernel c file freestanding
 eval "gcc -m32 -c kernel.c -o kernel.o -ffreestanding -nostdlib"
 
@@ -22,7 +20,7 @@ eval "gcc -m32 -c terminal.c -o terminal.o -ffreestanding -nostdlib"
 
 cd ".."
 cd "libc"
-#Compiles terminal functions file freestanding
+#Compiles libc files freestanding
 eval "gcc -m32 -c string.c -o string.o -ffreestanding -nostdlib"
 eval "gcc -m32 -c stdio.c -o stdio.o -ffreestanding -nostdlib"
 

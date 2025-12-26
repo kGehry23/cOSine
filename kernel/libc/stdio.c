@@ -22,6 +22,7 @@
  ************************************/
 #define INT_BASE 10
 #define HEX_BASE 16
+#define POINTER_SIZE 8
 #define HEX_LETTER_BASE 55
 #define ASCII_TO_INT_BASE 48
 
@@ -43,7 +44,7 @@ int puts(const char* str_data)
 static void print_integer(int arg)
 {
     int value = arg;
-    char string[7];
+    char string[POINTER_SIZE-1];
     unsigned int i = 0;
 
     while(value >= INT_BASE)
@@ -72,7 +73,7 @@ static void print_integer(int arg)
 static void print_hex(int arg)
 {
     int value = arg;
-    char string[8];
+    char string[POINTER_SIZE];
     unsigned int i = 0;
 
     while(value > 0)
@@ -95,6 +96,15 @@ static void print_hex(int arg)
     string[i] = value + ASCII_TO_INT_BASE;
 
     printf("0x");
+
+    //Calculate remaining positions that have not been filled
+    int fill = POINTER_SIZE-i;
+
+    //Fill LSBs with '0''s.
+    for(int j = 0;j<fill-1;j++)
+    {
+        terminal_putchar('0');
+    }
 
     for(int j = i;j>=0;--j)
     {
