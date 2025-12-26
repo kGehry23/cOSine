@@ -15,7 +15,7 @@
  ************************************/
 #include "stdio.h"
 #include "string.h"
-#include "../../terminal/terminal.h"
+#include "../../kernel/terminal/terminal.h"
 
 /************************************
  * DEFINES

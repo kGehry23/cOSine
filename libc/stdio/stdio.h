@@ -12,14 +12,18 @@
 #ifndef STDIO_H
 #define STDIO_H
 
+/************************************
+ * INCLUDES
+ ************************************/
 #include <stdarg.h>
 
+/************************************
+ * DEFINES
+ ************************************/
 #define EOF (-1)
 
 int printf(const char* __restrict, ...);
 int putchar(int);
 int puts(const char*);
-
-
 
 #endif //STDIO_H
