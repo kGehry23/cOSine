@@ -16,6 +16,7 @@
  * INCLUDES
  ************************************/
 #include "terminal.h"
+#include "../../libc/string/string.h"
 
 /************************************
  * DEFINES
@@ -55,19 +56,6 @@ size_t terminal_column;
 uint8_t terminal_colour;
 //Define a pointer to vram memory start location
 uint16_t *terminal_buffer = (uint16_t*)VGA_MEMORY;
-
-/*!
- * @brief Returns the number of elements in a provided character array
- * @param str Character pointer to check length of
- * @return Length of the pointed to character array
- */
-size_t strlen(const char* str)
-{
-    size_t len = 0;
-    while (str[len])
-        len++;
-    return len;
-}
 
 /*!
  * @brief Formats the selected background and foreground colours appropriately for use by the VGA

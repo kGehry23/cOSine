@@ -16,6 +16,8 @@
  ************************************/
 #include <stdbool.h>
 #include "terminal/terminal.h"
+#include "../libc/stdio/stdio.h"
+#include "../libc/stdlib/stdlib.h"
 
 /*!
  * @brief Kernel
@@ -23,10 +25,14 @@
  */
 void kernel(void)
 {
+    int t = (int)0xB8000;
+    int i = 10;
+    int *p = &i;
+
     terminal_initialize();
-    terminal_wrestling("Booted into cOSine\n");
-    terminal_wrestling("Tab\tTest\n");
-    terminal_wrestling("Test2");
+    printf("This is a %s and this is a hex number: %p. This is a character: %c.\n", "test", p,'a');
+    puts("This the output from puts()");
+
 }
 
 
