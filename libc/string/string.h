@@ -51,6 +51,13 @@ void *memcpy(void* __restrict, const void* restrict, size_t);
  */
 void *memset(void*, int, size_t);
 
+/*!
+ * @brief Copies n bytes from s2 into s1
+ * @param s1 Pointer to copy to
+ * @param s2 Pointer to copy from
+ * @param n Number of bytes to copy 
+ * @return Starting address of the copied to memory
+ */
 void *memmove(void*, const void*, size_t);
 
 
