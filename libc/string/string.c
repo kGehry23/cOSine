@@ -1,6 +1,7 @@
 /**
  ********************************************************************************
  * @file    string.h
+ * @author  Kai Gehry, OSDev Tutorial Reference
  *
  * @date    2025-12-24
  *
@@ -49,6 +50,79 @@ int memcmp(const void *s1, const void *s2, size_t n)
     return 0;
 }
 
+
+/*!
+ * @brief Copies n bytes from s2 to s1. 
+ * @param s1 Address to copy to
+ * @param s2 Address to copy from
+ * @param n Number of bytes to copy 
+ * @return Starting address of the copied to memory
+ */
+void *memcpy(void* restrict s1, const void* restrict s2, size_t n)
+{
+    //Casts both void pointers to unsigned chars
+    unsigned char* dest = (unsigned char*)s1;
+    const unsigned char* src = (const unsigned char*)s2;
+    
+    for(size_t i = 0;i<n;i++)
+        dest[i] = src[i];
+
+    return dest;
+}
+
+/*!
+ * @brief Copies c (converted to unsigned char) into first n bytes of s. 
+ * @param s Address to copy to
+ * @param c Integer to copy bytes from
+ * @param n Number of bytes to copy 
+ * @return Starting address of the copied to memory
+ */
+void *memset(void* s, int c, size_t n)
+{
+    unsigned char* dest = (unsigned char*)s;
+    const unsigned char src = (const unsigned char)c;
+
+    for(size_t i = 0;i<n;i++)
+        dest[i] = src;
+    
+    return dest;
+}
+
+/*!
+ * @brief Copies n bytes from s2 into s1
+ * @param s1 Pointer to copy to
+ * @param s2 Pointer to copy from
+ * @param n Number of bytes to copy 
+ * @return Starting address of the copied to memory
+ */
+void *memmove(void* s1, const void* s2, size_t n)
+{
+    unsigned char* dest = (unsigned char*)s1;
+    const unsigned char* src = (const unsigned char*)s2;
+
+    /*If the source address is larger than the destination address, 
+      copying continues downwards from the destination addresses's location
+    */
+    if(dest < src)
+    {
+        for(size_t i = 0;i<n;i++)
+        {
+            dest[i] = src[i];
+        }
+    }
+    /*If the source address is smaller than the destination address, 
+      copying continues upwards from the destination addresses's location
+    */
+    else
+    {
+        for(size_t i = n;i!=0;i--)
+        {
+            dest[i-1] = src[i-1];
+        }
+    }
+
+    return dest;
+}
 
 
 

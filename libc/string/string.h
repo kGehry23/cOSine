@@ -22,7 +22,7 @@
  * @param str Character pointer to check length of
  * @return Length of the pointed to character array
  */
-size_t strlen(const char* str);
+size_t strlen(const char*);
 
 /*!
  * @brief Compares the first n bytes of of s1 to the first n bytes of s2
@@ -33,11 +33,25 @@ size_t strlen(const char* str);
  */
 int memcmp(const void *s1, const void *s2, size_t n);
 
-
+/*!
+ * @brief Copies n bytes from s2 to s1. 
+ * @param s1 Address to copy to
+ * @param s2 Address to copy from
+ * @param n Number of bytes to copy 
+ * @return Starting address of the copied to memory
+ */
 void *memcpy(void* __restrict, const void* restrict, size_t);
-void *memmove(void*, const void*, size_t);
+
+/*!
+ * @brief Copies c (converted to unsigned char) into first n bytes of s. 
+ * @param s Address to copy to
+ * @param c Integer to copy bytes from
+ * @param n Number of bytes to copy 
+ * @return Starting address of the copied to memory
+ */
 void *memset(void*, int, size_t);
-size_t strlen(const char*);
+
+void *memmove(void*, const void*, size_t);
 
 
 #endif //STRING_H
