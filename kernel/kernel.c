@@ -17,6 +17,7 @@
 #include <stdbool.h>
 #include "terminal/terminal.h"
 #include "../libc/stdio/stdio.h"
+#include "../libc/stdlib/stdlib.h"
 
 /*!
  * @brief Kernel
@@ -31,6 +32,7 @@ void kernel(void)
     terminal_initialize();
     printf("This is a %s and this is a hex number: %p. This is a character: %c.\n", "test", p,'a');
     puts("This the output from puts()");
+
 }
 
 
