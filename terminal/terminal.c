@@ -16,7 +16,7 @@
  * INCLUDES
  ************************************/
 #include "terminal.h"
-#include "../../kernel/libc/string.h"
+#include "../libc/string/string.h"
 
 /************************************
  * DEFINES

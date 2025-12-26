@@ -15,8 +15,8 @@
  * INCLUDES
  ************************************/
 #include <stdbool.h>
-#include "terminal/terminal.h"
-#include "libc/stdio.h"
+#include "../terminal/terminal.h"
+#include "../libc/stdio/stdio.h"
 
 /*!
  * @brief Kernel

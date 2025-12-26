@@ -15,7 +15,7 @@
  ************************************/
 #include "stdio.h"
 #include "string.h"
-#include "../../kernel/terminal/terminal.h"
+#include "../../terminal/terminal.h"
 
 /************************************
  * DEFINES
@@ -34,6 +34,17 @@
 int puts(const char* str_data)
 {
     return printf("%s\n", str_data);
+}
+
+/*!
+ * @brief Writes a byte to the terminal
+ * @param c Byte to write to the terminal as a character
+ * @return None
+ */
+int putchar(int c)
+{
+    char c_char = (char)c;
+    terminal_putchar(c_char);
 }
 
 /*!
