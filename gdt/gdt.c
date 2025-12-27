@@ -53,7 +53,7 @@ void init_segment(struct segment seg,
 
 }
 
-
+//Properly encodes GDT entries
 void encodedGDTEntry(uint8_t *target, struct segment source)
 {
     if(source.limit > 0xFFFFF)
@@ -75,23 +75,37 @@ void encodedGDTEntry(uint8_t *target, struct segment source)
     target[5] = source.access_byte;
 
     //Encode flags
-    //target[6] |= (source.flags << 4);  //also unsure here... why are we oring with the flag (likely need at least 8 bytes.. only using 4 for flag?)
+    //target[6] |= (source.flags << 4);  //also unsure here... why are we oring with the flag (likely need at least 8 bits.. only using 4 for flag?)
 
 }
 
-void init_GDT()
+void init_GDT(void)
 {
     //Disables all interrupts
     asm volatile( "cli" );
 
+    //still need to tell cpu where gdt lies
+
     //Create and initialize null descriptor
     struct segment null_desc;
     init_segment(null_desc, 0, 0x0000, 0, 0x00000000, 0x00, 0x0);
+
+    //Kernel mode code segment
+    struct segment kernel_mode_code;
+    init_segment(kernel_mode_code, 1, 0x0008, 0x00400000, 0x003FFFFF, 0x9A, 0xC);
+
+    //Kernel mode data segment
+    struct segment kernel_mode_data;
+    init_segment(kernel_mode_data, 2, 0x0010, 0x00800000, 0x003FFFFF, 0x92, 0xC);
     
-    //Calculate logical address
+    //Calculate logical address for null descriptor
     uint8_t* null_desc_logical_addr = (uint8_t*)(null_desc.seg_num*16 + null_desc.offset);
     //Encode and add null descriptor to GDT
     encodedGDTEntry(null_desc_logical_addr, null_desc);
+
+
+
+
 
 }
 
