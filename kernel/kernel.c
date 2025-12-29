@@ -19,6 +19,7 @@
 #include "../libc/stdio/stdio.h"
 #include "../libc/stdlib/stdlib.h"
 #include "../gdt/gdt.h"
+#include "../idt/idt.h"
 
 /*!
  * @brief Kernel
@@ -30,10 +31,14 @@ void kernel(void)
 
     terminal_initialize();
     printf("Booted into cOSine\nStarting address of VGA buffer: %p\n\n\n", vga_ptr);
-    
+
     //Initializes the GDT
     init_GDT();
     printf("GDT initialization complete.\n");
+
+    //Initializes IDT
+    idt_init();
+    printf("IDT initialization complete. Interrupts enabled.\n\n");
 
 }
 

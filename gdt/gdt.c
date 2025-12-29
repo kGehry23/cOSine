@@ -22,7 +22,7 @@
  ************************************/
 #define NUM_GDT_ENTRIES 3
 #define GDT_ENTRY_SIZE 8
-#define GDT_BASE 0x00000800
+#define GDT_BASE 0
 
 //Struct which represents a GDT entry
 struct segment
