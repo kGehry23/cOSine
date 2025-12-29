@@ -17,6 +17,9 @@
 #include "gdt.h"
 #include "../libc/stdio/stdio.h"
 
+/************************************
+ * DEFINES
+ ************************************/
 #define NUM_GDT_ENTRIES 3
 #define GDT_ENTRY_SIZE 8
 
@@ -49,7 +52,12 @@ void init_segment(struct segment *seg,
     seg->flags = seg_flags;
 }
 
-//Properly encodes GDT entries
+/*!
+ * @brief Encodes the GDT entries in the correct format
+ * @param target Logical address of segment to add to table
+ * @param source Segment to be added to GDT
+ * @return None
+ */
 void encodedGDTEntry(uint8_t *target, struct segment source)
 {
 
@@ -76,9 +84,13 @@ void encodedGDTEntry(uint8_t *target, struct segment source)
 
 }
 
+/*!
+ * @brief Performs initialization of the GDT
+ * @return None
+ */
 void init_GDT(void)
 {
-    unsigned int gdt_address = 0;
+    unsigned int gdt_address = 0; //Place holder. Can decide on a proper memory location later.
     unsigned int gdt_size = (NUM_GDT_ENTRIES*GDT_ENTRY_SIZE) - 1; //Size of table in bytes subtracted by 1
 
     //Null segment descriptor 
