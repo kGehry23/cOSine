@@ -30,7 +30,7 @@ void kernel(void)
 
     terminal_initialize();
     printf("Booted into cOSine\nStarting address of VGA buffer: %p\n\n\n", vga_ptr);
-
+    
     //Initializes the GDT
     init_GDT();
     printf("GDT initialization complete.\n");
