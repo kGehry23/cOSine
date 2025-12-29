@@ -18,6 +18,7 @@
 #include "terminal/terminal.h"
 #include "../libc/stdio/stdio.h"
 #include "../libc/stdlib/stdlib.h"
+#include "../gdt/gdt.h"
 
 /*!
  * @brief Kernel
@@ -28,7 +29,11 @@ void kernel(void)
     uint16_t *vga_ptr = (uint16_t*)0xB8000;
 
     terminal_initialize();
-    printf("Booted into cOSine\nStarting address of VGA buffer: %p", vga_ptr);
+    printf("Booted into cOSine\nStarting address of VGA buffer: %p\n\n\n", vga_ptr);
+
+    //Initializes the GDT
+    init_GDT();
+    printf("GDT initialization complete.\n");
 
 }
 

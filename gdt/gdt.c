@@ -10,24 +10,21 @@
  ********************************************************************************
  */
 
+/************************************
+* INCLUDES
+************************************/
 #include <stdint.h>
-#include "libc/stdio/stdio.h"
+#include "gdt.h"
+#include "../libc/stdio/stdio.h"
 
-
-/*A struct describing the GDT whose address can be loaded 
-  using the lgdt assembly instruction
-*/
-struct GDT
-{
-    unsigned int address;
-    uint16_t size;
-} __attribute__((packed));
+#define NUM_GDT_ENTRIES 3
+#define GDT_ENTRY_SIZE 8
 
 //Struct which represents a GDT entry
 struct segment
 {
     unsigned int seg_num;
-    uint16_t offset;
+    unsigned int offset;
     unsigned int base;
     unsigned int limit;
     uint8_t access_byte;
@@ -35,34 +32,34 @@ struct segment
 };
 
 //Initializes a segment to be placed in the GDT
-void init_segment(struct segment seg, 
+void init_segment(struct segment *seg, 
     unsigned int segment_number, 
-    uint16_t seg_offset, 
+    unsigned int seg_offset, 
     unsigned int seg_base,
     unsigned int seg_limit,
     uint8_t seg_access_byte,
     uint8_t seg_flags
     )
 {
-    seg.seg_num = segment_number;
-    seg.offset = seg_offset;
-    seg.base = seg_base;
-    seg.limit = seg_limit;
-    seg.access_byte = seg_access_byte;
-    seg.flags = seg_flags;
-
+    seg->seg_num = segment_number;
+    seg->offset = seg_offset;
+    seg->base = seg_base;
+    seg->limit = seg_limit;
+    seg->access_byte = seg_access_byte;
+    seg->flags = seg_flags;
 }
 
 //Properly encodes GDT entries
 void encodedGDTEntry(uint8_t *target, struct segment source)
 {
+
     if(source.limit > 0xFFFFF)
-        printf("GDT cannot encode limits larger than 0xFFFFF");
+        printf("GDT cannot encode limits larger than 0xFFFFF\n");
 
     //Encode limit
     target[0] = source.limit & 0xFF;
-    target[1] = (source.base >> 8) & 0xFF;
-    //target[6] = (source.base >> 16) & 0x0F; //unsure of this... why & with 0x0F?
+    target[1] = (source.limit >> 8) & 0xFF;
+    target[6] = (source.limit >> 16) & 0x0F; //unsure of this... why & with 0x0F?
 
 
     //Encode base
@@ -75,37 +72,47 @@ void encodedGDTEntry(uint8_t *target, struct segment source)
     target[5] = source.access_byte;
 
     //Encode flags
-    //target[6] |= (source.flags << 4);  //also unsure here... why are we oring with the flag (likely need at least 8 bits.. only using 4 for flag?)
+    target[6] |= (source.flags << 4);  //also unsure here... why are we oring with the flag (likely need at least 8 bits.. only using 4 for flag?)
 
 }
 
 void init_GDT(void)
 {
-    //Disables all interrupts
-    asm volatile( "cli" );
+    unsigned int gdt_address = 0;
+    unsigned int gdt_size = (NUM_GDT_ENTRIES*GDT_ENTRY_SIZE) - 1; //Size of table in bytes subtracted by 1
 
-    //still need to tell cpu where gdt lies
-
-    //Create and initialize null descriptor
+    //Null segment descriptor 
     struct segment null_desc;
-    init_segment(null_desc, 0, 0x0000, 0, 0x00000000, 0x00, 0x0);
+    init_segment(&null_desc, 0, 0x0000, 0, 0x00000, 0x00, 0x0);
 
     //Kernel mode code segment
     struct segment kernel_mode_code;
-    init_segment(kernel_mode_code, 1, 0x0008, 0x00400000, 0x003FFFFF, 0x9A, 0xC);
+    init_segment(&kernel_mode_code, 1, 0x0008, 0, 0xFFFFF, 0x9A, 0xC);
 
     //Kernel mode data segment
     struct segment kernel_mode_data;
-    init_segment(kernel_mode_data, 2, 0x0010, 0x00800000, 0x003FFFFF, 0x92, 0xC);
+    init_segment(&kernel_mode_data, 2, 0x0010, 0, 0xFFFFF, 0x92, 0xC);
     
-    //Calculate logical address for null descriptor
-    uint8_t* null_desc_logical_addr = (uint8_t*)(null_desc.seg_num*16 + null_desc.offset);
-    //Encode and add null descriptor to GDT
+    
+    uint8_t* null_desc_logical_addr = (uint8_t*)(null_desc.offset);
     encodedGDTEntry(null_desc_logical_addr, null_desc);
 
+    uint8_t* kernel_data_logical_addr = (uint8_t*)(kernel_mode_data.offset);
+    encodedGDTEntry(kernel_data_logical_addr, kernel_mode_data);
 
+    uint8_t* kernel_code_logical_addr = (uint8_t*)(kernel_mode_code.offset);
+    encodedGDTEntry(kernel_code_logical_addr, kernel_mode_code);
 
+    printf("Required descriptors added to GDT.\n");
 
+    //Disables all interrupts
+    asm volatile( "cli" );
+    //Tells the cpu where the gdt is located 
+    setGDT(gdt_size, gdt_address);
 
+    //Reload segment registers
+    reloadSegments();
+
+    printf("Code and data segment registers reloaded.\n");
 }
 

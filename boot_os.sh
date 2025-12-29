@@ -34,9 +34,14 @@ eval "gcc -m32 -c stdlib.c -o stdlib.o -ffreestanding -nostdlib"
 
 cd ".."
 cd ".."
+cd "gdt"
+eval "nasm -f elf32 gdt.asm -o gdt_asm.o"
+eval "gcc -m32 -c gdt.c -o gdt.o -ffreestanding -nostdlib"
+
+cd ".."
 cd "kernel"
-#Links asm object and c object files
-eval "ld -T linker.ld -o kernel.bin kernel_asm.o kernel.o terminal/terminal.o ../libc/string/string.o ../libc/stdio/stdio.o ../libc/stdlib/stdlib.o -build-id=none"
+#Links asm objects and c object files
+eval "ld -T linker.ld -o kernel.bin kernel_asm.o kernel.o terminal/terminal.o ../libc/string/string.o ../libc/stdio/stdio.o ../libc/stdlib/stdlib.o ../gdt/gdt.o ../gdt/gdt_asm.o -build-id=none"
 #Converts linked object files to appropriate format
 eval "objcopy -O elf32-i386 kernel.bin kernel_boot.elf"
 #Boots into vm
