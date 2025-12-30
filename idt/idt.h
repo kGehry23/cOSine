@@ -25,10 +25,10 @@
 typedef struct
 {
     uint16_t offset_low;
-    uint16_t offset_high;
-    uint8_t reserved;
     uint16_t segment_selector;
+    uint8_t reserved;
     uint8_t gate_attributes;
+    uint16_t offset_high;
 }__attribute__((packed)) idt_entry_t;
 
 /*
@@ -36,15 +36,14 @@ typedef struct
 */
 typedef struct
 {
-    uint32_t base;  
     uint16_t limit;
+    uint32_t base;  
 }__attribute__((packed)) idtr_t;
 
 
 /*!
  * @brief Generic exception handler
  */
-__attribute__((noreturn))
 void exception_handler(void);
 
 void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags);

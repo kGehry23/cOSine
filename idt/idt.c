@@ -1,4 +1,5 @@
 #include "idt.h"
+#include "../libc/stdio/stdio.h"
 #include <stdbool.h>
 
 #define IDT_MAX_DESCRIPTORS 256
@@ -48,7 +49,7 @@ void idt_init()
     }
 
     __asm__ volatile ("lidt %0" : : "m"(idtr)); //Load idt
-    __asm__ volatile ("sti"); //Set interrupt flag
+    // __asm__ volatile ("sti"); //Set interrupt flag
 }
 
 

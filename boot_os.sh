@@ -50,4 +50,4 @@ eval "ld -T linker.ld -o kernel.bin kernel_asm.o kernel.o terminal/terminal.o ..
 #Converts linked object files to appropriate format
 eval "objcopy -O elf32-i386 kernel.bin kernel_boot.elf"
 #Boots into vm
-eval "qemu-system-i386 -kernel kernel_boot.elf"
+eval "qemu-system-i386 -kernel kernel_boot.elf -monitor stdio"

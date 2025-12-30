@@ -22,7 +22,6 @@
  ************************************/
 #define NUM_GDT_ENTRIES 3
 #define GDT_ENTRY_SIZE 8
-#define GDT_BASE 0
 
 //Struct which represents a GDT entry
 struct segment
@@ -63,7 +62,7 @@ void encodedGDTEntry(uint8_t *target, struct segment source)
 {
 
     if(source.limit > 0xFFFFF)
-        printf("GDT cannot encode limits larger than 0xFFFFF\n");
+        // printf("GDT cannot encode limits larger than 0xFFFFF\n");
 
     //Encode limit
     target[0] = source.limit & 0xFF;
@@ -91,9 +90,8 @@ void encodedGDTEntry(uint8_t *target, struct segment source)
  */
 void init_GDT(void)
 {
+    static uint8_t gdt[NUM_GDT_ENTRIES*GDT_ENTRY_SIZE];
     //Need to define a clear memory map
-
-
     unsigned int gdt_size = (NUM_GDT_ENTRIES*GDT_ENTRY_SIZE) - 1; //Size of table in bytes subtracted by 1
 
     //Null segment descriptor 
@@ -109,19 +107,19 @@ void init_GDT(void)
     init_segment(&kernel_mode_data, 2, 0x0010, 0, 0xFFFFF, 0x92, 0xC);
     
     
-    uint8_t* null_desc_logical_addr = (uint8_t*)(GDT_BASE + null_desc.offset);
+    uint8_t* null_desc_logical_addr = (uint8_t*)((uint32_t)&gdt + null_desc.offset);
     encodedGDTEntry(null_desc_logical_addr, null_desc);
 
-    uint8_t* kernel_data_logical_addr = (uint8_t*)(GDT_BASE + kernel_mode_data.offset);
+    uint8_t* kernel_data_logical_addr = (uint8_t*)((uint32_t)&gdt + kernel_mode_data.offset);
     encodedGDTEntry(kernel_data_logical_addr, kernel_mode_data);
 
-    uint8_t* kernel_code_logical_addr = (uint8_t*)(GDT_BASE + kernel_mode_code.offset);
+    uint8_t* kernel_code_logical_addr = (uint8_t*)((uint32_t)&gdt + kernel_mode_code.offset);
     encodedGDTEntry(kernel_code_logical_addr, kernel_mode_code);
 
     printf("Required descriptors added to GDT.\n");
 
     //Tells the cpu where the gdt is located 
-    setGDT(gdt_size, GDT_BASE);
+    setGDT(gdt_size, (uint32_t)&gdt);
 
     //Reload segment registers
     reloadSegments();
