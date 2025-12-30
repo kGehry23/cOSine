@@ -5,14 +5,14 @@
  * @author  Kai Gehry
  * @date    2025-12-29
  *
- * @brief   Definition of the interrupt descriptor table structures and
+ * @brief   Interrupt descriptor table structures and
  *          operations
  *     
  ********************************************************************************
  */
 
 /************************************
- * DEFINES
+ * INCLUDES
  ************************************/
 #include <stdint.h>
 
@@ -46,9 +46,22 @@ typedef struct
  */
 void exception_handler(void);
 
+/*!
+ * @brief Initializes an IDT gate
+ * @param vector Vector number to assign to a given gate
+ * @param isr Interrupt service routine to assign to a gate
+ * @param flags Hex number which defines the attributes section of a gate 
+ * @return None
+ */
 void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags);
 
+/*!
+ * @brief Initializes the IDT
+ * @return None
+ */
 void idt_init(void);
+
+void setIDT(unsigned int limit, unsigned int base);
 
 #endif //IDT_H
 

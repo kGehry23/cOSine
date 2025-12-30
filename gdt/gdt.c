@@ -62,7 +62,7 @@ void encodedGDTEntry(uint8_t *target, struct segment source)
 {
 
     if(source.limit > 0xFFFFF)
-        // printf("GDT cannot encode limits larger than 0xFFFFF\n");
+        printf("GDT cannot encode limits larger than 0xFFFFF\n");
 
     //Encode limit
     target[0] = source.limit & 0xFF;
@@ -90,8 +90,8 @@ void encodedGDTEntry(uint8_t *target, struct segment source)
  */
 void init_GDT(void)
 {
+    //Define GDT
     static uint8_t gdt[NUM_GDT_ENTRIES*GDT_ENTRY_SIZE];
-    //Need to define a clear memory map
     unsigned int gdt_size = (NUM_GDT_ENTRIES*GDT_ENTRY_SIZE) - 1; //Size of table in bytes subtracted by 1
 
     //Null segment descriptor 
@@ -125,5 +125,7 @@ void init_GDT(void)
     reloadSegments();
 
     printf("Code and data segment registers reloaded.\n");
+    printf("GDT loaded at address %p\n", &gdt);
+
 }
 

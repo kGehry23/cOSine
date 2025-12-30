@@ -1,3 +1,19 @@
+; /**
+;  ********************************************************************************
+;  * File Name    idt.asm
+;  *      
+;  * Date         2025-12-28
+;  *
+;  * Brief        Initializes the IDT and assigns ISR stubs.
+;  *
+;  *              Adapted from: OSDev.org and 
+;  *              http://www.osdever.net/tutorials
+;  ********************************************************************************
+;  */
+
+global _setIDT
+global _isr_stub_table
+
 %macro isr_err_stub 1
 isr_stub_%+%1:
     call _exception_handler
@@ -10,7 +26,10 @@ isr_stub_%+%1:
     iret
 %endmacro
 
+;Uses the exception handler function defined in idt.c
 extern _exception_handler
+
+;Table of isrs
 isr_no_err_stub 0
 isr_no_err_stub 1
 isr_no_err_stub 2
@@ -44,13 +63,27 @@ isr_no_err_stub 29
 isr_err_stub    30
 isr_no_err_stub 31
 
-global _isr_stub_table
+;Fills the isr stub table which is called externally
 _isr_stub_table:
 %assign i 0
 %rep    32
     dd isr_stub_%+i
 %assign i i+1
 %endrep
+
+;IDTR structure used to load base and limit
+idtr dw 0
+     dd 0 
+
+;Tells the cpu where the idt is located
+_setIDT:
+    cli   ;disables all interrupts
+    mov ax, [esp + 4]
+    mov [idtr], ax
+    mov eax, [esp + 8]
+    mov [idtr + 2], eax
+    lidt [idtr]
+    ret
 
 
 
