@@ -48,6 +48,6 @@ cd "kernel"
 #Links asm objects and c object files
 eval "ld -T linker.ld -o kernel.bin kernel_asm.o kernel.o terminal/terminal.o ../libc/string/string.o ../libc/stdio/stdio.o ../libc/stdlib/stdlib.o ../gdt/gdt.o ../gdt/gdt_asm.o ../idt/idt.o ../idt/idt_asm.o -build-id=none"
 #Converts linked object files to appropriate format
-eval "objcopy -O elf32-i386 kernel.bin kernel_boot.elf"
+eval "objcopy -O elf32-i386 kernel.bin kernel.elf"
 #Boots into vm
-eval "qemu-system-i386 -kernel kernel_boot.elf -monitor stdio"
+eval "qemu-system-i386 -kernel kernel.elf -monitor stdio"

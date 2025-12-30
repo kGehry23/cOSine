@@ -71,8 +71,7 @@ void idt_init()
     idtr.base = (uintptr_t)&idt[0];
     idtr.limit = (uint16_t)sizeof(idt_entry_t) * IDT_MAX_DESCRIPTORS - 1;
 
-    printf("size of idt entries: %d\n", idtr.limit);
-
+    printf("Limit of idt entries: %d\n", idtr.limit);
     printf("IDT loaded at address %p\n", idtr.base);
 
     for(uint8_t vector = 0;vector<32;vector++)
@@ -83,7 +82,6 @@ void idt_init()
 
     //Sets the IDT. Called from asm file instead of inline asm. Issues with base address otherwise 
     setIDT(idtr.limit, idtr.base);
-
 
     // __asm__ volatile ("lidt %0" : : "m"(idtr)); //Load idt
     
