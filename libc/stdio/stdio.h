@@ -22,8 +22,25 @@
  ************************************/
 #define EOF (-1)
 
+/*!
+ * @brief Writes a formatted string to the terminal followed by a newline
+ * @param data Character array to write to the terminal
+ * @return Success code
+ */
 int printf(const char* __restrict, ...);
+
+/*!
+ * @brief Writes a byte to the terminal
+ * @param c Byte to write to the terminal as a character
+ * @return None
+ */
 int putchar(int);
+
+/*!
+ * @brief Writes the pointed to string to the terminal followed by a newline
+ * @param data Character array to write to the terminal
+ * @return Success code
+ */
 int puts(const char*);
 
 #endif //STDIO_H

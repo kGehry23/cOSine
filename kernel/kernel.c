@@ -18,6 +18,7 @@
 #include "terminal/terminal.h"
 #include "../libc/stdio/stdio.h"
 #include "../libc/stdlib/stdlib.h"
+#include "../gdt/gdt.h"
 
 /*!
  * @brief Kernel
@@ -25,15 +26,18 @@
  */
 void kernel(void)
 {
-    int t = (int)0xB8000;
-    int i = 10;
-    int *p = &i;
+    uint16_t *vga_ptr = (uint16_t*)0xB8000;
 
     terminal_initialize();
-    printf("This is a %s and this is a hex number: %p. This is a character: %c.\n", "test", p,'a');
-    puts("This the output from puts()");
+    printf("Booted into cOSine\nStarting address of VGA buffer: %p\n\n\n", vga_ptr);
+
+    //Initializes the GDT
+    init_GDT();
+    printf("GDT initialization complete.\n");
 
 }
+
+
 
 
 
