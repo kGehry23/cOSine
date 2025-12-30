@@ -20,6 +20,7 @@ gdtr dw 0
 
 ;tells the cpu where the GDT is located
 _setGDT:
+    cli   ;disables all interrupts
     mov ax, [esp + 4]
     mov [gdtr], ax
     mov eax, [esp + 8]

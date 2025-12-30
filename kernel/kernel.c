@@ -19,6 +19,7 @@
 #include "../libc/stdio/stdio.h"
 #include "../libc/stdlib/stdlib.h"
 #include "../gdt/gdt.h"
+#include "../idt/idt.h"
 
 /*!
  * @brief Kernel
@@ -33,7 +34,15 @@ void kernel(void)
 
     //Initializes the GDT
     init_GDT();
-    printf("GDT initialization complete.\n");
+    printf("GDT initialization complete.\n\n");
+
+    //Initializes IDT
+    idt_init();
+    printf("IDT initialization complete.\n\n");
+
+    /*
+        Once the PIC is initialized, interrupts can be enabled
+    */
 
 }
 
