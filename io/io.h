@@ -26,6 +26,14 @@
  */
 void outb(uint16_t port, uint8_t data);
 
+/*!
+ * @brief Reads a byte from an I/O port
+ * @param port Port to read from
+ * @return Byte available at port
+ */
+uint8_t inb(uint16_t port);
+
+
 #endif //IO_H
 
 

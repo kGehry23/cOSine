@@ -1,5 +1,18 @@
+; /**
+;  ********************************************************************************
+;  * File Name    io.asm
+;  *      
+;  * Date         2025-12-30
+;  *
+;  * Brief        Defines the outb and inb functions for essentiual I/O operations
+;  *
+;  *              Adapted from: https://littleosbook.github.io/book.pdf
+;  *              
+;  ********************************************************************************
+;  */
+
 global _outb
-;global _inb
+global _inb
 
 ; [esp + 8] : second argument passed to externally called outb          
 ;             Stack pointer + 8 bytes
@@ -14,4 +27,8 @@ _outb:
     out dx, al          ;write the data to the port
     ret
 
-
+;returns a byte from a specific port
+_inb:
+    mov dx, [esp + 4]   ;move port address into dx register
+    in al, dx           ;move data from port specified in dx into al
+    ret
