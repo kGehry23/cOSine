@@ -50,3 +50,15 @@ void set_bit_low(bitmap_t *bmp, uint32_t index)
     bmp->bitmap ^= (0x1 << index); 
 }
 
+/*!
+ * @brief Checks if a bit is set to 1 or 0
+ * @param bmp Pointer to a bitmap structure
+ * @param index Index in the bitmap to modify
+ * @return A boolean indicating if the bit is high 
+ */
+bool bit_state(bitmap_t *bmp, uint32_t index)
+{
+    //Bit shift the bitmap and return only a single digit result, 0 or 1
+    return (bool)((bmp->bitmap >> index)&(0x1));
+}
+

@@ -41,22 +41,6 @@ void kernel(void)
     idt_init();
     printf("IDT initialization complete.\n\n");
 
-    bitmap_t bmp;
-
-    //Setup proper tests for this section of code
-    init_bitmap(&bmp);
-
-    set_bit_high(&bmp, 0);
-    set_bit_high(&bmp, 14);
-    printf("bitmap: %p\n", bmp.bitmap);
-
-    set_bit_low(&bmp, 0);
-    printf("bitmap: %p\n", bmp.bitmap);
-
-    set_bit_low(&bmp, 14);
-    printf("bitmap: %p\n", bmp.bitmap);
-
-
     /*
         Once the PIC is initialized, interrupts can be enabled
     */

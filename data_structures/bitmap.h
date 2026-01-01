@@ -10,6 +10,9 @@
  ********************************************************************************
  */
 
+#ifndef BITMAP_H
+#define BITMAP_H
+
 /************************************
 * INCLUDES
 ************************************/
@@ -45,5 +48,15 @@ void set_bit_high(bitmap_t *bmp, uint32_t index);
  * @return None
  */
 void set_bit_low(bitmap_t *bmp, uint32_t index);
+
+/*!
+ * @brief Checks if a bit is set to 1 or 0
+ * @param bmp Pointer to a bitmap structure
+ * @param index Index in the bitmap to modify
+ * @return A boolean indicating if the bit is high 
+ */
+bool bit_state(bitmap_t *bmp, uint32_t index);
+
+#endif //BITMAP_H
 
 
