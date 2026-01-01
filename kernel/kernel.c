@@ -20,6 +20,7 @@
 #include "../libc/stdlib/stdlib.h"
 #include "../gdt/gdt.h"
 #include "../idt/idt.h"
+#include "../data_structures/bitmap.h"
 
 /*!
  * @brief Kernel
@@ -39,6 +40,17 @@ void kernel(void)
     //Initializes IDT
     idt_init();
     printf("IDT initialization complete.\n\n");
+
+    bitmap_t bmp;
+
+    init_bitmap(&bmp);
+
+    set_bit_high(&bmp, 0);
+
+    set_bit_high(&bmp, 12);
+
+    printf("bitmap: %p\n", bmp.bitmap);
+
 
     /*
         Once the PIC is initialized, interrupts can be enabled
