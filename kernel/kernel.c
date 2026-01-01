@@ -20,7 +20,7 @@
 #include "../libc/stdlib/stdlib.h"
 #include "../gdt/gdt.h"
 #include "../idt/idt.h"
-#include "../memory/memory.h"
+#include "../data_structures/bitmap.h"
 
 /*!
  * @brief Kernel
