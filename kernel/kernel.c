@@ -40,6 +40,12 @@ void kernel(void)
     idt_init();
     printf("IDT initialization complete.\n\n");
 
+    //End address of the kernel defined in linker script
+    extern uint32_t endkernel;
+
+    printf("End kernel address: %p\n\n", &endkernel);
+
+
     /*
         Once the PIC is initialized, interrupts can be enabled
     */
