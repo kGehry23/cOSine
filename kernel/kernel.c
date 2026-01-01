@@ -20,6 +20,7 @@
 #include "../libc/stdlib/stdlib.h"
 #include "../gdt/gdt.h"
 #include "../idt/idt.h"
+#include "../memory/memory.h"
 
 /*!
  * @brief Kernel
@@ -44,6 +45,15 @@ void kernel(void)
     extern uint32_t endkernel;
 
     printf("End kernel address: %p\n\n", &endkernel);
+
+    int* ptr = (int*)k_malloc(sizeof(int));
+    printf("Address of allocated memory: %p\n", ptr);
+
+    int *arr_ptr = (int*)k_malloc(10*sizeof(int));
+    printf("Address of allocated memory: %p\n", arr_ptr);
+
+    int* ptr_2 = (int*)k_malloc(sizeof(int));
+    printf("Address of allocated memory: %p\n", ptr_2);
 
 
     /*

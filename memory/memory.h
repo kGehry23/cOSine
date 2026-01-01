@@ -17,12 +17,7 @@
 * INCLUDES
 ************************************/
 #include <stddef.h>
-
-/************************************
- * DEFINES
- ************************************/
-//Sample for now, does not need to be actual page size used
-#define PAGE_SIZE 4096 //4KiB page size
+#include <stdint.h>
 
 /*!
  * @brief Allocates memory for the kernel
@@ -37,5 +32,11 @@ void* k_malloc(size_t n);
  * @return None
  */
 void k_free(void* mem_ptr);
+
+/*!
+ * @brief Allocates a page
+ * @return Pointer to allocated page
+ */
+void *page_alloc(void);
 
 #endif //MEMORY_H
