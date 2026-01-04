@@ -20,6 +20,7 @@
 #include "../libc/stdlib/stdlib.h"
 #include "../gdt/gdt.h"
 #include "../idt/idt.h"
+#include "../memory/memory.h"
 #include "../data_structures/bitmap.h"
 
 /*!
@@ -41,19 +42,9 @@ void kernel(void)
     idt_init();
     printf("IDT initialization complete.\n\n");
 
-    //End address of the kernel defined in linker script
-    extern uint32_t endkernel;
+    //Initialize frame table
+    init_frametable();
 
-    printf("End kernel address: %p\n\n", &endkernel);
-
-    int* ptr = (int*)k_malloc(sizeof(int));
-    printf("Address of allocated memory: %p\n", ptr);
-
-    int *arr_ptr = (int*)k_malloc(10*sizeof(int));
-    printf("Address of allocated memory: %p\n", arr_ptr);
-
-    int* ptr_2 = (int*)k_malloc(sizeof(int));
-    printf("Address of allocated memory: %p\n", ptr_2);
 
 
     /*
