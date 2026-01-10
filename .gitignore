@@ -1,6 +1,7 @@
 .vscode
 process/
 data_structures/tests/
+memory/
 
 *.o
 *.bin

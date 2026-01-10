@@ -15,13 +15,12 @@
  * INCLUDES
  ************************************/
 #include <stdbool.h>
-#include "terminal/terminal.h"
+#include "tty/terminal.h"
 #include "../libc/stdio/stdio.h"
 #include "../libc/stdlib/stdlib.h"
 #include "../gdt/gdt.h"
 #include "../idt/idt.h"
-#include "../memory/memory.h"
-#include "../data_structures/bitmap.h"
+// #include "data_structures/bitmap.h"
 
 /*!
  * @brief Kernel
@@ -42,14 +41,9 @@ void kernel(void)
     idt_init();
     printf("IDT initialization complete.\n\n");
 
-    //Initialize frame table
-    init_frametable();
-
-
-
-    /*
-        Once the PIC is initialized, interrupts can be enabled
-    */
+    // /*
+    //     Once the PIC is initialized, interrupts can be enabled
+    // */
 
 }
 
