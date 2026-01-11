@@ -5,8 +5,8 @@
  * @author  Kai Gehry
  * @date    2026-01-10
  *
- * @brief   Definitions of functions to communicate and test the PS/2
- *          controller
+ * @brief   Driver for the PS/2 controller. Definitions of functions to communicate 
+ *          and test the PS/2 controller
  *     
  ********************************************************************************
  */

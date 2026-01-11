@@ -5,7 +5,7 @@
  * @author  Kai Gehry
  * @date    2026-01-10
  *
- * @brief   Header for the PS/2 controller
+ * @brief   Header for the PS/2 controller driver
  *     
  ********************************************************************************
  */
