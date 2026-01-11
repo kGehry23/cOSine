@@ -114,5 +114,7 @@ void send_byte_port_2(uint8_t data_byte);
  */
 void reset_devices(void);
 
+void check_input(void);
+
 
 #endif //PS2_KEYBOARD_H

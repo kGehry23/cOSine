@@ -43,12 +43,15 @@ void init_ps2_controller()
 {
     disable_devices();
     set_config_byte();
+
     test_ps2_controller();
     test_dual_channel();
     test_ports();
-    enable_devices();
 
+    enable_devices();
     reset_devices();
+    
+    check_input();
 }
 
 /*!
@@ -234,6 +237,22 @@ void reset_devices()
 {
     send_byte_port_1(RESET_DEVICES);
     send_byte_port_2(RESET_DEVICES);
+}
+
+//Polling for input, will only print k for scancode 2
+void check_input()
+{
+    while(1)
+    {
+        if(inb(PS2_READ_STATUS_PORT)&0x1 == 1)
+        {
+            if(inb(PS2_READ_WRITE_DATA_PORT) == 0x42)
+            {
+                printf("k ");
+            }
+            
+        }
+    }
 }
 
 
