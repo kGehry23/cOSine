@@ -15,12 +15,13 @@
  * INCLUDES
  ************************************/
 #include <stdbool.h>
-#include "terminal/terminal.h"
+#include "tty/terminal.h"
 #include "../libc/stdio/stdio.h"
 #include "../libc/stdlib/stdlib.h"
 #include "../gdt/gdt.h"
 #include "../idt/idt.h"
-#include "../data_structures/bitmap.h"
+#include "../drivers/ps2/ps2.h"
+// #include "data_structures/bitmap.h"
 
 /*!
  * @brief Kernel
@@ -41,9 +42,12 @@ void kernel(void)
     idt_init();
     printf("IDT initialization complete.\n\n");
 
-    /*
-        Once the PIC is initialized, interrupts can be enabled
-    */
+    printf("Initializing PS/2 Controller...\n");
+    init_ps2_controller();
+
+    // /*
+    //     Once the PIC is initialized, interrupts can be enabled
+    // */
 
 }
 

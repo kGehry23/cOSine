@@ -46,9 +46,14 @@ void set_bit_high(bitmap_t *bmp, uint32_t index)
  */
 void set_bit_low(bitmap_t *bmp, uint32_t index)
 {
-    //xor causes any bits originally 1 to change to 0
-    bmp->bitmap ^= (0x1 << index); 
+    //Applies only if the bit is currently high
+    if(bit_state(bmp, index) == true)
+    {
+        //xor causes any bits originally 1 to change to 0
+        bmp->bitmap ^= (0x1 << index); 
+    }
 }
+ 
 
 /*!
  * @brief Checks if a bit is set to 1 or 0

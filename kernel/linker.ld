@@ -26,6 +26,7 @@ SECTIONS
 	   Next we'll put the .text section. */
 	.text BLOCK(4K) : ALIGN(4K)
 	{
+		_text_start = .;
 		*(.multiboot)
 		*(.text)
 	}
@@ -40,15 +41,16 @@ SECTIONS
 	.data BLOCK(4K) : ALIGN(4K)
 	{
 		*(.data)
+		_end_data = .;
 	}
 
 	/* Read-write data (uninitialized) and stack */
 	.bss BLOCK(4K) : ALIGN(4K)
 	{
+		_sbss = .;		/*start of bss section*/
 		*(COMMON)
 		*(.bss)
+		_ebss = .;		/*end of bss section*/	
+		_endkernel = .;	/*Heap memory can begin here*/
 	}
-
-	/* The compiler may produce other sections, put them in the proper place in
-	   in this file, if you'd like to include them in the final kernel. */
 }
