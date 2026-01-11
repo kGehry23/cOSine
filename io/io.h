@@ -5,7 +5,7 @@
  * @author  Kai Gehry
  * @date    2025-12-30
  *
- * @brief   Headers for essential input/output operations   
+ * @brief   Header for reading and writing to I/O ports   
  * 
  ********************************************************************************
  */

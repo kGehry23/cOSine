@@ -1,5 +1,23 @@
+/**
+ ********************************************************************************
+ * @file    ps2.h
+ * 
+ * @author  Kai Gehry
+ * @date    2026-01-10
+ *
+ * @brief   Header for the PS/2 controller
+ *     
+ ********************************************************************************
+ */
+
+/************************************
+ * INCLUDES
+ ************************************/
 #include "../../io/io.h"
 
+/************************************
+ * DEFINES
+ ************************************/
 #define PS2_READ_WRITE_DATA_PORT 0x60
 #define PS2_READ_STATUS_PORT 0x64
 #define PS2_WRITE_COMMAND_PORT 0x64
@@ -12,7 +30,7 @@
 #define ENABLE_PS2_PORT_1 0xAE
 #define ENABLE_PS2_PORT_2 0xA8
 
-#define TEST_CONTROLLER_BYTE 0xAA
+#define TEST_CONTROLLER 0xAA
 #define TEST_PORT_1 0xAB
 #define TEST_PORT_2 0xA9
 

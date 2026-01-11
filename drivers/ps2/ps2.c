@@ -1,3 +1,19 @@
+/**
+ ********************************************************************************
+ * @file    ps2.c
+ * 
+ * @author  Kai Gehry
+ * @date    2026-01-10
+ *
+ * @brief   Definitions of functions to communicate and test the PS/2
+ *          controller
+ *     
+ ********************************************************************************
+ */
+
+/************************************
+ * INCLUDES
+ ************************************/
 #include "ps2.h"
 #include "../../libc/stdio/stdio.h"
 
@@ -72,7 +88,7 @@ void set_config_byte()
 void test_ps2_controller()
 {
     //Writes the test byte to the controller command port
-    outb(PS2_WRITE_COMMAND_PORT, TEST_CONTROLLER_BYTE);
+    outb(PS2_WRITE_COMMAND_PORT, TEST_CONTROLLER);
 
     poll_status_bit_0();
 
