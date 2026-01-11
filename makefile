@@ -15,8 +15,8 @@ ASM=nasm
 #Required compilation flags
 CFLAGS= -m32 -c -ffreestanding -nostdlib
 
-ASM_OBJS = kernel/kernel_asm.o gdt/gdt_asm.o idt/idt_asm.o
-C_OBJS = kernel/kernel.o kernel/tty/terminal.o libc/stdio/stdio.o libc/stdlib/stdlib.o libc/string/string.o gdt/gdt.o idt/idt.o
+ASM_OBJS = kernel/kernel_asm.o gdt/gdt_asm.o idt/idt_asm.o io/io.o
+C_OBJS = kernel/kernel.o kernel/tty/terminal.o libc/stdio/stdio.o libc/stdlib/stdlib.o libc/string/string.o gdt/gdt.o idt/idt.o drivers/ps2/ps2.o
 
 LINK_LIST = $(ASM_OBJS) $(C_OBJS) 
 

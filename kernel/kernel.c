@@ -20,6 +20,7 @@
 #include "../libc/stdlib/stdlib.h"
 #include "../gdt/gdt.h"
 #include "../idt/idt.h"
+#include "../drivers/ps2/ps2.h"
 // #include "data_structures/bitmap.h"
 
 /*!
@@ -40,6 +41,9 @@ void kernel(void)
     //Initializes IDT
     idt_init();
     printf("IDT initialization complete.\n\n");
+
+    printf("Initializing PS/2 Controller...\n");
+    init_ps2_controller();
 
     // /*
     //     Once the PIC is initialized, interrupts can be enabled
