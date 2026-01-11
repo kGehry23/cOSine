@@ -1,5 +1,4 @@
 #include "../../io/io.h"
-#include <stdint.h>
 
 #define PS2_READ_WRITE_DATA_PORT 0x60
 #define PS2_READ_STATUS_PORT 0x64
@@ -7,6 +6,8 @@
 
 #define DISABLE_PS2_PORT_1 0xAD
 #define DISABLE_PS2_PORT_2 0xA7
+
+#define ENABLE_PS2_PORT_2 0xA8
 
 #define TEST_CONTROLLER_BYTE 0xAA
 #define READ_CONTROLLER_CONFIG_BYTE 0x20
@@ -36,5 +37,11 @@ void set_config_byte(void);
  * @return None
  */
 void test_ps2_controller(void);
+
+/*!
+ * @brief Tests if the PS/2 controller is dual channel
+ * @return None
+ */
+void test_dual_channel(void);
 
 #endif //PS2_KEYBOARD_H
