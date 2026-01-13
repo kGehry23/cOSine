@@ -51,6 +51,9 @@ void exception_handler(void);
  */
 void interrupt_handler(void);
 
+
+void set_irq_handler(void (*handler)(), uint8_t irq_number);
+
 /*!
  * @brief Initializes an IDT gate
  * @param vector Vector number to assign to a given gate

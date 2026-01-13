@@ -22,6 +22,7 @@
 #include "../idt/idt.h"
 #include "../pic/pic.h"
 #include "../drivers/ps2/ps2.h"
+#include "../drivers/ps2/keyboard/keyboard.h"
 // #include "data_structures/bitmap.h"
 
 /*!
@@ -37,17 +38,21 @@ void kernel(void)
 
     //Remap PIC
     PIC_remap();
-    // printf("PIC remapped.\n\n");
+    printf("PIC remapped.\n\n");
     
     //Initializes the GDT
     init_GDT();
-    // printf("GDT initialization complete.\n\n");
+    printf("GDT initialization complete.\n\n");
     
     //Initializes IDT
     idt_init();
-    // printf("IDT initialization complete.\n\n");
+    printf("IDT initialization complete.\n\n");
 
-    // printf("Initializing PS/2 Controller...\n");
+    init_mappings();
+    void (*handle)() = handle_key_press;
+    set_irq_handler(handle,1);
+
+    printf("Initializing PS/2 Controller...\n");
     init_ps2_controller();
 
     for(;;) {

@@ -35,6 +35,7 @@ static bool vectors[IDT_MAX_DESCRIPTORS];
 
 //isr stub table defined in idt.asm
 extern void* isr_stub_table[];
+void *irq_functions[16];
 
 /*!
  * @brief Generic exception handler
@@ -53,14 +54,16 @@ void exception_handler()
  */
 void interrupt_handler()
 {
-    if(inb(0x64)&0x1 == 1)
-    {
-        if(inb(0x60) == 0x1D)
-            printf("w");
-    }
-        
-    // printf("Interrupt\n");
-    PIC_eoi(1);
+    void (*handle)();
+
+    handle = irq_functions[1];
+
+    handle();
+}
+
+void set_irq_handler(void (*handler)(), uint8_t irq_number)
+{
+    irq_functions[irq_number] = handler;
 }
 
 /*!

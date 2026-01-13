@@ -42,9 +42,8 @@
 
 #define RESET_DEVICES 0xFF
 
-
-#ifndef PS2_KEYBOARD_H
-#define PS2_KEYBOARD_H
+#ifndef PS2_H
+#define PS2_H
 
 /*!
  * @brief Checks bit 0 of the PS/2 status register until set to 1
@@ -119,4 +118,4 @@ void check_input(void);
 void detect_device(uint8_t);
 
 
-#endif //PS2_KEYBOARD_H
+#endif //PS2_H
