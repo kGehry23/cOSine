@@ -34,6 +34,10 @@ void kernel(void)
 
     terminal_initialize();
     printf("Booted into cOSine\nStarting address of VGA buffer: %p\n\n\n", vga_ptr);
+    
+    //Remap PIC
+    PIC_remap();
+    printf("PIC remapped.\n\n");
 
     //Initializes the GDT
     init_GDT();
@@ -43,17 +47,8 @@ void kernel(void)
     idt_init();
     printf("IDT initialization complete.\n\n");
 
-    //Remap PIC
-    PIC_remap();
-    printf("PIC remapped.\n\n");
-
     printf("Initializing PS/2 Controller...\n");
     init_ps2_controller();
-
-    // /*
-    //     Once the PIC is initialized, interrupts can be enabled
-    // */
-
 }
 
 
