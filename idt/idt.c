@@ -17,6 +17,7 @@
 #include "idt.h"
 #include <stdbool.h>
 #include "../libc/stdio/stdio.h"
+#include "../pic/pic.h"
 
 /************************************
  * DEFINES
@@ -32,16 +33,34 @@ static idtr_t idtr;
 
 static bool vectors[IDT_MAX_DESCRIPTORS];
 
-//Stub table defined in idt.asm
+//isr stub table defined in idt.asm
 extern void* isr_stub_table[];
 
 /*!
  * @brief Generic exception handler
+ * @return None
  */
 void exception_handler()
 {
     //Disables interrupts and halts the cpu
+    printf("Test\n");
     __asm__ volatile ("cli; hlt");
+}
+
+/*!
+ * @brief General interrupt handler
+ * @return None
+ */
+void interrupt_handler()
+{
+    if(inb(0x64)&0x1 == 1)
+    {
+        if(inb(0x60) == 0x1D)
+            printf("w");
+    }
+        
+    // printf("Interrupt\n");
+    PIC_eoi(1);
 }
 
 /*!
@@ -74,11 +93,12 @@ void idt_init()
     printf("Limit of idt entries: %d\n", idtr.limit);
     printf("IDT loaded at address %p\n", idtr.base);
 
-    for(uint8_t vector = 0;vector<32;vector++)
+    for(uint8_t vector = 0;vector<48;vector++)
     {
         idt_set_descriptor(vector, isr_stub_table[vector], 0x8E);
         vectors[vector] = true;
     }
+
 
     //Sets the IDT. Called from asm file instead of inline asm. Issues with base address otherwise 
     setIDT(idtr.limit, idtr.base);

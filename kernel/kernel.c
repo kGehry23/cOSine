@@ -34,21 +34,25 @@ void kernel(void)
 
     terminal_initialize();
     printf("Booted into cOSine\nStarting address of VGA buffer: %p\n\n\n", vga_ptr);
-    
+
     //Remap PIC
     PIC_remap();
-    printf("PIC remapped.\n\n");
-
+    // printf("PIC remapped.\n\n");
+    
     //Initializes the GDT
     init_GDT();
-    printf("GDT initialization complete.\n\n");
-
+    // printf("GDT initialization complete.\n\n");
+    
     //Initializes IDT
     idt_init();
-    printf("IDT initialization complete.\n\n");
+    // printf("IDT initialization complete.\n\n");
 
-    printf("Initializing PS/2 Controller...\n");
+    // printf("Initializing PS/2 Controller...\n");
     init_ps2_controller();
+
+    for(;;) {
+        asm("hlt");
+    }
 }
 
 

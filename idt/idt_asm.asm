@@ -13,6 +13,7 @@
 
 global _setIDT
 global _isr_stub_table
+global _irq_stub_table
 
 %macro isr_err_stub 1
 isr_stub_%+%1:
@@ -26,8 +27,19 @@ isr_stub_%+%1:
     iret
 %endmacro
 
+%macro isr_stub 1
+isr_stub_%+%1:
+    pushad
+    cld
+    call _interrupt_handler
+    popad
+    iret
+%endmacro
+
 ;Uses the exception handler function defined in idt.c
 extern _exception_handler
+;Externally called generic interrupt handler function
+extern _interrupt_handler
 
 ;Table of isrs
 isr_no_err_stub 0
@@ -62,14 +74,31 @@ isr_no_err_stub 28
 isr_no_err_stub 29
 isr_err_stub    30
 isr_no_err_stub 31
+isr_stub 32
+isr_stub 33
+isr_stub 34
+isr_stub 35
+isr_stub 36
+isr_stub 37
+isr_stub 38
+isr_stub 39
+isr_stub 40
+isr_stub 41
+isr_stub 42
+isr_stub 43
+isr_stub 44
+isr_stub 45
+isr_stub 46
+isr_stub 47
 
-;Fills the isr stub table which is called externally
+;isr stub table which is called externally
 _isr_stub_table:
 %assign i 0
-%rep    32
+%rep    48
     dd isr_stub_%+i
 %assign i i+1
 %endrep
+
 
 ;IDTR structure used to load base and limit
 idtr dw 0

@@ -14,7 +14,7 @@
 typedef struct 
 {
     char key;
-    bool bit_state; //pressed or released
+    // bool bit_state; //pressed or released
 
 }key_packet_t;
 

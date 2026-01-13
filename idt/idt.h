@@ -47,6 +47,11 @@ typedef struct
 void exception_handler(void);
 
 /*!
+ * @brief Interrupt handler
+ */
+void interrupt_handler(void);
+
+/*!
  * @brief Initializes an IDT gate
  * @param vector Vector number to assign to a given gate
  * @param isr Interrupt service routine to assign to a gate
