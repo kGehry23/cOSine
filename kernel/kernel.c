@@ -20,6 +20,7 @@
 #include "../libc/stdlib/stdlib.h"
 #include "../gdt/gdt.h"
 #include "../idt/idt.h"
+#include "../pic/pic.h"
 #include "../drivers/ps2/ps2.h"
 // #include "data_structures/bitmap.h"
 
@@ -33,6 +34,10 @@ void kernel(void)
 
     terminal_initialize();
     printf("Booted into cOSine\nStarting address of VGA buffer: %p\n\n\n", vga_ptr);
+    
+    //Remap PIC
+    PIC_remap();
+    printf("PIC remapped.\n\n");
 
     //Initializes the GDT
     init_GDT();
@@ -44,11 +49,6 @@ void kernel(void)
 
     printf("Initializing PS/2 Controller...\n");
     init_ps2_controller();
-
-    // /*
-    //     Once the PIC is initialized, interrupts can be enabled
-    // */
-
 }
 
 
