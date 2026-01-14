@@ -30,18 +30,65 @@ void PIC_eoi(uint8_t irq_number)
     outb(PIC_MASTER_COMMAND, EOI);
 }
 
-
-
-void get_pic_irr()
+/*!
+ * @brief Returns the contents of the combined contents of the master and
+ *        slave PIC IRR or ISR registers. Higher 8 bits are PIC2 register contents,
+ *        lower 8 bits are PIC1 contents
+ * @return None
+ */
+uint16_t get_pic_status(uint16_t pic_reg)
 {
+    outb(PIC_MASTER_COMMAND, pic_reg);
+    outb(PIC_SLAVE_COMMAND, pic_reg);
 
+    return (inb(PIC_SLAVE_COMMAND) << 8) | inb(PIC_MASTER_COMMAND);
 }
 
-void get_pic_isr()
+/*!
+ * @brief Returns the contents of the combined contents of the master and
+ *        slave PIC IRR registers. Higher 8 bits are PIC2 register contents,
+ *        lower 8 bits are PIC1 contents
+ * @return None
+ */
+uint16_t get_pic_irr()
 {
-
+    return get_pic_status(PIC_IRR);
 }
 
+/*!
+ * @brief Returns the contents of the combined contents of the master and
+ *        slave PIC ISR registers. Higher 8 bits are PIC2 register contents,
+ *        lower 8 bits are PIC1 contents
+ * @return None
+ */
+uint16_t get_pic_isr()
+{
+    return get_pic_status(PIC_ISR);
+}
+
+/*!
+ * @brief Masks an irq
+ * @param irq_number Number of the irq to mask
+ * @return None
+ */
+void mask_pic_irq(uint8_t irq_number)
+{
+    uint8_t port;
+
+    //IRQ belongs to the master PIC
+    if(irq_number < 8)
+        port = PIC_MASTER_DATA;
+    
+    //IRQ belongs to slave PIC
+    else
+    {
+        irq_number -= 8;
+        port = PIC_SLAVE_DATA;
+    }
+    
+    //Update the mask bitmap
+    outb(port, (inb(port) | (0x01<<irq_number)));
+}
 
 /*!
  * @brief Reinitializes the pic controllers

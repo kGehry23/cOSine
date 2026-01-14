@@ -40,8 +40,9 @@ void kernel(void)
     PIC_remap();
     printf("PIC remapped.\n\n");
 
-    outb(0x21,0xfd);
-    outb(0xa1,0xff);
+    //Masks all interrupts except for the keyboard
+    outb(PIC_MASTER_DATA,0xfd);
+    outb(PIC_SLAVE_DATA,0xff);
 
     //Initializes the GDT
     init_GDT();
@@ -58,19 +59,11 @@ void kernel(void)
     printf("Initializing PS/2 Controller...\n");
     init_ps2_controller();
 
-    __asm__ volatile ("sti"); //Set interrupt flag (enables interrupts) 
-
-    
-
+    //Set interrupt flag (enables interrupts) 
+    __asm__ volatile ("sti"); 
 
     for(;;) {
         asm("hlt");
     }
 }
-
-
-
-
-
-
 
