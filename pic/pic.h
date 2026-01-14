@@ -41,6 +41,7 @@
 #define ICW4_8086   0x01
 #define CASCADE_IRQ 2
 
+
 #ifndef PIC_H
 #define PIC_H
 
@@ -50,6 +51,10 @@
  * @return None
  */
 void PIC_eoi(uint8_t irq_number);
+
+void get_pic_irr(void);
+
+void get_pic_isr(void);
 
 /*!
  * @brief Reinitializes the pic controllers

@@ -30,6 +30,19 @@ void PIC_eoi(uint8_t irq_number)
     outb(PIC_MASTER_COMMAND, EOI);
 }
 
+
+
+void get_pic_irr()
+{
+
+}
+
+void get_pic_isr()
+{
+
+}
+
+
 /*!
  * @brief Reinitializes the pic controllers
  * @return None

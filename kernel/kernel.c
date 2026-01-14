@@ -39,7 +39,10 @@ void kernel(void)
     //Remap PIC
     PIC_remap();
     printf("PIC remapped.\n\n");
-    
+
+    outb(0x21,0xfc);
+    outb(0xa1,0xff);
+
     //Initializes the GDT
     init_GDT();
     printf("GDT initialization complete.\n\n");
@@ -48,12 +51,14 @@ void kernel(void)
     idt_init();
     printf("IDT initialization complete.\n\n");
 
-    init_mappings();
+    // init_mappings();
     void (*handle)() = handle_key_press;
-    set_irq_handler(handle,1);
+    set_irq_handler(handle,2);
 
     printf("Initializing PS/2 Controller...\n");
     init_ps2_controller();
+    inb(0x60);
+
 
     for(;;) {
         asm("hlt");

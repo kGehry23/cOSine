@@ -16,21 +16,11 @@
 #define RELEASE_1   0xF0
 
 #define A_PRESSED   0x1C
-#define W_PRESSED   0x11
-#define S_PRESSED   0x1F
+#define W_PRESSED   0x1D
+#define S_PRESSED   0x1B
 
 #define A_RELEASED  (RELEASE_1 + A_PRESSED)
 
-//Something like this... make an array of this
-typedef struct 
-{
-    char key;
-    // bool bit_state; //pressed or released
-
-}key_packet_t;
-
-//Random size
-key_packet_t mappings[1024];
 
 //Just an example of how this could be mapped. Likely not the best way to do this... maybe implement some kind of subtraction as well?
 void init_mappings();

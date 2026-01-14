@@ -56,7 +56,7 @@ void interrupt_handler()
 {
     void (*handle)();
 
-    handle = irq_functions[1];
+    handle = irq_functions[2];
 
     handle();
 }

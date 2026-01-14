@@ -1,21 +1,57 @@
 #include "keyboard.h"
 
-//Just an example of how this could be mapped. Likely not the best way to do this... maybe implement some kind of subtraction as well?
-void init_mappings()
-{
-    mappings[A_PRESSED].key = 'a';
-    mappings[W_PRESSED].key = 'w';
-    mappings[S_PRESSED].key = 's';
-}
+
+char key_codes[] = {
+    ' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ', ' ',' ', 
+    ' ',' ',' ', ' ', ' ', ' ', 'q','1',' ',' ',
+    ' ','z','s','a','w','2',' ',' ','c','x','d',
+    'e','4','3',' ',' ',' ','v','f','t','r','5',' ',
+    ' ','n','b','h','g','y','6',' ',' ',' ','m','j',
+    'u','7','8',' ',' ',',','k','i','o','0','9',' ',
+    ' ','.','/','l',';','p','-',' ',' ',' ','\'',' ',
+    '[','=',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+    ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+};
 
 //This would be called when IRQ 1 is triggered, as the interrupt service routine called from asm
 void handle_key_press(void)
 {
+
+    inb(0x60);
+
     if(inb(0x64)&0x1 == 1)
     {
-        printf("%p",inb(0x60));
-    }
+        uint8_t res = inb(0x60);
+
+        if(res <= sizeof(key_codes)/sizeof(char))
+                printf("%c", key_codes[res]);
         
-    // printf("Interrupt\n");
-    PIC_eoi(1);
+    }
+
+    // if(inb(0x64)&0x1 == 1)
+    // {
+    //     printf("%c",mappings[inb(0x60)].key);
+    // }
+    outb(0x20, 0x20);
+    // PIC_eoi(1);
 }
