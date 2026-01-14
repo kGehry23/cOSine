@@ -40,7 +40,7 @@ void kernel(void)
     PIC_remap();
     printf("PIC remapped.\n\n");
 
-    outb(0x21,0xfc);
+    outb(0x21,0xfd);
     outb(0xa1,0xff);
 
     //Initializes the GDT
