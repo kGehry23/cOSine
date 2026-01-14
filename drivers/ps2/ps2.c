@@ -50,6 +50,7 @@ void init_ps2_controller()
 
     enable_devices();
     reset_devices();
+    inb(0x60);
 }
 
 /*!

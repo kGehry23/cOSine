@@ -57,7 +57,10 @@ void kernel(void)
 
     printf("Initializing PS/2 Controller...\n");
     init_ps2_controller();
-    inb(0x60);
+
+    __asm__ volatile ("sti"); //Set interrupt flag (enables interrupts) 
+
+    
 
 
     for(;;) {

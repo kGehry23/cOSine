@@ -107,8 +107,6 @@ void idt_init()
     setIDT(idtr.limit, idtr.base);
 
     // __asm__ volatile ("lidt %0" : : "m"(idtr)); //Load idt
-
-    __asm__ volatile ("sti"); //Set interrupt flag (enables interrupts) 
 }
 
 
