@@ -1,6 +1,20 @@
+/********************************************************************************
+ * @file    keyboard.h
+ * 
+ * @author  Kai Gehry
+ * @date    2026-01-14
+ *
+ * @brief   Header for keyboard driver 
+ * 
+ ********************************************************************************
+*/
+
+/************************************
+ * INCLUDES
+ ************************************/
 #include "keyboard.h"
 
-
+//Scan code mappings
 char *key_codes[] = {
     "","","","","","","",
     "","","","","","","","", 
@@ -46,8 +60,11 @@ char *key_codes[] = {
 
 };
 
-//This would be called when IRQ 1 is triggered, as the interrupt service routine called from asm
-void handle_key_press(void)
+/*!
+ * @brief IRQ handler for IRQ0
+ * @return None
+ */
+void handle_key_press()
 {
 
     inb(0x60);
