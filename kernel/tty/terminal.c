@@ -79,6 +79,18 @@ static inline uint16_t vga_entry(unsigned char uc, uint8_t colour)
 }
 
 /*!
+ * @brief Removes the last character printed to the terminal
+ * @return None
+ */
+void terminal_remove_last_character()
+{
+    terminal_column = terminal_column-1;
+    //Accesses the previous location where a character was placed
+    const size_t index = terminal_row * VGA_WIDTH + terminal_column;
+    terminal_buffer[index] = vga_entry(' ', terminal_colour);
+}
+
+/*!
  * @brief Clears the terminal window
  * @return None
  */

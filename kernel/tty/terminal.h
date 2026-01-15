@@ -34,6 +34,12 @@ void terminal_initialize(void);
 void terminal_setcolour(uint8_t colour);
 
 /*!
+ * @brief Removes the last character printed to the terminal
+ * @return None
+ */
+void terminal_remove_last_character(void);
+
+/*!
  * @brief Places a character at a specified location in the terminal
  * @param c Character to write to the terminal
  * @param colour Colout of the character to write

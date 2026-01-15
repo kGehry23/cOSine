@@ -17,6 +17,7 @@
 #include "idt.h"
 #include <stdbool.h>
 #include "../libc/stdio/stdio.h"
+#include "../pic/pic.h"
 
 /************************************
  * DEFINES
@@ -32,16 +33,37 @@ static idtr_t idtr;
 
 static bool vectors[IDT_MAX_DESCRIPTORS];
 
-//Stub table defined in idt.asm
+//isr stub table defined in idt.asm
 extern void* isr_stub_table[];
+void *irq_functions[16];
 
 /*!
  * @brief Generic exception handler
+ * @return None
  */
 void exception_handler()
 {
     //Disables interrupts and halts the cpu
+    printf("Test\n");
     __asm__ volatile ("cli; hlt");
+}
+
+/*!
+ * @brief General interrupt handler
+ * @return None
+ */
+void interrupt_handler()
+{
+    void (*handle)();
+
+    handle = irq_functions[2];
+
+    handle();
+}
+
+void set_irq_handler(void (*handler)(), uint8_t irq_number)
+{
+    irq_functions[irq_number] = handler;
 }
 
 /*!
@@ -74,18 +96,17 @@ void idt_init()
     printf("Limit of idt entries: %d\n", idtr.limit);
     printf("IDT loaded at address %p\n", idtr.base);
 
-    for(uint8_t vector = 0;vector<32;vector++)
+    for(uint8_t vector = 0;vector<48;vector++)
     {
         idt_set_descriptor(vector, isr_stub_table[vector], 0x8E);
         vectors[vector] = true;
     }
 
+
     //Sets the IDT. Called from asm file instead of inline asm. Issues with base address otherwise 
     setIDT(idtr.limit, idtr.base);
 
     // __asm__ volatile ("lidt %0" : : "m"(idtr)); //Load idt
-
-    __asm__ volatile ("sti"); //Set interrupt flag (enables interrupts) 
 }
 
 

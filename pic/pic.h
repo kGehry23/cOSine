@@ -41,6 +41,9 @@
 #define ICW4_8086   0x01
 #define CASCADE_IRQ 2
 
+#define PIC_IRR 0x0A
+#define PIC_ISR 0x0B
+
 #ifndef PIC_H
 #define PIC_H
 
@@ -50,6 +53,32 @@
  * @return None
  */
 void PIC_eoi(uint8_t irq_number);
+
+
+uint16_t get_pic_status(uint16_t pic_reg);
+
+/*!
+ * @brief Returns the contents of the combined contents of the master and
+ *        slave PIC IRR registers. Higher 8 bits are PIC2 register contents,
+ *        lower 8 bits are PIC1 contents
+ * @return None
+ */
+uint16_t get_pic_irr(void);
+
+/*!
+ * @brief Returns the contents of the combined contents of the master and
+ *        slave PIC ISR registers. Higher 8 bits are PIC2 register contents,
+ *        lower 8 bits are PIC1 contents
+ * @return None
+ */
+uint16_t get_pic_isr(void);
+
+/*!
+ * @brief Masks an irq
+ * @param irq_number Number of the irq to mask
+ * @return None
+ */
+void mask_pic_irq(uint8_t irq_number);
 
 /*!
  * @brief Reinitializes the pic controllers
