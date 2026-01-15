@@ -14,30 +14,25 @@
  * INCLUDES
  ************************************/
 #include "frame_allocator.h"
+#include "../libc/stdio/stdio.h"
 
 //End of kernel memory
 extern uint32_t endkernel;
 
 //Base address of allocatable memory
-uint32_t *base_addr = &endkernel;
+uint32_t* base_addr = &endkernel;
+
+//Array to keep track of which pages are allocated and which are free
+uint8_t frame_array[MAX_PAGES];
+uint32_t* pre_alloced_frames[PAGE_BLOCK];
+
 
 /*!
  * @brief Allocates frames when there are no more pages available
  *        from previous allocations
  * @return None
  */
-void allocate_frames(void)
-{
-    
-
-
-}
-
-/*!
- * @brief Returns an available frame
- * @return None
- */
-uint32_t* get_frame(void)
+uint32_t* allocate_frame()
 {
     static unsigned int allocated = 0;
 
@@ -45,18 +40,58 @@ uint32_t* get_frame(void)
     if(allocated == PAGE_BLOCK)
     {
         allocated = 0;
-        //Allocate more frames
-        allocate_frames();
-        base_addr += (PAGE_BLOCK*PAGE_SIZE);
+        //Pre_allocate more frames
+        pre_allocate_frames();
     }
 
-    /*Calculate the starting address of the allocated memory to return.
-      
-      allocated = base + 4096(bytes) * num allocated pages + 1 (prevents overlap)
-    */
-    uint32_t* allocated_address = base_addr + PAGE_SIZE*allocated + 1;
-
+    uint32_t *frame = pre_alloced_frames[allocated];
     allocated++;
 
-    return allocated_address;
+    return frame;
+}
+
+/*!
+ * @brief Frees a frame which has been allocated
+ * @return None
+ */
+void free_frame(uint32_t* frame_address)
+{
+    //Rather than division by 4096 (expensive) use bit shift left by 12 (2^12 = 4096)
+    uint32_t frame_number = (frame_address - base_addr)>>PAGE_SIZE_BASE_2;
+    printf("Frame number: %d\n", frame_number);
+
+    frame_array[frame_number] = FREE;
+}
+
+
+/*!
+ * @brief Returns an available frame
+ * @return None
+ */
+uint32_t* get_free_frame()
+{
+    uint32_t i = 0;
+
+    while(frame_array[i] != FREE)
+    {
+        //
+        i++;
+    }
+
+    frame_array[i] = ALLOCATED;
+
+    //Returns address of new page relative to base address
+    return base_addr + (PAGE_SIZE*i);
+}
+
+/*!
+ * @brief Pre-allocates a number of pages
+ * @return None
+ */
+void pre_allocate_frames()
+{
+    for(size_t i = 0;i<PAGE_BLOCK;i++)
+    {
+        pre_alloced_frames[i] = get_free_frame();
+    }
 }

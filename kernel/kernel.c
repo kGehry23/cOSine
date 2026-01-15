@@ -23,6 +23,7 @@
 #include "../pic/pic.h"
 #include "../drivers/ps2/ps2.h"
 #include "../drivers/ps2/keyboard/keyboard.h"
+#include "../memory/frame_allocator.h"
 // #include "data_structures/bitmap.h"
 
 extern uint32_t endkernel;
@@ -57,7 +58,17 @@ void kernel(void)
     idt_init();
     printf("IDT initialization complete.\n\n");
 
-    // printf("%p\n", (uint32_t*)endkernel);
+    //Preallocate page frames
+    // pre_allocate_frames();
+    // uint32_t* frame = allocate_frame();
+
+    // printf("Address of allocated page: %p\n", frame);
+    // free_frame(frame);
+
+    // frame = allocate_frame();
+
+    // printf("Address of allocated page: %p\n", frame);
+    // free_frame(frame);
 
     // init_mappings();
     void (*handle)() = handle_key_press;
