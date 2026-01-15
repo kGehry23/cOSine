@@ -28,8 +28,6 @@
 
 extern uint32_t endkernel;
 
-
-
 /*!
  * @brief Kernel
  * @return None
@@ -40,7 +38,6 @@ void kernel(void)
 
     terminal_initialize();
     printf("Booted into cOSine\nStarting address of VGA buffer: %p\n\n\n", vga_ptr);
-    printf("End of kernel: %p\n", &endkernel);
 
     //Remap PIC
     PIC_remap();
@@ -57,6 +54,7 @@ void kernel(void)
     //Initializes IDT
     idt_init();
     printf("IDT initialization complete.\n\n");
+
 
     //Preallocate page frames
     // pre_allocate_frames();

@@ -23,7 +23,7 @@
 //Number of frames to allocate at once
 #define PAGE_BLOCK   20
 
-#define MAX_PAGES    0x1000 //1M for now
+#define MAX_PAGES   0x1000
 
 #define ALLOCATED   0x01
 #define FREE        0x00
