@@ -1,10 +1,10 @@
 /********************************************************************************
- * @file    keyboard.h
+ * @file    keyboard.c
  * 
  * @author  Kai Gehry
  * @date    2026-01-14
  *
- * @brief   Header for keyboard driver 
+ * @brief   Keyboard driver 
  * 
  ********************************************************************************
 */
@@ -13,19 +13,24 @@
  * INCLUDES
  ************************************/
 #include "keyboard.h"
+#include "../../../kernel/tty/terminal.h"
 
 //Scan code mappings
 char *key_codes[] = {
     "","","","","","","",
-    "","","","","","","","", 
-    "","","", "", "", "", "q","1","","",
-    "","z","s","a","w","2","","","c","x","d",
-    "e","4","3","",""," ","v","f","t","r","5","",
-    "","n","b","h","g","y","6","","","","m","j",
-    "u","7","8","","",",","k","i","o","0","9","",
-    "",".","/","l",";","p","-","","","","\"","",
-    "[","=","","",
-    "","","","","","","", 
+    "","","","","","","",
+    "","","","","","","",
+    "q","1","","","","z","s",
+    "a","w","2","","","c","x",
+    "d","e","4","3","",""," ",
+    "v","f","t","r","5","","",
+    "n","b","h","g","y","6","",
+    "","","m","j","u","7","8",
+    "","",",","k","i","o","0",
+    "9","","",".","/","l",";",
+    "p","-","","","","\"","",
+    "[","=","","","","","\n"
+    "","","","","", 
     "","","","","","","",
     "","","","","","","",
     "","","","","","","",
@@ -66,21 +71,29 @@ char *key_codes[] = {
  */
 void handle_key_press()
 {
-
-    inb(0x60);
-
-    if(inb(0x64)&0x1 == 1)
+    //Checks if a byte is available to read
+    if((inb(STATUS_PORT)&0x01) == 1)
     {
-        uint32_t res = inb(0x60);
+        uint32_t reg_contents = inb(DATA_PORT);
 
-        while(inb(0x64)&0x1 == 1)
+        //Checks for multi byte scan codes. Prevents key codes from being reprinted when
+        //a key is released
+        while((inb(STATUS_PORT)&0x01) == 1)
         {
-            res = res + inb(0x60);
+            reg_contents += inb(DATA_PORT);
         }
-       
-        if(res <= sizeof(key_codes)/sizeof(char))
-            printf("%s", key_codes[res]);
-        
+
+        //Converts the scan code to a key code
+        if(reg_contents <= sizeof(key_codes)/sizeof(char))
+        {
+            //Removes previously written text from the terminal if
+            if(reg_contents == BACKSPACE)
+            {
+                terminal_remove_last_character();
+            }
+            else
+                printf("%s", key_codes[reg_contents]);
+        }
     }
 
     //Send EOI to PIC

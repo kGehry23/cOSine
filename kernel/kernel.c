@@ -61,6 +61,9 @@ void kernel(void)
 
     //Set interrupt flag (enables interrupts) 
     __asm__ volatile ("sti"); 
+    inb(0x60);//Make sure that that the 
+
+    terminal_initialize();
 
     for(;;) {
         asm("hlt");

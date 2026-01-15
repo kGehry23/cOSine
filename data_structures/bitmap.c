@@ -51,6 +51,7 @@ void set_bit_low(bitmap_t *bmp, uint32_t index)
     {
         //xor causes any bits originally 1 to change to 0
         bmp->bitmap ^= (0x1 << index); 
+        // bmp->bitmap &= ~(0x1<<index);
     }
 }
  
