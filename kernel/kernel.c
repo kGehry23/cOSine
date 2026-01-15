@@ -25,6 +25,10 @@
 #include "../drivers/ps2/keyboard/keyboard.h"
 // #include "data_structures/bitmap.h"
 
+extern uint32_t endkernel;
+
+
+
 /*!
  * @brief Kernel
  * @return None
@@ -35,6 +39,7 @@ void kernel(void)
 
     terminal_initialize();
     printf("Booted into cOSine\nStarting address of VGA buffer: %p\n\n\n", vga_ptr);
+    printf("End of kernel: %p\n", &endkernel);
 
     //Remap PIC
     PIC_remap();
@@ -52,6 +57,8 @@ void kernel(void)
     idt_init();
     printf("IDT initialization complete.\n\n");
 
+    // printf("%p\n", (uint32_t*)endkernel);
+
     // init_mappings();
     void (*handle)() = handle_key_press;
     set_irq_handler(handle,2);
@@ -63,7 +70,7 @@ void kernel(void)
     __asm__ volatile ("sti"); 
     inb(0x60);//Make sure that that the 
 
-    terminal_initialize();
+    // terminal_initialize();
 
     for(;;) {
         asm("hlt");
