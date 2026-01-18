@@ -35,13 +35,14 @@ extern uint32_t endkernel;
  */
 void kernel(void)
 {
+
+    init_paging();
+
     uint16_t *vga_ptr = (uint16_t*)0xB8000;
 
     terminal_initialize();
-    printf("Booted into cOSine\nStarting address of VGA buffer: %p\n\n\n", vga_ptr);
 
-    //Throws a general protection fault currently. Paging not properly set up yet
-    init_paging();
+    printf("Booted into cOSine\nStarting address of VGA buffer: %p\n\n\n", vga_ptr);
 
     //Remap PIC
     PIC_remap();
@@ -59,21 +60,6 @@ void kernel(void)
     idt_init();
     printf("IDT initialization complete.\n\n");
 
-
-
-    // // Preallocate page frames
-    // pre_allocate_frames();
-    // uint32_t* frame = allocate_frame();
-
-    // printf("Address of allocated page: %p\n", frame);
-    // free_frame(frame);
-
-    // frame = allocate_frame();
-
-    // printf("Address of allocated page: %p\n", frame);
-    // free_frame(frame);
-
-    // init_mappings();
     void (*handle)() = handle_key_press;
     set_irq_handler(handle,2);
 
@@ -84,7 +70,9 @@ void kernel(void)
     __asm__ volatile ("sti"); 
     inb(0x60);//Make sure that that the 
 
-    // terminal_initialize();
+    //Clears the terminal 
+    terminal_initialize();
+    printf("cOSine:$ "); //Prints the shell text... does noting currently
 
     for(;;) {
         asm("hlt");

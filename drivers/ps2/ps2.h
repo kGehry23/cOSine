@@ -115,7 +115,7 @@ void reset_devices(void);
 
 void check_input(void);
 
-void detect_device(uint8_t);
+// void detect_device(uint8_t);
 
 
 #endif //PS2_H

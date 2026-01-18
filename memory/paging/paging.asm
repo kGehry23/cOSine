@@ -25,15 +25,16 @@ _get_cr3:
     mov eax, cr3
     ret
 
-;Moves the address of the page directory into CR3
+;Sets the contents of the CR0 register. In the case of enabling paging
+;the 31st bit needs to be set high
 _set_cr0:
     mov ecx, cr0
     mov edx, [esp + 4]
-    or edx, ecx
+    or edx, ecx ;retain original contents, and set new bits high
     mov cr0, edx
     ret
 
-;Moves the address of the page directory into CR3
+;Sets the contents of the CR4 register
 _set_cr4:
     mov edx, [esp + 4]
     mov cr4, edx

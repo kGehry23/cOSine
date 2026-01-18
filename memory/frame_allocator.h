@@ -21,7 +21,7 @@
 #define PAGE_SIZE_BASE_2    12
 
 //Number of frames to allocate at once
-#define PAGE_BLOCK   20
+#define PAGE_BLOCK   1024
 
 #define MAX_PAGES   0x1000
 

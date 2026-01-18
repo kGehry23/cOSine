@@ -16,6 +16,7 @@
  ************************************/
 #include "terminal.h"
 #include "../../libc/string/string.h"
+#include "../../io/io.h"
 
 /************************************
  * DEFINES
@@ -79,6 +80,24 @@ static inline uint16_t vga_entry(unsigned char uc, uint8_t colour)
 }
 
 /*!
+ * @brief Moves the cursor to the current text position.
+ *       
+ *        The code in this function has been taken from:
+ * 
+ *        https://wiki.osdev.org/Text_Mode_Cursor#Enabling_the_Cursor
+ * 
+ * @param index Current text index
+ * @return None
+ */
+static void move_cursor(uint32_t index)
+{
+    outb(0x3D4, 0x0F);
+	outb(0x3D5, (uint8_t) (index & 0xFF));
+	outb(0x3D4, 0x0E);
+	outb(0x3D5, (uint8_t) ((index >> 8) & 0xFF));
+}
+
+/*!
  * @brief Removes the last character printed to the terminal
  * @return None
  */
@@ -87,6 +106,7 @@ void terminal_remove_last_character()
     terminal_column = terminal_column-1;
     //Accesses the previous location where a character was placed
     const size_t index = terminal_row * VGA_WIDTH + terminal_column;
+    move_cursor(index);
     terminal_buffer[index] = vga_entry(' ', terminal_colour);
 }
 
@@ -99,6 +119,8 @@ void terminal_initialize(void)
     terminal_row = 0;
     terminal_column = 0;
     terminal_colour = vga_entry_colour(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
+
+    move_cursor(0);
 
     //Clears the terminal
     for(size_t y = 0; y < VGA_HEIGHT; y++)
@@ -132,6 +154,7 @@ void terminal_setcolour(uint8_t colour)
 void terminal_putentryat(char c, uint8_t colour, size_t x, size_t y)
 {
     const size_t index = y * VGA_WIDTH + x;
+    move_cursor(index+1);
     terminal_buffer[index] = vga_entry(c, colour);
 }
 
