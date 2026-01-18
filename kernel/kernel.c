@@ -24,6 +24,7 @@
 #include "../drivers/ps2/ps2.h"
 #include "../drivers/ps2/keyboard/keyboard.h"
 #include "../memory/frame_allocator.h"
+#include "../memory/paging/pager.h"
 // #include "data_structures/bitmap.h"
 
 extern uint32_t endkernel;
@@ -38,6 +39,9 @@ void kernel(void)
 
     terminal_initialize();
     printf("Booted into cOSine\nStarting address of VGA buffer: %p\n\n\n", vga_ptr);
+
+    //Throws a general protection fault currently. Paging not properly set up yet
+    init_paging();
 
     //Remap PIC
     PIC_remap();
@@ -56,7 +60,8 @@ void kernel(void)
     printf("IDT initialization complete.\n\n");
 
 
-    //Preallocate page frames
+
+    // // Preallocate page frames
     // pre_allocate_frames();
     // uint32_t* frame = allocate_frame();
 
