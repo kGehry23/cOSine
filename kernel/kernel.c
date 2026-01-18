@@ -68,14 +68,12 @@ void kernel(void)
     __asm__ volatile ("sti"); 
     inb(0x60);//Make sure that that the 
 
+    //Initializes the shell
     shell_init();
-    //Clears the terminal 
-    // terminal_initialize();
-    // printf("cOSine:$ "); //Prints the shell text... does noting currently
-    
 
-    for(;;) {
-        asm("hlt");
-    }
+    
+    // for(;;) {
+    //     asm("hlt");
+    // }
 }
 

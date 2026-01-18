@@ -8,7 +8,7 @@ void shell_init()
 {
     //Clears the terminal 
     terminal_initialize();
-    printf("cOSine:$ "); //Prints the shell text... does noting currently
+    printf("cOSine:$ "); //Prints the shell text
     
     while(1)
     {
