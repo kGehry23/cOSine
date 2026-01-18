@@ -68,6 +68,9 @@ char *key_codes[] = {
     "","","","","","",""
 };
 
+char* input_array[128];
+static uint8_t i = 0;
+
 /*!
  * @brief IRQ handler for IRQ1
  * @return None
@@ -95,10 +98,33 @@ void handle_key_press()
                 terminal_remove_last_character();
             }
             else
+            {
+                input_array[i] = key_codes[reg_contents];
+                i++;
                 printf("%s", key_codes[reg_contents]);
+
+            }
+                
         }
     }
 
     //Send EOI to PIC
     outb(0x20, 0x20);
 }
+
+
+char get_last_char()
+{
+
+    char* last_char = input_array[i-1];
+    char ret = ' ';
+
+    if((i == sizeof(input_array)/sizeof(char)) || (last_char == "\n"))
+    {
+        ret ='\n';
+        i = 0;
+    }
+
+    return ret;
+}
+

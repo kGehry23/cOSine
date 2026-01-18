@@ -25,6 +25,7 @@
 #include "../drivers/ps2/keyboard/keyboard.h"
 #include "../memory/frame_allocator.h"
 #include "../memory/paging/pager.h"
+#include "../shell/shell.h"
 // #include "data_structures/bitmap.h"
 
 extern uint32_t endkernel;
@@ -35,14 +36,11 @@ extern uint32_t endkernel;
  */
 void kernel(void)
 {
-
+    //Creates a page directory, initial page table, and enables paging
     init_paging();
 
-    uint16_t *vga_ptr = (uint16_t*)0xB8000;
-
     terminal_initialize();
-
-    printf("Booted into cOSine\nStarting address of VGA buffer: %p\n\n\n", vga_ptr);
+    printf("Booted into cOSine\n");
 
     //Remap PIC
     PIC_remap();
@@ -70,9 +68,11 @@ void kernel(void)
     __asm__ volatile ("sti"); 
     inb(0x60);//Make sure that that the 
 
+    shell_init();
     //Clears the terminal 
-    terminal_initialize();
-    printf("cOSine:$ "); //Prints the shell text... does noting currently
+    // terminal_initialize();
+    // printf("cOSine:$ "); //Prints the shell text... does noting currently
+    
 
     for(;;) {
         asm("hlt");

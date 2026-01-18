@@ -27,3 +27,5 @@
  * @return None
  */
 void handle_key_press(void);
+
+char get_last_char(void);
