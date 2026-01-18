@@ -1,7 +1,8 @@
 ; /**
 ;  ********************************************************************************
 ;  * File Name    paging.asm
-;  *      
+;  * 
+;  * Author       Kai Gehry
 ;  * Date         2026-01-17
 ;  *
 ;  * Brief        Defines routines to load registers for paging.
