@@ -16,6 +16,7 @@
 #include "../../../io/io.h"
 #include "../../../idt/idt.h"
 #include "../../../pic/pic.h"
+#include <stdbool.h>
 
 #define BACKSPACE   0x66
 
@@ -28,4 +29,10 @@
  */
 void handle_key_press(void);
 
+/*!
+ * @brief Returns the last character read from the keyboard
+ * @return The last read character
+ */
 char get_last_char(void);
+
+bool check_input(const char* input_str);

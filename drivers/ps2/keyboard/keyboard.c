@@ -34,7 +34,11 @@ char key_codes[] = {
     0,0,0,0,0,0,0
 };
 
+//Character buffer for read characters
 char input_array[128];
+
+/*Counter to keep track of current number of characters entered
+  before a newline*/
 static uint8_t i = 0;
 
 /*!
@@ -62,6 +66,7 @@ void handle_key_press()
             if(reg_contents == BACKSPACE)
             {
                 terminal_remove_last_character();
+                i--;
             }
             else
             {
@@ -77,12 +82,15 @@ void handle_key_press()
     outb(0x20, 0x20);
 }
 
-
+/*!
+ * @brief Returns the last character read from the keyboard
+ * @return The last read character
+ */
 char get_last_char()
 {
-
     char last_char = input_array[i-1];
 
+    //Reset the counter when a newline has been entered or the size of the buffer has been exceeded
     if((i == sizeof(input_array)/sizeof(char)) || (last_char == '\n'))
     {
         i = 0;
@@ -90,4 +98,29 @@ char get_last_char()
 
     return last_char;
 }
+
+/*!
+ * @brief Returns the last character read from the keyboard
+ * @return The last read character
+ */
+bool check_input(const char* input_str)
+{
+    uint8_t counter = 0;
+    uint8_t j = 0;
+
+    while(input_array[j] != '\n')
+    {
+        if(input_str[counter] == input_array[counter])
+        {
+            counter++;
+        }
+        j++;
+    }
+
+    if(counter == j)
+        return true;
+    else
+        return false; 
+}
+
 
