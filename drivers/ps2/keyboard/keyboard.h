@@ -36,3 +36,5 @@ void handle_key_press(void);
 char get_last_char(void);
 
 bool check_input(const char* input_str);
+
+// char* arr(void);

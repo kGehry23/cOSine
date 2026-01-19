@@ -123,4 +123,11 @@ bool check_input(const char* input_str)
         return false; 
 }
 
+//this returns fine
+
+// char* arr()
+// {
+//     return input_array;
+// }
+
 
