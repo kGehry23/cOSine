@@ -39,7 +39,7 @@ char input_array[128];
 
 /*Counter to keep track of current number of characters entered
   before a newline*/
-static uint8_t i = 0;
+uint8_t i = 0;
 
 /*!
  * @brief IRQ handler for IRQ1
@@ -89,13 +89,6 @@ void handle_key_press()
 char get_last_char()
 {
     char last_char = input_array[i-1];
-
-    //Reset the counter when a newline has been entered or the size of the buffer has been exceeded
-    if((i == sizeof(input_array)/sizeof(char)) || (last_char == '\n'))
-    {
-        i = 0;
-    }
-
     return last_char;
 }
 
@@ -108,14 +101,16 @@ bool check_input(const char* input_str)
     uint8_t counter = 0;
     uint8_t j = 0;
 
-    while(input_array[j] != '\n')
+    while(input_str[j] != '\0')
     {
-        if(input_str[counter] == input_array[counter])
+        if(input_str[j] == input_array[j])
         {
             counter++;
         }
         j++;
     }
+
+    i = 0;
 
     if(counter == j)
         return true;
@@ -123,11 +118,5 @@ bool check_input(const char* input_str)
         return false; 
 }
 
-//this returns fine
-
-// char* arr()
-// {
-//     return input_array;
-// }
 
 

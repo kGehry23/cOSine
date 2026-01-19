@@ -9,4 +9,4 @@
 #  */
 
 #Boots into vm
-eval "qemu-system-i386 -kernel kernel.elf -monitor stdio"
+eval "qemu-system-i386 -kernel kernel.elf -monitor stdio -hda disk.img"

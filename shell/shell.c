@@ -17,13 +17,17 @@
 #include "../drivers/ps2/keyboard/keyboard.h"
 #include "shell.h"
 
+//Buffer for previously entered commands
+char* cmd_arr[128];
+
 //Command list string
 const char* man_string = "\n\tSupported commands:\n\n"
-                   "\tls - list files and directories\n"
+                   "\tls - list directory contents\n"
                    "\tcd - change current directory\n"
                    "\tmkdir - create new directory\n"
                    "\ttouch - create new file\n"
-                   "\trm - remove file\n"
+                   "\trm - delete file\n"
+                   "\tcat - display contents of file\n"
                    "\tclear - clear terminal contents\n"
                    "\n";
 
@@ -47,7 +51,7 @@ static void exec_command(void)
     if(check_input("man") == true)
         display_command_list();
 
-    else if (check_input("clear") == true)
+    else if (check_input("clear") == true || check_input("cls") == true)
         terminal_initialize();
     
     // else if(check_input("echo") == true)
@@ -65,14 +69,14 @@ void shell_init()
 {
     //Clears the terminal 
     terminal_initialize();
-    printf("cOSine:$ ");
+    printf("cOSh:$ ");
     
     while(1)
     {
         if(get_last_char() == '\n')
         {
             exec_command();
-            printf("cOSine:$ ");
+            printf("cOSh:$ ");
         }
         
     }
