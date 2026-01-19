@@ -55,9 +55,7 @@ void exception_handler()
 void interrupt_handler()
 {
     void (*handle)();
-
-    handle = irq_functions[2];
-
+    handle = irq_functions[get_pic_isr()];
     handle();
 }
 
@@ -106,7 +104,6 @@ void idt_init()
     //Sets the IDT. Called from asm file instead of inline asm. Issues with base address otherwise 
     setIDT(idtr.limit, idtr.base);
 
-    // __asm__ volatile ("lidt %0" : : "m"(idtr)); //Load idt
 }
 
 

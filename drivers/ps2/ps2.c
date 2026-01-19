@@ -50,7 +50,6 @@ void init_ps2_controller()
 
     enable_devices();
     reset_devices();
-    inb(0x60);
 }
 
 /*!
@@ -95,7 +94,7 @@ void test_ps2_controller()
     poll_status_bit_0();
 
     uint8_t test_byte = inb(PS2_READ_WRITE_DATA_PORT);
-    // printf("PS/2 self test: ");
+    printf("PS/2 self test: ");
 
     if(test_byte == SELF_TEST_PASSED)
         printf("%p -> Test Passed.\n", test_byte);
@@ -211,8 +210,10 @@ void send_byte_port_2(uint8_t data_byte)
  * @param port Port to detect a device on
  * @return None
  */
-void detect_device(uint8_t port)
+static void detect_device(uint8_t port)
 {
+    //This uses polling... works for now, but need to properly set up interrupts
+
     if(port == 1)
         send_byte_port_1(0xF2);
     else if(port == 2)
@@ -235,5 +236,21 @@ void reset_devices()
     send_byte_port_1(RESET_DEVICES);
     send_byte_port_2(RESET_DEVICES);
 }
+
+// //Polling for input, will only print k for scancode 2
+// void check_input()
+// {
+//     while(1)
+//     {
+//         if(inb(PS2_READ_STATUS_PORT)&0x1 == 1)
+//         {
+//             if(inb(PS2_READ_WRITE_DATA_PORT) == 0x42)
+//             {
+//                 printf("k ");
+//             }
+            
+//         }
+//     }
+// }
 
 

@@ -23,7 +23,11 @@
 #include "../pic/pic.h"
 #include "../drivers/ps2/ps2.h"
 #include "../drivers/ps2/keyboard/keyboard.h"
+#include "../memory/frame_allocator.h"
+#include "../memory/paging/pager.h"
 // #include "data_structures/bitmap.h"
+
+extern uint32_t endkernel;
 
 /*!
  * @brief Kernel
@@ -31,9 +35,13 @@
  */
 void kernel(void)
 {
+
+    init_paging();
+
     uint16_t *vga_ptr = (uint16_t*)0xB8000;
 
     terminal_initialize();
+
     printf("Booted into cOSine\nStarting address of VGA buffer: %p\n\n\n", vga_ptr);
 
     //Remap PIC
@@ -52,7 +60,6 @@ void kernel(void)
     idt_init();
     printf("IDT initialization complete.\n\n");
 
-    // init_mappings();
     void (*handle)() = handle_key_press;
     set_irq_handler(handle,2);
 
@@ -63,7 +70,9 @@ void kernel(void)
     __asm__ volatile ("sti"); 
     inb(0x60);//Make sure that that the 
 
+    //Clears the terminal 
     terminal_initialize();
+    printf("cOSine:$ "); //Prints the shell text... does noting currently
 
     for(;;) {
         asm("hlt");
