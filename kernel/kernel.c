@@ -68,10 +68,10 @@ void kernel(void)
     __asm__ volatile ("sti"); 
 
     //Initializes the shell
-    shell_init();
+    // shell_init();
 
-    // for(;;) {
-    //     asm("hlt");
-    // }
+    for(;;) {
+        asm("hlt");
+    }
 }
 
