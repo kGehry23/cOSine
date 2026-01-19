@@ -113,8 +113,6 @@ void send_byte_port_2(uint8_t data_byte);
  */
 void reset_devices(void);
 
-void check_input(void);
-
 // void detect_device(uint8_t);
 
 
