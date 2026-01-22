@@ -1,10 +1,10 @@
 /**
  ********************************************************************************
- * @file    task.h
+ * @file    process.h
  * @author  Kai Gehry
  * @date    2026-01-18
  *
- * @brief   Defines the structure of a task (process).
+ * @brief   Defines the structure of a processs.
  ********************************************************************************
  */
 
@@ -12,13 +12,14 @@
  * INCLUDES
  ************************************/
 #include <stdio.h>
+#include <stdint.h>
 
 /*!
  * @brief Struct which represents a process
- * @param pid Long which holds the process identifier
+ * @param pid Process identifier
  */
 typedef struct
 {
-    long pid;
+    uint32_t pid;
 
 } process;

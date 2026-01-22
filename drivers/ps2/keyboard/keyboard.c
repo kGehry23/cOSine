@@ -67,11 +67,13 @@ void handle_key_press()
             {
                 terminal_remove_last_character();
                 i--;
+                //return 0;
             }
             else
             {
                 input_array[i] = key_codes[reg_contents];
                 i++;
+                //return key_codes[reg_contents];
                 printf("%c", key_codes[reg_contents]);
             }
                 

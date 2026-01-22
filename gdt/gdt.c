@@ -16,6 +16,7 @@
 #include <stdint.h>
 #include "gdt.h"
 #include "../libc/stdio/stdio.h"
+#include "../process/tss.h"
 
 /************************************
  * DEFINES
@@ -61,8 +62,8 @@ void init_segment(struct segment *seg,
 void encodedGDTEntry(uint8_t *target, struct segment source)
 {
 
-    if(source.limit > 0xFFFFF)
-        printf("GDT cannot encode limits larger than 0xFFFFF\n");
+    // if(source.limit > 0xFFFFF)
+    //     printf("GDT cannot encode limits larger than 0xFFFFF\n");
 
     //Encode limit
     target[0] = source.limit & 0xFF;
@@ -105,7 +106,11 @@ void init_GDT(void)
     //Kernel mode data segment
     struct segment kernel_mode_data;
     init_segment(&kernel_mode_data, 2, 0x0010, 0, 0xFFFFF, 0x92, 0xC);
-    
+
+    //Task state segment
+    struct segment tss;
+    task_state_segment init_tss;
+    init_segment(&tss, 5, 0x0028, ((uint32_t)&init_tss), sizeof(init_tss)-1, 0x89, 0x0);
     
     uint8_t* null_desc_logical_addr = (uint8_t*)((uint32_t)&gdt + null_desc.offset);
     encodedGDTEntry(null_desc_logical_addr, null_desc);
@@ -116,10 +121,16 @@ void init_GDT(void)
     uint8_t* kernel_code_logical_addr = (uint8_t*)((uint32_t)&gdt + kernel_mode_code.offset);
     encodedGDTEntry(kernel_code_logical_addr, kernel_mode_code);
 
+    uint8_t* tss_logical_addr = (uint8_t*)((uint32_t)&gdt + tss.offset);
+    encodedGDTEntry(tss_logical_addr, tss);
+
     printf("Required descriptors added to GDT.\n");
 
     //Tells the cpu where the gdt is located 
     setGDT(gdt_size, (uint32_t)&gdt);
+
+    //Likely incorrect
+    set_task_register(((uint32_t)&gdt + tss.offset));
 
     //Reload segment registers
     reloadSegments();
