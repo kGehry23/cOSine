@@ -44,7 +44,6 @@ void *irq_functions[16];
 void exception_handler()
 {
     //Disables interrupts and halts the cpu
-    printf("Test\n");
     __asm__ volatile ("cli; hlt");
 }
 
@@ -100,10 +99,8 @@ void idt_init()
         vectors[vector] = true;
     }
 
-
     //Sets the IDT. Called from asm file instead of inline asm. Issues with base address otherwise 
     setIDT(idtr.limit, idtr.base);
-
 }
 
 

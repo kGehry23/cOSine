@@ -4,7 +4,7 @@
  * @author  Kai Gehry
  * @date    2026-01-18
  *
- * @brief   cOSine shell (cOSh -> hyperbolic cos)
+ * @brief   cOSine shell
  * 
  ********************************************************************************
 */

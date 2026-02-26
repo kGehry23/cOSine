@@ -4,7 +4,7 @@
 #  * @author  Kai Gehry
 #  * @date    2026-01-10
 #  *
-#  * @brief   Compiles or assembles all relevant kernel c and asm files
+#  * @brief   Compiles and assembles all relevant kernel c and asm files
 #  ********************************************************************************
 #  */
 
