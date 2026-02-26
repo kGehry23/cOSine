@@ -1,10 +1,10 @@
 /********************************************************************************
- * @file    keyboard.c
+ * @file    keyboard_api.c
  * 
  * @author  Kai Gehry
- * @date    2026-01-14
+ * @date    2026-02-26
  *
- * @brief   Keyboard driver 
+ * @brief   API to communicate with the keyboard driver 
  * 
  ********************************************************************************
 */
@@ -15,8 +15,14 @@
 #include "keyboard.h"
 #include "../../../kernel/tty/terminal.h"
 
+/*Counter to keep track of current number of characters entered
+  before a newline*/
+uint8_t i = 0;
+//Character buffer for read characters
+char input_array[128];
+
 //Scan code mappings
-char key_codes[] = {
+static char key_codes[] = {
     0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,
@@ -34,13 +40,6 @@ char key_codes[] = {
     0,0,0,0,0,0,0
 };
 
-//Character buffer for read characters
-char input_array[128];
-
-/*Counter to keep track of current number of characters entered
-  before a newline*/
-uint8_t i = 0;
-
 /*!
  * @brief IRQ handler for IRQ1
  * @return None
@@ -55,9 +54,7 @@ void handle_key_press()
         //Checks for multi byte scan codes. Prevents key codes from being reprinted when
         //a key is released
         while((inb(STATUS_PORT)&0x01) == 1)
-        {
             reg_contents += inb(DATA_PORT);
-        }
 
         //Converts the scan code to a key code
         if(reg_contents <= sizeof(key_codes)/sizeof(char))
@@ -82,42 +79,6 @@ void handle_key_press()
 
     //Send EOI to PIC
     outb(0x20, 0x20);
-}
-
-/*!
- * @brief Returns the last character read from the keyboard
- * @return The last read character
- */
-char get_last_char()
-{
-    char last_char = input_array[i-1];
-    return last_char;
-}
-
-/*!
- * @brief Returns the last character read from the keyboard
- * @return The last read character
- */
-bool check_input(const char* input_str)
-{
-    uint8_t counter = 0;
-    uint8_t j = 0;
-
-    while(input_str[j] != '\0')
-    {
-        if(input_str[j] == input_array[j])
-        {
-            counter++;
-        }
-        j++;
-    }
-
-    i = 0;
-
-    if(counter == j)
-        return true;
-    else
-        return false; 
 }
 
 

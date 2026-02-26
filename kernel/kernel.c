@@ -37,7 +37,7 @@ extern uint32_t endkernel;
 void kernel(void)
 {
     //Creates a page directory, initial page table, and enables paging
-    // init_paging();
+    init_paging();
 
     terminal_initialize();
     printf("Booted into cOSine\n");
@@ -66,6 +66,11 @@ void kernel(void)
 
     //Set interrupt flag (enables interrupts) 
     __asm__ volatile ("sti"); 
+
+    for(int i = 0; i < 1000000000;i++)
+    {
+        //This is a horrible way to do this, however, this can be done for now
+    }
 
     //Initializes the shell
     shell_init();

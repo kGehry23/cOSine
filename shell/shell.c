@@ -14,7 +14,7 @@
  ************************************/
 #include "../libc/stdio/stdio.h"
 #include "../kernel/tty/terminal.h"
-#include "../drivers/ps2/keyboard/keyboard.h"
+#include "../drivers/ps2/keyboard/keyboard_api.h"
 #include "shell.h"
 
 //Buffer for previously entered commands
@@ -30,9 +30,7 @@ const char* man_string = "\n\tSupported commands:\n\n"
                    "\tcat - display contents of file\n"
                    "\tclear - clear terminal contents\n"
                    "\n";
-
-
-                   
+                
 /*!
  * @brief Displays the command list
  * @return None
