@@ -26,8 +26,8 @@
 #include "../memory/frame_allocator.h"
 #include "../memory/paging/pager.h"
 #include "../shell/shell.h"
-// #include "data_structures/bitmap.h"
 
+//Address of end of kernel memory 
 extern uint32_t endkernel;
 
 /*!
@@ -37,7 +37,7 @@ extern uint32_t endkernel;
 void kernel(void)
 {
     //Creates a page directory, initial page table, and enables paging
-    init_paging();
+    // init_paging();
 
     terminal_initialize();
     printf("Booted into cOSine\n");
@@ -68,10 +68,10 @@ void kernel(void)
     __asm__ volatile ("sti"); 
 
     //Initializes the shell
-    // shell_init();
+    shell_init();
 
-    for(;;) {
-        asm("hlt");
-    }
+    // for(;;) {
+    //     asm("hlt");
+    // }
 }
 

@@ -41,6 +41,3 @@ reload_CS:
      mov gs, ax
      mov ss, ax
      ret
-
-; _load_TSS:
-;      mov
