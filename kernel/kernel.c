@@ -21,8 +21,12 @@
 #include "../gdt/gdt.h"
 #include "../idt/idt.h"
 #include "../pic/pic.h"
+
+//Drivers
 #include "../drivers/ps2/ps2.h"
 #include "../drivers/ps2/keyboard/keyboard.h"
+#include "../drivers/ps2/mouse/mouse.h"
+
 #include "../memory/frame_allocator.h"
 #include "../memory/paging/pager.h"
 #include "../shell/shell.h"
@@ -46,8 +50,10 @@ void kernel(void)
     PIC_remap();
     printf("PIC remapped.\n\n");
 
-    //Masks all interrupts except for the keyboard
+    //Masks all interrupts except for the keyboard and mouse
     outb(PIC_MASTER_DATA,0xfd);
+
+    /*1110 1111 -> irq 12 is the mouse*/ 
     outb(PIC_SLAVE_DATA,0xff);
 
     //Initializes the GDT
@@ -60,6 +66,10 @@ void kernel(void)
 
     void (*handle)() = handle_key_press;
     set_irq_handler(handle,2);
+
+    //For mouse when needed
+    // handle = handle_mouse;
+    // set_irq_handler(handle, 12);
 
     printf("Initializing PS/2 Controller...\n");
     init_ps2_controller();

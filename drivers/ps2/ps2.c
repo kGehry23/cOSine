@@ -49,7 +49,8 @@ void init_ps2_controller()
     test_ports();
 
     enable_devices();
-    reset_devices();
+    // reset_devices();
+
 }
 
 /*!
@@ -172,6 +173,7 @@ void enable_devices()
 
     //Modifies the config byte. Enables interrupts for port 1 and 2
     config_byte |= 0x3;
+    config_byte &= 0xdf;
 
     //Writes the updated config byte to the data port
     outb(PS2_WRITE_COMMAND_PORT, WRITE_CONTROLLER_CONFIG_BYTE);
