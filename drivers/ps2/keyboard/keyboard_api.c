@@ -1,3 +1,17 @@
+/********************************************************************************
+ * @file    keyboard_api.c
+ * 
+ * @author  Kai Gehry
+ * @date    2026-02-26
+ *
+ * @brief   API to communicate with the keyboard driver 
+ * 
+ ********************************************************************************
+*/
+
+/************************************
+ * INCLUDES
+ ************************************/
 #include "keyboard_api.h"
 
 //Keyboard driver variables
@@ -10,8 +24,7 @@ extern uint8_t i;
  */
 char get_last_char()
 {
-    char last_char = input_array[i-1];
-    return last_char;
+    return input_array[i-1];;
 }
 
 /*!

@@ -51,11 +51,11 @@ static void exec_command(void)
 
     else if (check_input("clear") == true || check_input("cls") == true)
         terminal_initialize();
-    
+        
     // else if(check_input("echo") == true)
     //     printf("%s\n", arr());
 
-    else
+    else if (!check_input("\n"))
         printf("Command not found.\n");
 }
 

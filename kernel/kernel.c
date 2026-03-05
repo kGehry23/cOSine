@@ -6,7 +6,7 @@
  *
  * @brief   Basic kernel code.
  * 
- *          Credit: Adapted from https://wiki.osdev.org/Bare_Bones
+ *          Credit: Adapted initially from https://wiki.osdev.org/Bare_Bones
  *      
  ********************************************************************************
  */

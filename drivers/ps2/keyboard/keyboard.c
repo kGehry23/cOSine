@@ -1,10 +1,10 @@
 /********************************************************************************
- * @file    keyboard_api.c
+ * @file    keyboard.c
  * 
  * @author  Kai Gehry
  * @date    2026-02-26
  *
- * @brief   API to communicate with the keyboard driver 
+ * @brief   PS/2 Keyboard Driver
  * 
  ********************************************************************************
 */
@@ -60,13 +60,14 @@ void handle_key_press()
         if(reg_contents <= sizeof(key_codes)/sizeof(char))
         {
             //Removes previously written text from the terminal if
-            if(reg_contents == BACKSPACE)
+
+            /*Malformed driver. Need to reorganize. This should not be where specific character input is tracked.*/
+            if(reg_contents == BACKSPACE && i > 0)
             {
                 terminal_remove_last_character();
                 i--;
-                //return 0;
             }
-            else
+            else if(reg_contents != BACKSPACE)
             {
                 input_array[i] = key_codes[reg_contents];
                 i++;
