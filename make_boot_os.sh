@@ -9,5 +9,5 @@
 #  */
 
 #Boots into vm
-eval "make clean;make "
+eval "make clean;make -j 10"
 eval "qemu-system-i386 -kernel kernel.elf -monitor stdio -hda disk.img"

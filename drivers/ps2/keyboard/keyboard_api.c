@@ -4,7 +4,7 @@
  * @author  Kai Gehry
  * @date    2026-02-26
  *
- * @brief   API to communicate with the keyboard driver 
+ * @brief   API to communicate with the keyboard driver
  * 
  ********************************************************************************
 */

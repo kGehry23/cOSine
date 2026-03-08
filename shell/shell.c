@@ -20,6 +20,8 @@
 //Buffer for previously entered commands
 char* cmd_arr[128];
 
+const char *shell_prompt = "cOSh:$ ";
+
 //Command list string
 const char* man_string = "\n\tSupported commands:\n\n"
                    "\tls - list directory contents\n"
@@ -28,16 +30,26 @@ const char* man_string = "\n\tSupported commands:\n\n"
                    "\ttouch - create new file\n"
                    "\trm - delete file\n"
                    "\tcat - display contents of file\n"
-                   "\tclear - clear terminal contents\n"
+                   "\tclear/cls - clear terminal contents\n"
                    "\n";
-                
+
+  
 /*!
  * @brief Displays the command list
  * @return None
  */
-static void display_command_list()
+static void display_command_list(void)
 {
     printf("%s", man_string);
+}
+
+/*!
+ * @brief Echos the input entered back to the user
+ * @return None
+ */
+static void echo(void)
+{
+    printf("This is a test.\n");
 }
 
 /*!
@@ -51,9 +63,9 @@ static void exec_command(void)
 
     else if (check_input("clear") == true || check_input("cls") == true)
         terminal_initialize();
-        
-    // else if(check_input("echo") == true)
-    //     printf("%s\n", arr());
+
+    else if(check_input("echo") == true)
+        echo();
 
     else if (!check_input("\n"))
         printf("Command not found.\n");
@@ -74,7 +86,7 @@ void shell_init()
         if(get_last_char() == '\n')
         {
             exec_command();
-            printf("cOSh:$ ");
+            printf("%s", shell_prompt);
         }
         
     }
