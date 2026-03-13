@@ -14,9 +14,6 @@
 #include <stdint.h>
 #include "../libc/stdio/stdio.h"
 
-//Pointer to task control block of currently running task
-extern task_control_block* current_task;
-
 /*!
  * @brief Enumeration representing task states
  */
@@ -32,11 +29,15 @@ typedef enum
  */
 typedef struct
 {
-    void* cr3; //Contents of CR3 register
     void* esp; //Stack pointer
+    void* esp0;
+    void* cr3; //Contents of CR3 register
     uint8_t state; //Task state
     uint32_t tid;   //Task identifier
 }task_control_block;
+
+//Pointer to task control block of currently running task
+extern task_control_block* current_task;
 
 /*!
  * @brief Struct which represents a task 
