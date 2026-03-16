@@ -25,3 +25,18 @@ void abort(void)
     //Inline assembly to halt hte CPU
     asm volatile( "hlt" );
 }
+
+//Allocates memory on a processes' heap
+void* malloc(size_t n)
+{
+
+}
+
+//Frees memory allocated on a processes' heap
+void free(void *mem_ptr)
+{
+    
+
+}
+
+

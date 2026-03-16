@@ -6,7 +6,7 @@
  *
  * @brief   Basic kernel code.
  * 
- *          Credit: Adapted initially from https://wiki.osdev.org/Bare_Bones
+ *
  *      
  ********************************************************************************
  */
@@ -24,6 +24,7 @@
 
 //Drivers
 #include "../drivers/ps2/ps2.h"
+#include "../drivers/disk/ata.h"
 #include "../drivers/ps2/keyboard/keyboard.h"
 #include "../drivers/ps2/mouse/mouse.h"
 
@@ -49,6 +50,9 @@ void kernel(void)
     //Remap PIC
     PIC_remap();
     printf("PIC remapped.\n\n");
+
+    //Initialize the ata drive
+    ata_init();
 
     //Masks all interrupts except for the keyboard and mouse
     outb(PIC_MASTER_DATA,0xfd);
@@ -77,16 +81,16 @@ void kernel(void)
     //Set interrupt flag (enables interrupts) 
     __asm__ volatile ("sti"); 
 
-    for(int i = 0; i < 1000000000;i++)
-    {
-        //This is a horrible way to do this, however, this can be done for now
-    }
+    // for(int i = 0; i < 1000000000;i++)
+    // {
+    //     //This is a horrible way to do this, however, this can be done for now
+    // }
 
     //Initializes the shell
-    shell_init();
+    // shell_init();
 
-    // for(;;) {
-    //     asm("hlt");
-    // }
+    for(;;) {
+        asm("hlt");
+    }
 }
 
