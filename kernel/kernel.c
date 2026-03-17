@@ -5,9 +5,7 @@
  * @date    2025-12-20
  *
  * @brief   Basic kernel code.
- * 
- *
- *      
+ *  
  ********************************************************************************
  */
 
@@ -24,7 +22,8 @@
 
 //Drivers
 #include "../drivers/ps2/ps2.h"
-#include "../drivers/disk/ata.h"
+#include "../drivers/disk/ATA/ata.h"
+#include "../drivers/disk/FAT/fat32.h"
 #include "../drivers/ps2/keyboard/keyboard.h"
 #include "../drivers/ps2/mouse/mouse.h"
 
@@ -53,6 +52,9 @@ void kernel(void)
 
     //Initialize the ata drive
     ata_init();
+
+    // printf("FAT Size: %d\n", get_fat_size());
+    // printf("First data sector number: %d\n\n", get_first_data_sec_num());
 
     //Masks all interrupts except for the keyboard and mouse
     outb(PIC_MASTER_DATA,0xfd);

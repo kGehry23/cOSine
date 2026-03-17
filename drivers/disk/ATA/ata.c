@@ -42,7 +42,7 @@ void identify_ata(uint16_t device_select_port, uint16_t device_select_byte)
 
         printf("Primary drive exists.\n");
 
-        //Poll until the BSY bit 0
+        //Poll until the BSY bit is 0
         status_port_data = (inb(COMMAND_IO)>>BSY_BIT)&0x1;
         while(status_port_data != 0)
         {
@@ -67,4 +67,10 @@ void identify_ata(uint16_t device_select_port, uint16_t device_select_byte)
     else
         printf("Primary drive does not exist.\n\n");
 
+}
+
+//Flushes the ATA cache
+void flush_cache(void)
+{
+    outb(COMMAND_IO, CACHE_FLUSH);
 }
