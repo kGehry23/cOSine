@@ -31,8 +31,19 @@
 #include "../memory/paging/pager.h"
 #include "../shell/shell.h"
 
+#include "../task/task.h"
+
 //Address of end of kernel memory 
 extern uint32_t endkernel;
+
+void test1(void)
+{
+    printf("Test 1 ");
+}
+void test2(void)
+{
+    printf("Test 2 ");
+}
 
 /*!
  * @brief Kernel
@@ -83,16 +94,14 @@ void kernel(void)
     //Set interrupt flag (enables interrupts) 
     __asm__ volatile ("sti"); 
 
-    // for(int i = 0; i < 1000000000;i++)
-    // {
-    //     //This is a horrible way to do this, however, this can be done for now
+    task main_task;
+    task shell;
+    // create_new_task(&main_task, test1, 0, get_cr3());
+    create_new_task(&shell, shell_init, 0, get_cr3());
+    switch_state(&main_task.registers, &shell.registers); 
+
+    // for(;;) {
+    //     asm("hlt");
     // }
-
-    //Initializes the shell
-    // shell_init();
-
-    for(;;) {
-        asm("hlt");
-    }
 }
 

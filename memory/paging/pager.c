@@ -29,14 +29,12 @@ uint32_t page_table [1024] __attribute__((aligned(0x1000)));
  */
 void init_page_table()
 {
-    //This is just an initial page table to first setup paging.
-    //Subsequent initializations will use the frame allocator
     for(int i = 0;i<1024;i++)
     {
         /*Or'ing with 3 specifies that the entry maps to a 4 kB page
           and that the page can be read from and written to
         */
-        page_table[i] = (i*0x1000) | 3;
+        page_table[i] = (i*PAGE_SIZE) | 3;
     }
 }
 
