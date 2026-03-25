@@ -9,76 +9,121 @@
 ;  *
 ;  *              Credit: Adapted from
 ;  *                      https://wiki.osdev.org/Brendan%27s_Multi-tasking_Tutorial
-;  *          
+;  *                      and 
+;  *                      https://wiki.osdev.org/Cooperative_Multitasking
+;  *                      https://en.wikibooks.org/wiki/X86_Assembly/Other_Instructions
+;  *
 ;  ********************************************************************************
 ;  */
 
+;The following assembly routine is heavily commented (for my own depth of understanding)
+
 global _switch_state
-; global _current_task
-
-;Create a struct type for the task 
-REGS.sizeof     equ 44
-REGS.eax        equ 0
-REGS.ebx        equ 4
-REGS.ecx        equ 8
-REGS.edx        equ 12
-REGS.esi        equ 16 
-REGS.edi        equ 20 
-REGS.esp        equ 24
-REGS.ebp        equ 28
-REGS.eip        equ 32
-REGS.eflags     equ 36
-REGS.cr3        equ 40
-
-
-; old_regs resb REGS.sizeof
-; new_regs resb REGS.sizeof
-
-; TCB.sizeof  equ 16 ;reserves 16 bytes for the struct (includes padding)
-; TCB.esp     equ 0  
-; TCB.ebx     equ 4 
-; TCB.cr3     equ 8
-
-; ;Define a struct which can be accessed with cdecl
-
 
 _switch_state:
-    ; cli ;disable interrupts
 
-    ; push edi
+    ;Save old context
 
-    ;Save contents of registers to register struct of old task
-    ; mov edi, [old_regs]
-    ; mov [edi+REGS.eax], eax
-    ; mov [edi+REGS.ebx], ebx
-    ; mov [edi+REGS.ecx], ecx
-    ; mov [edi+REGS.edx], edx
-    ; mov [edi+REGS.esi], esi
-    ; ; mov [edi+REGS.edi], edi
-    ; mov [edi+REGS.esp], esp
-    ; mov [edi+REGS.ebp], ebp
-    ; mov [edi+REGS.eip], eip
-    ; mov [edi+REGS.eflags], flags 
+    ;1. Push all general purpose registers in order eax->ecx->ebx->esp->ebp->esi->edi
+    ;2. Push the contents of the eflags register 
+    ;3. Push the contents of the cr3 register onto the stack (for virtual address space)
 
-    ; mov [edi+REGS.cr3], cr3
+    pusha
+    pushf 
+    mov eax, cr3
+    push eax
 
-    ;load register contents of new task
-    mov eax, [esp + 4]
+    ;Save the contents of the general purpose registers
+    mov eax, [esp + 44] ;Navigate to beginning of the old task's registers (to save)
+    mov [eax + 4], ebx
+    mov [eax + 8], ecx
+    mov [eax + 12], edx
+    mov [eax + 16], esi
+    mov [eax + 20], edi
+
+    ;Save old stack pointer
+    mov ebx, [esp + 24] 
+    mov [eax + 24], ebx
+
+    ; Save stack base register
+    mov [eax + 28], ebp
+
+    ;Save instruction pointer (originally stored in eax register when pushed)
+    mov esi, [esp + 40]
+    mov [eax + 32], esi
+
+    ;Saves the contents of the cr3 register
+    mov ecx, [esp + 4]
+    mov [eax + 40], ecx
+
+    ;Saves the contents of the eflags register
     mov edx, [esp + 8]
+    mov [eax + 36], edx
 
-    push ebp
-    push ebx
-    push esi
-    push edi
+    ;Load new context
+    mov eax, [esp + 48]
+    
+    ;Load general purpose registers, stack pointer and stack base pointer
+    mov ebx, [eax + 4]
+    mov ecx, [eax + 8]
+    mov edx, [eax + 12]
+    mov esi, [eax + 16]
+    mov edi, [eax + 20]
+    mov esp, [eax + 24]
+    mov ebp, [eax + 28]
 
-    mov eax, esp
-    mov esp, edx
+    ; ; Deals with eflags 
+    ; push eax
+    ; mov eax, [eax + 36] 
+    ; push eax
+    ; popf
+    ; pop eax
 
-    pop edi
-    pop esi
-    pop ebx
-    pop ebp
+    ; Deals with cr3
+    ;
+    ;1. Push contents of eax register
+    ;2. Move new cr3 contents into eax
+    ;3. Move new cr3 contents into cr3 register
+    ;4. Pop old eax contents from stack (back into eax register)
+    push eax
+    mov eax, [eax + 40]
+    mov cr3, eax
+    pop eax
+
+
+    ; Deals with instruction pointer
+    ;1. Push contents of eax register
+    ;2. Move new instruction pointer contents into eax
+    ;3. Use xchg to set the stack pointer to point to the instruction pointed to 
+    ;   by the instruction pointer
+    ;4. Point eax to the instruction pointer
+    push eax
+    mov eax, [eax + 32]
+    xchg eax, [esp]
+    mov eax, [eax]
+
     ret
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
 
 

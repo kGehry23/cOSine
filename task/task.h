@@ -44,8 +44,8 @@ extern task_control_block* current_task;
 //Struct defining the contents of a task's registers
 typedef struct
 {
-    // uint32_t eax, ebx, ecx, edx, esi, edi, esp, ebp, eip, eflags, cr3;
-    uint32_t edi, esi, ebx, ebp, eip;
+    uint32_t eax, ebx, ecx, edx, esi, edi, esp, ebp, eip, eflags, cr3;
+    // uint32_t edi, esi, ebx, ebp, eip;
 }Regs;
 
 //Struct defining a task 

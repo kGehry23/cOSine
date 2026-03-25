@@ -96,9 +96,15 @@ void kernel(void)
 
     task main_task;
     task shell;
+    task t1;
+    task t2;
     // create_new_task(&main_task, test1, 0, get_cr3());
     create_new_task(&shell, shell_init, 0, get_cr3());
-    switch_state(&main_task.registers, &shell.registers); 
+    switch_state(&main_task.registers, &shell.registers);
+    
+    create_new_task(&t1, test1, 0, get_cr3());
+    switch_state(&t2.registers, &t1.registers);
+    
 
     // for(;;) {
     //     asm("hlt");
