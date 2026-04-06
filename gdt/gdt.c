@@ -16,7 +16,7 @@
 #include <stdint.h>
 #include "gdt.h"
 #include "../libc/stdio/stdio.h"
-#include "../task/tss.h"
+
 
 /************************************
  * DEFINES

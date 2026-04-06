@@ -26,6 +26,10 @@ uint32_t* base_addr = &endkernel;
 uint8_t frame_array[MAX_PAGES];
 uint32_t* pre_alloced_frames[PAGE_BLOCK];
 
+void available_memory(void)
+{
+    printf("Available memory: %dM\n", (MAX_PAGES*PAGE_SIZE - (uint32_t)base_addr)/1000);
+}
 
 /*!
  * @brief Allocates frames when there are no more pages available
@@ -70,7 +74,7 @@ void free_frame(uint32_t* frame_address)
  */
 uint32_t* get_free_frame()
 {
-    uint32_t i = 0;
+    static uint32_t i = 0;
 
     while(frame_array[i] != FREE)
     {
@@ -79,6 +83,7 @@ uint32_t* get_free_frame()
     }
 
     frame_array[i] = ALLOCATED;
+    // i++;
 
     //Returns address of new page relative to base address
     return base_addr + (PAGE_SIZE*i);

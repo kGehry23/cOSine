@@ -36,6 +36,9 @@
  */
 uint32_t* allocate_frame(void);
 
+
+void available_memory(void);
+
 /*!
  * @brief Frees a frame which has been allocated
  * @return None

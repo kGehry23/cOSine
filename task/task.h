@@ -39,17 +39,16 @@ typedef struct
 }task_control_block;
 
 //Pointer to task control block of currently running task
-extern task_control_block* current_task;
+// extern task_control_block* current_task;
 
 //Struct defining the contents of a task's registers
 typedef struct
 {
     uint32_t eax, ebx, ecx, edx, esi, edi, esp, ebp, eip, eflags, cr3;
-    // uint32_t edi, esi, ebx, ebp, eip;
 }Regs;
 
 //Struct defining a task 
-typedef struct
+typedef struct task
 {
     Regs registers;
     struct task *next_task;
@@ -81,4 +80,12 @@ void create_new_task(task* new_task, void (*main)(), uint32_t eflags, uint32_t* 
  * @brief Switches the currently running task to a new task 
  * @param task Task to switch to
  */
-extern void switch_state(Regs *old_regs, Regs *new_regs);
+void switch_state(Regs *old_regs, Regs *new_regs);
+
+/*!
+ * @brief Switches the currently running task to a new task 
+ * @param task Task to switch to
+ */
+uint32_t get_eflags(void);
+
+uint32_t get_esp(void);

@@ -13,6 +13,7 @@
  * INCLUDES
  ************************************/
 #include "keyboard.h"
+#include "../../../libc/string/string.h"
 
 /*!
  * @brief Returns the last character read from the keyboard

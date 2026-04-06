@@ -24,31 +24,20 @@ extern uint8_t i;
  */
 char get_last_char()
 {
-    return input_array[i-1];;
+    return input_array[i-1];
 }
 
 /*!
- * @brief Returns the last character read from the keyboard
- * @return The last read character
+ * @brief Checks if a user's input matches a specified string
+ * @return A boolean indicating if the inputs match
  */
 bool check_input(const char* input_str)
 {
-    uint8_t counter = 0;
-    uint8_t j = 0;
+    int comp;
+    comp = memcmp(input_str, input_array, strlen(input_str));
 
-    while(input_str[j] != '\0')
-    {
-        if(input_str[j] == input_array[j])
-        {
-            counter++;
-        }
-        j++;
-    }
-
+    //Reset input character buffer index
     i = 0;
 
-    if(counter == j)
-        return true;
-    else
-        return false; 
+    return (comp == 0 ? true:false);
 }

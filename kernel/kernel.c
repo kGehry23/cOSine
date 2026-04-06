@@ -26,6 +26,7 @@
 #include "../drivers/disk/FAT/fat32.h"
 #include "../drivers/ps2/keyboard/keyboard.h"
 #include "../drivers/ps2/mouse/mouse.h"
+#include "../drivers/pit/pit.h"
 
 #include "../memory/frame_allocator.h"
 #include "../memory/paging/pager.h"
@@ -33,16 +34,32 @@
 
 #include "../task/task.h"
 
+
+/************************************
+ * STATIC AND GLOBAL VARIABLES
+ ************************************/
+
 //Address of end of kernel memory 
 extern uint32_t endkernel;
 
-void test1(void)
+task t1;
+task t2;
+task main_task;
+
+
+/************************************
+ * FUNCTION DEFINITIONS
+ ************************************/
+
+static void test1(void)
 {
     printf("Test 1 ");
+    switch_state(&t1.registers, &t2.registers);
 }
-void test2(void)
+static void test2(void)
 {
     printf("Test 2 ");
+    switch_state(&t1.registers, &main_task.registers);
 }
 
 /*!
@@ -55,11 +72,12 @@ void kernel(void)
     init_paging();
 
     terminal_initialize();
-    printf("Booted into cOSine\n");
 
     //Remap PIC
     PIC_remap();
     printf("PIC remapped.\n\n");
+
+    available_memory();
 
     //Initialize the ata drive
     ata_init();
@@ -67,12 +85,17 @@ void kernel(void)
     // printf("FAT Size: %d\n", get_fat_size());
     // printf("First data sector number: %d\n\n", get_first_data_sec_num());
 
-    //Masks all interrupts except for the keyboard and mouse
+
+    //Configure PIT
+    // printf("Current count value: %d\n", read_count_value());
+    // reload_count(0);
+
+    //Masks all interrupts except for the keyboard and pit
     outb(PIC_MASTER_DATA,0xfd);
 
     /*1110 1111 -> irq 12 is the mouse*/ 
     outb(PIC_SLAVE_DATA,0xff);
-
+    
     //Initializes the GDT
     init_GDT();
     printf("GDT initialization complete.\n\n");
@@ -92,22 +115,14 @@ void kernel(void)
     init_ps2_controller();
 
     //Set interrupt flag (enables interrupts) 
-    __asm__ volatile ("sti"); 
+    __asm__ volatile ("sti");
 
-    task main_task;
-    task shell;
-    task t1;
-    task t2;
-    // create_new_task(&main_task, test1, 0, get_cr3());
-    create_new_task(&shell, shell_init, 0, get_cr3());
-    switch_state(&main_task.registers, &shell.registers);
-    
-    create_new_task(&t1, test1, 0, get_cr3());
-    switch_state(&t2.registers, &t1.registers);
-    
+    // set_channel_mode();
 
-    // for(;;) {
-    //     asm("hlt");
-    // }
+    shell_init();
+
+    for(;;) {
+        asm("hlt");
+    }
 }
 

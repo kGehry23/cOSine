@@ -71,23 +71,25 @@ void init_paging()
     set_cr0(0x80000000);
 }
 
-static uint32_t get_pte(uint32_t pde, uint32_t linear_address)
-{
-    /*Extracts bits 21-12 of the linear address address shifted down to
-      positions 11-2. This is or'd with bits 31-12 of the linear pde to 
-      extract the address of the correct page table entry
-    */
+//The below translations are managed by the MMU. These translations are therefore not done in software.
 
-    return pde | ((linear_address >> 10) & 0xFFA);
-}
+// static uint32_t get_pte(uint32_t pde, uint32_t linear_address)
+// {
+//     /*Extracts bits 21-12 of the linear address address shifted down to
+//       positions 11-2. This is or'd with bits 31-12 of the linear pde to 
+//       extract the address of the correct page table entry
+//     */
 
-uint32_t get_physical_addr(uint32_t pte, uint32_t linear_address)
-{
-    /*Retains bits 11-0 from the original linear address, to offset into 
-      the page table endtry provided
-    */
-    return pte | (linear_address & 0xFFF);
-}
+//     return pde | ((linear_address >> 10) & 0xFFA);
+// }
+
+// uint32_t get_physical_addr(uint32_t pte, uint32_t linear_address)
+// {
+//     /*Retains bits 11-0 from the original linear address, to offset into 
+//       the page table endtry provided
+//     */
+//     return pte | (linear_address & 0xFFF);
+// }
 
 
 
