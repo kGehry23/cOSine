@@ -14,6 +14,12 @@
 #define ATA_H
 
 /************************************
+ * INCLUDES
+ ************************************/
+#include "../../../libc/stdio/stdio.h"
+#include "../../../io/io.h"
+
+/************************************
  * DEFINES
  ************************************/
 
@@ -24,21 +30,19 @@
 #define LBALO                       0x1F3
 #define LBAMID                      0x1F4
 #define LBAHI                       0x1F5
+#define SECTOR_DATA_PORT            0x1F0
 
 //Command bytes
 #define SELECT_PRIMARY              0xA0
 #define IDENTIFY                    0xEC
 #define CACHE_FLUSH                 0xE7
+#define READ_SECTORS                0x20
+#define WRITE_SECTORS               0x30
 
 //Status port bits
 #define DRQ_BIT                     3
 #define BSY_BIT                     7
 
-/************************************
- * INCLUDES
- ************************************/
-#include "../../../libc/stdio/stdio.h"
-#include "../../../io/io.h"
 
 /*!
  * @brief Initializes an ATA drive
@@ -64,13 +68,13 @@ void flush_cache(void);
  * @brief Reads a sector from disk.
  * @return None
  */
-void read_sector(void);
+void read_sector(uint32_t lba);
 
 /*!
  * @brief Writes a sector to disk.
  * @return None
  */
-void write_sector(void);
+void write_sector(uint32_t lba);
 
 
 #endif //ATA_H

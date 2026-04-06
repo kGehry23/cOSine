@@ -15,10 +15,19 @@
  ************************************/
 #include "ata.h"
 
+//Disk data array
+uint16_t arr[256];
+
 //Sets up the ATA drive for transfer 
 void ata_init(void)
 {
     identify_ata(DRIVE_SELECT_PRIMARY_ATA, SELECT_PRIMARY);
+}
+
+//Flushes the ATA cache
+void flush_cache(void)
+{
+    outb(COMMAND_IO, CACHE_FLUSH);
 }
 
 void identify_ata(uint16_t device_select_port, uint16_t device_select_byte)
@@ -69,8 +78,64 @@ void identify_ata(uint16_t device_select_port, uint16_t device_select_byte)
 
 }
 
-//Flushes the ATA cache
-void flush_cache(void)
+void read_sector(uint32_t lba)
 {
-    outb(COMMAND_IO, CACHE_FLUSH);
+    uint8_t status_port_data;
+
+    outb(DRIVE_SELECT_PRIMARY_ATA, 0xE0 | ((lba >> 24) & 0x0F));
+    outb(SECTOR_COUNT, 0);
+    outb(LBALO, lba&0xFF);
+    outb(LBAMID, (lba>>8)&0xFF);
+    outb(LBAHI, (lba>>16)&0xFF);
+
+    outb(COMMAND_IO, READ_SECTORS);
+
+    status_port_data = inb(COMMAND_IO);
+    while((((status_port_data>>DRQ_BIT)&0x1) != 1) && (((inb(COMMAND_IO)>>BSY_BIT)&0x1) != 0))
+    {
+        status_port_data = inb(COMMAND_IO);
+    }
+
+    for(int i = 0; i < 256; i++)
+        arr[i] = inb(SECTOR_DATA_PORT);
+
+    for(int i = 0; i < 256; i++)
+        printf("%d ", arr[i]);
+
+    printf("\n");
+
+    for(int i = 0; i < 10000000; i++)
+        continue;
 }
+
+void write_sector(uint32_t lba)
+{
+    uint8_t status_port_data;
+
+    outb(DRIVE_SELECT_PRIMARY_ATA, 0xE0 | ((lba >> 24) & 0x0F));
+    outb(SECTOR_COUNT, 0);
+    outb(LBALO, lba);
+    outb(LBAMID, (lba>>8));
+    outb(LBAHI, (lba>>16));
+
+    outb(COMMAND_IO, WRITE_SECTORS);
+
+    status_port_data = inb(COMMAND_IO);
+    while((((status_port_data>>DRQ_BIT)&0x1) != 1) && (((inb(COMMAND_IO)>>BSY_BIT)&0x1) != 0))
+    {
+        status_port_data = inb(COMMAND_IO);
+    }
+
+    for(int i = 0; i < 256; i++)
+    {
+        outb(SECTOR_DATA_PORT, 12);
+
+        for(int j = 0; j < 1000000; j++)
+            continue;
+
+        flush_cache();
+    }
+
+    printf("\n");
+}
+

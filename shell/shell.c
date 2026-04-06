@@ -15,6 +15,7 @@
 #include "../libc/stdio/stdio.h"
 #include "../kernel/tty/terminal.h"
 #include "../drivers/ps2/keyboard/keyboard_api.h"
+#include "../drivers/disk/ata/ata.h"
 #include "shell.h"
 #include "../cpu/scheduling/scheduler.h"
 
@@ -156,6 +157,12 @@ static void exec_command(void)
 
     else if(check_input("fcfs") == true)
         fcfs_example();
+
+    else if(check_input("readsec") == true )
+        read_sector(0);
+
+    else if(check_input("writesec") == true )
+        write_sector(0);
 
     else if (!check_input("\n"))
         printf("Command not found.\n");
