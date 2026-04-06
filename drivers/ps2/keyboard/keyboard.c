@@ -71,7 +71,6 @@ void handle_key_press()
             {
                 input_array[i] = key_codes[reg_contents];
                 i++;
-                //return key_codes[reg_contents];
                 printf("%c", key_codes[reg_contents]);
             }
                 

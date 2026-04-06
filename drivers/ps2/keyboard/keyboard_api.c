@@ -15,8 +15,8 @@
 #include "keyboard_api.h"
 
 //Keyboard driver variables
-extern char input_array[128];
 extern uint8_t i;
+extern char input_array[128];
 
 /*!
  * @brief Returns the last character read from the keyboard
@@ -25,6 +25,19 @@ extern uint8_t i;
 char get_last_char()
 {
     return input_array[i-1];
+}
+
+//Gets subset of input character buffer
+void get_subset(uint8_t start_index)
+{
+    while(input_array[start_index])
+    {
+        printf("%c", input_array[start_index]);
+        start_index++;
+    }
+
+    //Clear populated indices of input array
+    memset(input_array, 0, start_index);
 }
 
 /*!

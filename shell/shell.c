@@ -60,8 +60,14 @@ static void display_command_list(void)
 
 static void echo(void)
 {
+    int i = strlen("echo ");
+    get_subset(i);
+}
+
+static void task_func(void)
+{
     static int tsk_num = 1;
-    printf("Task %d\n", tsk_num);
+    printf("Task %d, TID: %d\n", tsk_num, current_task->tid);
     ++tsk_num;
     switch_state(&current_task->registers, &current_task->next_task->registers);
 }
@@ -78,13 +84,13 @@ static void fcfs_example()
     task t3;
     task t4;
 
-    create_new_task(&t1, echo, get_eflags(), get_cr3());
+    create_new_task(&t1, task_func, get_eflags(), get_cr3());
     t1.next_task = &t2;
-    create_new_task(&t2, echo, get_eflags(), get_cr3());
+    create_new_task(&t2, task_func, get_eflags(), get_cr3());
     t2.next_task = &t3;
-    create_new_task(&t3, echo, get_eflags(), get_cr3());
+    create_new_task(&t3, task_func, get_eflags(), get_cr3());
     t3.next_task = &t4;
-    create_new_task(&t4, echo, get_eflags(), get_cr3());
+    create_new_task(&t4, task_func, get_eflags(), get_cr3());
 
     task task_queue[4] = {t1, t2, t3, t4};
 

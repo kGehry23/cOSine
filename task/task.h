@@ -50,19 +50,10 @@ typedef struct
 //Struct defining a task 
 typedef struct task
 {
+    uint32_t tid;
     Regs registers;
     struct task *next_task;
 }task;
-
-/*!
- * @brief Struct which represents a task 
- * @param task Pointer to a task control block
- * @param cr3_reg Contents of the CR3 register
- * @param sp    Contents of the ESP register (stack pointer)
- * @param task_state State of the task
- * @param task_identifier   Unique identifier
- */
-void init_task(task_control_block* task, void* cr3_reg, void* sp, uint8_t task_state);
 
 
 /*!
@@ -74,7 +65,6 @@ void init_task(task_control_block* task, void* cr3_reg, void* sp, uint8_t task_s
  * @return None
  */
 void create_new_task(task* new_task, void (*main)(), uint32_t eflags, uint32_t* virt_addr_space);
-
 
 /*!
  * @brief Switches the currently running task to a new task 

@@ -13,23 +13,11 @@
  ************************************/
 #include "task.h"
 
-//Initializes a task control block
-void init_task(task_control_block* task, void* cr3_reg, void* sp, uint8_t task_state)
-{
-    //Unique identifier for a task
-    static uint32_t task_identifier = 0;
-
-    task->cr3 = cr3_reg;
-    task->esp = sp;
-    task->state = task_state;
-    task->tid = task_identifier;
-
-    task_identifier++;
-}
-
 //Cerates a new task and allocates appropriate memory to the task
 void create_new_task(task* new_task, void (*func)(), uint32_t eflags, uint32_t* virt_addr_space)
 {
+    static uint32_t task_identifier = 0;
+
     new_task->registers.eax = 0;
     new_task->registers.ebp = 0;
     new_task->registers.ebx = 0;
@@ -45,5 +33,6 @@ void create_new_task(task* new_task, void (*func)(), uint32_t eflags, uint32_t* 
     uint32_t* frame = allocate_frame();
     new_task->registers.esp = (uint32_t)frame + PAGE_SIZE; //Begin stack at bottom of allocated frame, work way up
 
+    new_task->tid = task_identifier++;
     new_task->next_task = 0;
 }
