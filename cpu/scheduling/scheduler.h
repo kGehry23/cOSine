@@ -18,6 +18,11 @@
 ************************************/
 #include "../../task/task.h"
 
+
+/************************************
+* FUNCTION PROTOTYPES
+************************************/
+
 /*!
  * @brief Performs first come first served scheduling
  * @param task_queue Queue of tasks to schedule 
@@ -33,6 +38,6 @@ void fcfs_sched(task *task_queue, int num_tasks);
  * @param time_quantum Time slice for each task
  * @return None
  */
-void rr_sched(task *task_queue, int num_tasks);
+void rr_sched(task *task_queue, int num_tasks, uint32_t time_quantum);
 
 #endif //SCHEDULER_H

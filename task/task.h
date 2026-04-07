@@ -8,6 +8,9 @@
  ********************************************************************************
  */
 
+#ifndef TASK_H
+#define TASK_H
+
 /************************************
  * INCLUDES
  ************************************/
@@ -15,6 +18,11 @@
 #include "../libc/stdio/stdio.h"
 #include "../memory/paging/pager.h"
 #include "../memory/frame_allocator.h"
+
+
+/************************************
+ * TYPEDEFS
+ ************************************/
 
 /*!
  * @brief Enumeration representing task states
@@ -26,26 +34,13 @@ typedef enum
     WAITING
 }task_states;
 
-/*!
- * @brief Struct which represents a task 
- */
-typedef struct
-{
-    void* esp; //Stack pointer
-    void* esp0;
-    void* cr3; //Contents of CR3 register
-    uint8_t state; //Task state
-    uint32_t tid;   //Task identifier
-}task_control_block;
-
-//Pointer to task control block of currently running task
-// extern task_control_block* current_task;
 
 //Struct defining the contents of a task's registers
 typedef struct
 {
     uint32_t eax, ebx, ecx, edx, esi, edi, esp, ebp, eip, eflags, cr3;
 }Regs;
+
 
 //Struct defining a task 
 typedef struct task
@@ -55,6 +50,10 @@ typedef struct task
     struct task *next_task;
 }task;
 
+
+/************************************
+ * FUNCTION PROTOTYPES
+ ************************************/
 
 /*!
  * @brief Creates a new tasks
@@ -73,9 +72,16 @@ void create_new_task(task* new_task, void (*main)(), uint32_t eflags, uint32_t* 
 void switch_state(Regs *old_regs, Regs *new_regs);
 
 /*!
- * @brief Switches the currently running task to a new task 
- * @param task Task to switch to
+ * @brief Get the contents of the eflags register
+ * @return Contents of the eflags register
  */
 uint32_t get_eflags(void);
 
+/*!
+ * @brief Get the contents of the stack pointer register
+ * @return Contents of the esp register
+ */
 uint32_t get_esp(void);
+
+
+#endif //TASK_H

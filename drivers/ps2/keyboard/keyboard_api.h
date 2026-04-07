@@ -9,11 +9,19 @@
  ********************************************************************************
 */
 
+#ifndef KEYBOARD_API_H
+#define KEYBOARD_API_H
+
 /************************************
  * INCLUDES
  ************************************/
 #include "keyboard.h"
 #include "../../../libc/string/string.h"
+
+
+/************************************
+ * FUNCTION PROTOTYPES
+ ************************************/
 
 /*!
  * @brief Returns the last character read from the keyboard
@@ -33,3 +41,6 @@ void get_subset(uint8_t start_index);
  * @return The last read character
  */
 bool check_input(const char* input_str);
+
+
+#endif //KEYBOARD_API_H

@@ -14,9 +14,19 @@
  ************************************/
 #include "keyboard_api.h"
 
+
+/************************************
+ * GLOBAL AND STATIC VARIABLES
+ ************************************/
+
 //Keyboard driver variables
 extern uint8_t i;
 extern char input_array[128];
+
+
+/************************************
+ * FUNCTION DEFINITIONS
+ ************************************/
 
 /*!
  * @brief Returns the last character read from the keyboard

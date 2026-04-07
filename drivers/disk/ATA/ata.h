@@ -26,7 +26,7 @@
  ************************************/
 
 //Ports
-#define DRIVE_SELECT_PRIMARY_ATA    0x1F6
+#define DRIVE_SELECT_PRIMARY        0x1F6
 #define COMMAND_IO                  0x1F7
 #define SECTOR_COUNT                0x1F2
 #define FEATURES                    0x1F1
@@ -45,6 +45,9 @@
 //Status port bits
 #define DRQ_BIT                     3
 #define BSY_BIT                     7
+
+//Number of 16 bit entries in a sector (total 512 bytes)
+#define SIXTEEN_BIT_ELEMENTS        256
 
 
 /************************************

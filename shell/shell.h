@@ -15,6 +15,11 @@
 #include <stdbool.h>
 #include "../io/io.h"
 
+
+/************************************
+ * FUNCTION PROTOTYPES
+ ************************************/
+
 /*!
  * @brief Initializes and starts cOSh
  * @return None

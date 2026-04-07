@@ -19,10 +19,16 @@
 #include "../libc/stdio/stdio.h"
 #include "../pic/pic.h"
 
+
 /************************************
- * DEFINES
+ * MACROS
  ************************************/
 #define IDT_MAX_DESCRIPTORS 256
+
+
+/************************************
+ * STATIC AND GLOBAL VARIABLES
+ ************************************/
 
 //Interrupt descriptor table. Contains 256 entries
 __attribute__((aligned(0x10)))
@@ -36,6 +42,11 @@ static bool vectors[IDT_MAX_DESCRIPTORS];
 //isr stub table defined in idt.asm
 extern void* isr_stub_table[];
 void *irq_functions[16];
+
+
+/************************************
+ * FUNCTION DEFINITIONS
+ ************************************/
 
 /*!
  * @brief Generic exception handler

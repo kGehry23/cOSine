@@ -28,9 +28,9 @@
 //Buffer for previously entered commands
 static char* cmd_arr[128];
 
+task shell;
 static task t1;
 static task t2;
-task shell;
 extern task* current_task;
 
 static const char *shell_prompt = "cOSh:$ ";
@@ -46,9 +46,43 @@ static const char* man_string = "\n\tSupported commands:\n\n"
                     "\twritesec - Write to ATA disk sector.\n"
                     "\n";
 
+
+/************************************
+ * FUNCTION PROTOTYPES
+ ************************************/
+static void exec_command(void);
+static void display_command_list(void);
+static void echo(void);
+static void fcfs_example(void);
+static void task_func(void);
+static void task_test_2(void);
+static void task_test(void);
+static void task_example(void);
+
+
 /************************************
  * FUNCTION DEFINITIONS
  ************************************/
+
+ /*!
+ * @brief Initializes and starts cOSh
+ * @return None
+ */
+void shell_init()
+{
+    //Clears the terminal 
+    terminal_initialize();
+    printf("cOSh:$ ");
+
+    while(1)
+    {
+        if(get_last_char() == '\n')
+        {
+            exec_command();
+            printf("%s", shell_prompt);
+        } 
+    }
+}
                    
 /*!
  * @brief Displays the command list
@@ -79,7 +113,7 @@ static void task_func(void)
  * @return None
  */
 
-static void fcfs_example()
+static void fcfs_example(void)
 {
     task t1;
     task t2;
@@ -172,10 +206,10 @@ static void exec_command(void)
 
     else if(check_input("readsec") == true )
     {
-        uint16_t buf[256];
+        uint16_t buf[SIXTEEN_BIT_ELEMENTS];
         read_sector(8, buf);
 
-        for(int i = 0; i< 256;i++)
+        for(int i = 0; i< SIXTEEN_BIT_ELEMENTS;i++)
             printf("%c ", buf[i]);
 
         printf("\n");
@@ -183,9 +217,9 @@ static void exec_command(void)
 
     else if(check_input("writesec") == true )
     {
-        uint16_t buf[256];
+        uint16_t buf[SIXTEEN_BIT_ELEMENTS];
 
-        for(int i = 0; i< 256;i++)
+        for(int i = 0; i< SIXTEEN_BIT_ELEMENTS;i++)
             buf[i] = 'T';
 
         write_sector(8, buf);
@@ -195,22 +229,4 @@ static void exec_command(void)
         printf("Command not found.\n");
 }
 
-/*!
- * @brief Initializes and starts cOSh
- * @return None
- */
-void shell_init()
-{
-    //Clears the terminal 
-    terminal_initialize();
-    printf("cOSh:$ ");
 
-    while(1)
-    {
-        if(get_last_char() == '\n')
-        {
-            exec_command();
-            printf("%s", shell_prompt);
-        } 
-    }
-}

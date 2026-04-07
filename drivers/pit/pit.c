@@ -14,7 +14,16 @@
  ************************************/
 #include "pit.h"
 
-uint32_t test_val = 0;
+
+/************************************
+ * GLOBAL AND STATIC VARIABLES
+ ************************************/
+volatile uint32_t test_val = 0; //Declared volatile as modified from within ISR
+
+
+/************************************
+ * GLOBAL AND STATIC VARIABLES
+ ************************************/
 
 //Configures the PIT
 void set_channel_mode(void)
@@ -23,7 +32,7 @@ void set_channel_mode(void)
     outb(COMMAND_MODE_REG, 0x36);
 }
 
-
+//Reloads the PIT counter value
 void reload_count(uint16_t count_val)
 {
     outb(CHANNEL_0_DATA, count_val&0xFF);
@@ -47,7 +56,7 @@ uint16_t read_count_value(void)
     return res;
 }
 
-
+//Provides a delay for a specified number of miliseconds
 void sleep(uint32_t miliseconds)
 {
     test_val = 18.2065*((float)miliseconds/1000);
@@ -56,9 +65,11 @@ void sleep(uint32_t miliseconds)
     {
 
     }
+
+    test_val = 0;
 }
 
-
+//IRQ0 handleer (PIT)
 void timer_handler(void)
 {    
     if(test_val > 0)

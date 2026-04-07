@@ -23,7 +23,7 @@
 
 
 /************************************
- * DEFINES
+ * MACROS
  ************************************/
 #define CHANNEL_0_DATA      0x40
 #define CHANNEL_1_DATA      0x41
@@ -31,19 +31,41 @@
 #define COMMAND_MODE_REG    0x43
 
 
+/************************************
+ * FUNCTION PROTOTYPES
+ ************************************/
+
 /*!
  * @brief Sets the PIT channel mode
  * @return None
  */
 void set_channel_mode(void);
 
+/*!
+ * @brief Reloads the count value
+ * @param count_val Count value
+ * @return None
+ */
 void reload_count(uint16_t count_val);
 
+/*!
+ * @brief Reads the value of the count
+ * @return 16 bit counter value
+ */
 uint16_t read_count_value(void);
 
+/*!
+ * @brief IRQ0 handler for timer interrupt
+ * @return None
+ */
 void timer_handler(void);
 
-void sleep(uint32_t secs);
+/*!
+ * @brief Provides a delay given a number of milliseconds.
+ * @param milliseconds Time to delay in miliseconds
+ * @return None
+ */
+void sleep(uint32_t miliseconds);
 
 #endif //PIT_H
 

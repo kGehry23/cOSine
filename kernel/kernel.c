@@ -64,14 +64,14 @@ void kernel(void)
     //Initialize terminal
     terminal_initialize();
 
-    printf("Booted into cOSine\n\n");
+    printf(" ******** Booted into cOSine ********\n\n");
 
     //Remap PIC
     PIC_remap();
     printf("PIC remapped.\n\n");
 
-    //Masks all interrupts except for the keyboard and pit
-    outb(PIC_MASTER_DATA,0xfc);
+    //Masks all interrupts except pit
+    outb(PIC_MASTER_DATA,0xfe);
 
     /*1110 1111 -> irq 12 is the mouse*/ 
     outb(PIC_SLAVE_DATA,0xff);
@@ -91,20 +91,25 @@ void kernel(void)
     set_channel_mode();
     reload_count(0);
 
-    //Setup IRQ1 and initialize PIT
+    //Setup IRQ1 and initialize keyboard
     void (*keyboard_handle)() = handle_key_press;
     set_irq_handler(keyboard_handle,2);
+
+    //Set interrupt flag (enables interrupts) 
+    __asm__ volatile ("sti");
 
     //PS/2 initialization 
     printf("Initializing PS/2 Controller...\n");
     init_ps2_controller();
 
+    //Select and initialize ATA drive
     ata_init();
 
-    //Set interrupt flag (enables interrupts) 
-    __asm__ volatile ("sti");
+    //Sleep for 2 seconds before starting shell
+    sleep(2000);
 
-
+    //Unmask keyboard interrupt
+    outb(PIC_MASTER_DATA,0xfc);
     shell_init();
 
     for(;;) {

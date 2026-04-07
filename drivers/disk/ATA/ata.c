@@ -5,7 +5,7 @@
  * @author  Kai Gehry
  * @date    2026-03-15
  *
- * @brief   ATA disk driver.
+ * @brief   ATA disk driver. Uses PIO with 28 bit addressing.
  *     
  ********************************************************************************
  */
@@ -32,13 +32,13 @@ static void identify_ata(uint16_t device_select_port, uint16_t device_select_byt
 //Sets up the ATA drive for transfer 
 void ata_init(void)
 {
-    identify_ata(DRIVE_SELECT_PRIMARY_ATA, SELECT_PRIMARY);
+    identify_ata(DRIVE_SELECT_PRIMARY, SELECT_PRIMARY);
 }
 
 //Reads the contents of a disk sector
 void read_sector(uint32_t lba, uint16_t* data_array)
 {
-    outb(DRIVE_SELECT_PRIMARY_ATA, 0xE0 | ((lba & 0x0F000000) >> 24));
+    outb(DRIVE_SELECT_PRIMARY, 0xE0 | ((lba & 0x0F000000) >> 24));
     outb(FEATURES, 0x00);
     outb(SECTOR_COUNT, 0x01);
     outb(LBALO, (unsigned char)lba);
@@ -49,14 +49,14 @@ void read_sector(uint32_t lba, uint16_t* data_array)
 
     poll_status_port();
 
-    for(int i = 0; i < 256; i++)
+    for(int i = 0; i < SIXTEEN_BIT_ELEMENTS; i++)
         data_array[i] = inw(SECTOR_DATA_PORT);
 }
 
 //Writes to a disk sector
 void write_sector(uint32_t lba, uint16_t* data_array)
 {
-    outb(DRIVE_SELECT_PRIMARY_ATA, 0xE0 | ((lba & 0x0F000000) >> 24));
+    outb(DRIVE_SELECT_PRIMARY, 0xE0 | ((lba & 0x0F000000) >> 24));
     outb(FEATURES, 0x00);
     outb(SECTOR_COUNT, 0x01);
     outb(LBALO, (unsigned char)lba);
@@ -67,7 +67,7 @@ void write_sector(uint32_t lba, uint16_t* data_array)
 
     poll_status_port();
 
-    for(int i = 0; i < 256; i++)
+    for(int i = 0; i < SIXTEEN_BIT_ELEMENTS; i++)
     {
         outw(SECTOR_DATA_PORT, data_array[i]);
         flush_cache();

@@ -11,13 +11,18 @@
  ********************************************************************************
  */
 
+#ifndef IDT_H
+#define IDT_H
+
 /************************************
  * INCLUDES
  ************************************/
 #include <stdint.h>
 
-#ifndef IDT_H
-#define IDT_H
+
+/************************************
+ * TYPEDEFS
+ ************************************/
 
 /*
     Struct representing a gate descriptor
@@ -40,6 +45,10 @@ typedef struct
     uint32_t base;  
 }__attribute__((packed)) idtr_t;
 
+
+/************************************
+ * FUNCTION PROTOTYPES
+ ************************************/
 
 /*!
  * @brief Generic exception handler
@@ -70,6 +79,7 @@ void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags);
 void idt_init(void);
 
 void setIDT(unsigned int limit, unsigned int base);
+
 
 #endif //IDT_H
 

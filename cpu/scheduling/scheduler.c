@@ -45,7 +45,7 @@ void fcfs_sched(task *task_queue, int num_tasks)
 }
 
 //Performs round robin scheduling
-void rr_sched(task *task_queue, int num_tasks)
+void rr_sched(task *task_queue, int num_tasks, uint32_t time_quantum)
 {
 
 }

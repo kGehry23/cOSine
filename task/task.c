@@ -13,6 +13,11 @@
  ************************************/
 #include "task.h"
 
+
+/************************************
+ * FUNCTION DEFINITIONS
+ ************************************/
+
 //Cerates a new task and allocates appropriate memory to the task
 void create_new_task(task* new_task, void (*func)(), uint32_t eflags, uint32_t* virt_addr_space)
 {
