@@ -74,7 +74,6 @@ void write_sector(uint32_t lba, uint16_t* data_array)
     }
 }
 
-
 /*!
  * @brief Flushes the ATA cache
  * @return None
@@ -146,17 +145,13 @@ static void identify_ata(uint16_t device_select_port, uint16_t device_select_byt
         //Poll until the BSY bit is 0
         status_port_data = (inb(COMMAND_IO)>>BSY_BIT)&0x1;
         while(status_port_data != 0)
-        {
             status_port_data = (inb(COMMAND_IO)>>BSY_BIT)&0x1;
-        }
 
         //Check if the LBAMID and LBAHI ports are 0 to determine if the drive is ATA
         if((inb(LBAMID) == 0) && inb(LBAHI) == 0)
             printf("The drive is ATA.\n");
 
-        status_port_data = inb(COMMAND_IO);
-        while((((status_port_data>>DRQ_BIT)&0x1) != 1) && (((status_port_data)&0x1) != 0))
-            status_port_data = inb(COMMAND_IO);
+        poll_status_port();
 
         //Check to make sure the error bit (bit 0) of the status port is cleared
         if((status_port_data&0x1) == 0)

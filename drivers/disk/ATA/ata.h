@@ -20,8 +20,9 @@
 #include "../../../io/io.h"
 #include "../../pit/pit.h"
 
+
 /************************************
- * DEFINES
+ * MACROS
  ************************************/
 
 //Ports
@@ -45,6 +46,10 @@
 #define DRQ_BIT                     3
 #define BSY_BIT                     7
 
+
+/************************************
+ * FUNCTION PROTOTYPES
+ ************************************/
 
 /*!
  * @brief Initializes an ATA drive

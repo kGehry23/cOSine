@@ -22,7 +22,7 @@ global _inw
 ; [esp + 4] : first argument passed to externally called outb
 ;             Stack pointer + 4 bytes
 
-;writes data to a specified port
+;writes a byte to a specified port
 _outb:
     mov al, [esp + 8]   ;move the data to be sent into the al register
     mov dx, [esp + 4]   ;move the port address to be sent to into the dx register
@@ -35,13 +35,16 @@ _inb:
     in al, dx           ;move data from port specified in dx into al
     ret
 
-_inw:
-    mov dx, [esp + 4]
-    in ax, dx
-    ret
-
+;writes a short (16 bits) to a specified port
 _outw:
     mov ax, [esp + 8]  
     mov dx, [esp + 4]   
     out dx, ax          
     ret
+
+;returns a short (16 bits) from a specific port
+_inw:
+    mov dx, [esp + 4]
+    in ax, dx
+    ret
+
