@@ -135,7 +135,7 @@ static void task_example(void)
     create_new_task(&t2, task_test_2, get_eflags(), get_cr3());
     t1.registers.eip = (uint32_t)task_test;
     t2.registers.eip = (uint32_t)task_test_2;
-    
+
     switch_state(&shell.registers, &t1.registers);  
 }
 
@@ -171,10 +171,25 @@ static void exec_command(void)
         fcfs_example();
 
     else if(check_input("readsec") == true )
-        read_sector(0);
+    {
+        uint16_t buf[256];
+        read_sector(8, buf);
+
+        for(int i = 0; i< 256;i++)
+            printf("%c ", buf[i]);
+
+        printf("\n");
+    }
 
     else if(check_input("writesec") == true )
-        write_sector(0);
+    {
+        uint16_t buf[256];
+
+        for(int i = 0; i< 256;i++)
+            buf[i] = 'T';
+
+        write_sector(8, buf);
+    }
 
     else if (!check_input("\n"))
         printf("Command not found.\n");

@@ -13,6 +13,8 @@
 
 global _outb
 global _inb
+global _outw
+global _inw
 
 ; [esp + 8] : second argument passed to externally called outb          
 ;             Stack pointer + 8 bytes
@@ -31,4 +33,15 @@ _outb:
 _inb:
     mov dx, [esp + 4]   ;move port address into dx register
     in al, dx           ;move data from port specified in dx into al
+    ret
+
+_inw:
+    mov dx, [esp + 4]
+    in ax, dx
+    ret
+
+_outw:
+    mov ax, [esp + 8]  
+    mov dx, [esp + 4]   
+    out dx, ax          
     ret

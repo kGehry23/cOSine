@@ -9,5 +9,6 @@
 #  */
 
 #Boots into vm
-eval "make clean;make -j 20"
-eval "qemu-system-i386 -kernel kernel.elf -monitor stdio -drive file=fat:rw:file_system,format=raw,media=disk"
+eval "make clean;make"
+# eval "qemu-system-i386 -kernel kernel.elf -monitor stdio -drive file=fat:rw:file_system,format=raw,media=disk"
+eval "qemu-system-i386 -kernel kernel.elf -monitor stdio -hda disk.img"

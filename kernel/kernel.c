@@ -99,8 +99,11 @@ void kernel(void)
     printf("Initializing PS/2 Controller...\n");
     init_ps2_controller();
 
+    ata_init();
+
     //Set interrupt flag (enables interrupts) 
     __asm__ volatile ("sti");
+
 
     shell_init();
 
