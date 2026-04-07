@@ -16,6 +16,7 @@
 #include "../kernel/tty/terminal.h"
 #include "../drivers/ps2/keyboard/keyboard_api.h"
 #include "../drivers/disk/ata/ata.h"
+#include "../drivers/pit/pit.h"
 #include "shell.h"
 #include "../cpu/scheduling/scheduler.h"
 
@@ -26,25 +27,24 @@
 
 //Buffer for previously entered commands
 static char* cmd_arr[128];
-static const char *shell_prompt = "cOSh:$ ";
 
 static task t1;
 static task t2;
 task shell;
 extern task* current_task;
 
-//Command list string
+static const char *shell_prompt = "cOSh:$ ";
+//Command list
 static const char* man_string = "\n\tSupported commands:\n\n"
-                   "\tmultitask - Context switch example\n"
-                   "\tls - list directory contents\n"
-                   "\tcd - change current directory\n"
-                   "\tmkdir - create new directory\n"
-                   "\ttouch - create new file\n"
-                   "\trm - delete file\n"
-                   "\tcat - display contents of file\n"
-                   "\tclear/cls - clear terminal contents\n"
-                   "\n";
-
+                    "\thelp - list of supported commands\n"
+                    "\tclear/cls - clear terminal contents\n"
+                    "\techo - Print entered text to the terminal\n"
+                    "\tsleep - Test timer interrupt. Sleep for 2 seconds.\n"
+                    "\tmultitask - Context switch example\n"
+                    "\tfcfs - First come first served scheduling example\n"
+                    "\treadsec - Read ATA disk sector.\n"
+                    "\twritesec - Write to ATA disk sector.\n"
+                    "\n";
 
 /************************************
  * FUNCTION DEFINITIONS
@@ -64,6 +64,7 @@ static void echo(void)
     int i = strlen("echo ");
     get_subset(i);
 }
+
 
 static void task_func(void)
 {
@@ -129,8 +130,12 @@ static void task_test(void)
 static void task_example(void)
 {
     printf("Test entered.\n");
+
+    create_new_task(&t1, task_test, get_eflags(), get_cr3());
+    create_new_task(&t2, task_test_2, get_eflags(), get_cr3());
     t1.registers.eip = (uint32_t)task_test;
     t2.registers.eip = (uint32_t)task_test_2;
+    
     switch_state(&shell.registers, &t1.registers);  
 }
 
@@ -140,7 +145,7 @@ static void task_example(void)
  */
 static void exec_command(void)
 {
-    if(check_input("man") == true)
+    if(check_input("help") == true)
         display_command_list();
 
     else if (check_input("clear") == true || check_input("cls") == true)
@@ -148,6 +153,13 @@ static void exec_command(void)
 
     else if(check_input("echo") == true)
         echo();
+
+    else if(check_input("sleep") == true)
+    {
+        outb(PIC_MASTER_DATA,0xfe);
+        sleep(2000);
+        outb(PIC_MASTER_DATA,0xfc);
+    }
 
     else if(check_input("multitask") == true)
     {
@@ -174,9 +186,6 @@ static void exec_command(void)
  */
 void shell_init()
 {
-    create_new_task(&t1, task_test, get_eflags(), get_cr3());
-    create_new_task(&t2, task_test_2, get_eflags(), get_cr3());
-
     //Clears the terminal 
     terminal_initialize();
     printf("cOSh:$ ");

@@ -16,7 +16,10 @@
  * INCLUDES
  ************************************/
 #include <stdint.h>
+#include <stdbool.h>
+#include "../../libc/stdio/stdio.h"
 #include "../../io/io.h"
+#include "../../pic/pic.h"
 
 
 /************************************
@@ -38,6 +41,9 @@ void reload_count(uint16_t count_val);
 
 uint16_t read_count_value(void);
 
+void timer_handler(void);
+
+void sleep(uint32_t secs);
 
 #endif //PIT_H
 

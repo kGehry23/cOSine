@@ -26,7 +26,7 @@ task* current_task;
  * FUNCTION DEFINITIONS
  ************************************/
 
-//Performs fcfs scheduling
+//Performs first come first served scheduling
 void fcfs_sched(task *task_queue, int num_tasks)
 {
     task main;
@@ -42,4 +42,10 @@ void fcfs_sched(task *task_queue, int num_tasks)
     }
 
     printf("\n");
+}
+
+//Performs round robin scheduling
+void rr_sched(task *task_queue, int num_tasks)
+{
+
 }

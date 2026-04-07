@@ -128,7 +128,9 @@ void write_sector(uint32_t lba)
 
     for(int i = 0; i < 256; i++)
     {
-        outb(SECTOR_DATA_PORT, 12);
+        uint16_t val = 12;
+        outb(SECTOR_DATA_PORT, val&0xFF);
+        outb(SECTOR_DATA_PORT, (val>>8)&0xFF);
 
         for(int j = 0; j < 1000000; j++)
             continue;

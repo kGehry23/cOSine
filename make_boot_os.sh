@@ -9,5 +9,5 @@
 #  */
 
 #Boots into vm
-eval "make clean;make -j 10"
+eval "make clean;make -j 20"
 eval "qemu-system-i386 -kernel kernel.elf -monitor stdio -drive file=fat:rw:file_system,format=raw,media=disk"

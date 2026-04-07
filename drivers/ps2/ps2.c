@@ -15,6 +15,7 @@
  * INCLUDES
  ************************************/
 #include "ps2.h"
+#include "../pit/pit.h"
 #include "../../libc/stdio/stdio.h"
 
 /*!
@@ -49,8 +50,7 @@ void init_ps2_controller()
     test_ports();
 
     enable_devices();
-    // reset_devices();
-
+    reset_devices();
 }
 
 /*!
@@ -100,7 +100,8 @@ void test_ps2_controller()
     if(test_byte == SELF_TEST_PASSED)
         printf("%p -> Test Passed.\n", test_byte);
     else
-        printf("%p -> Test Failed.\n", test_byte);    
+        printf("%p -> Test Failed.\n", test_byte); 
+        
 }
 
 /*!
@@ -124,6 +125,7 @@ void test_dual_channel()
         printf("Controller is dual channel\n");
     else
         printf("Controller is not dual channel\n");
+
 
     //Disable second channel ps2 port after test
     outb(PS2_WRITE_COMMAND_PORT, DISABLE_PS2_PORT_2);  
@@ -164,7 +166,6 @@ void enable_devices()
     outb(PS2_WRITE_COMMAND_PORT, ENABLE_PS2_PORT_2);
 
     printf("PS/2 devices on ports 1 and 2 enabled\n");
-
     //Reads the config byte
     outb(PS2_WRITE_COMMAND_PORT, READ_CONTROLLER_CONFIG_BYTE);
 
