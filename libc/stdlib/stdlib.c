@@ -15,6 +15,11 @@
 #include "stdlib.h"
 #include "../stdio/stdio.h"
 
+
+/************************************
+ * FUNCTION DEFINITIONS
+ ************************************/
+
 /*!
  * @brief Causes abnormal process termination to occur
  * @return None
@@ -34,8 +39,7 @@ void* malloc(size_t n)
 
 //Frees memory allocated on a processes' heap
 void free(void *mem_ptr)
-{
-    
+{   
 
 }
 

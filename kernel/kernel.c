@@ -38,7 +38,6 @@
 /************************************
  * STATIC AND GLOBAL VARIABLES
  ************************************/
-
 //Address of end of kernel memory 
 extern uint32_t endkernel;
 
@@ -50,7 +49,6 @@ task main_task;
 /************************************
  * FUNCTION DEFINITIONS
  ************************************/
-
 
 /*!
  * @brief Kernel

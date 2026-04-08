@@ -20,6 +20,11 @@
 #include <stddef.h>
 #include <stdint.h>
 
+
+/************************************
+ * FUNCTION PROTOTYPES
+ ************************************/
+
 /*!
  * @brief Clears the terminal window
  * @return None
@@ -56,7 +61,6 @@ void terminal_putentryat(char c, uint8_t colour, size_t x, size_t y);
  */
 void terminal_putchar(char c);
 
-
 /*!
  * @brief Writes a string of characters to the terminal
  * @param data Character array to write to the terminal
@@ -65,13 +69,11 @@ void terminal_putchar(char c);
  */
 void terminal_write(const char* data, size_t size);
 
-
 /*!
  * @brief Writes a string of characters to the terminal
  * @param data Character array to write to the terminal
  * @return None
  */
 void terminal_wrestling(const char* data);
-
 
 #endif //TERMINAL_H

@@ -17,14 +17,20 @@
 #include "string.h"
 #include "../../kernel/tty/terminal.h"
 
+
 /************************************
- * DEFINES
+ * MACROS
  ************************************/
 #define INT_BASE 10
 #define HEX_BASE 16
 #define POINTER_SIZE 8
 #define HEX_LETTER_BASE 55
 #define ASCII_TO_INT_BASE 48
+
+
+/************************************
+ * FUNCTION DEFINITIONS
+ ************************************/
 
 /*!
  * @brief Writes the pointed to string to the terminal followed by a newline
