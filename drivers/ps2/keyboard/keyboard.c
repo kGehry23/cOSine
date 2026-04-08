@@ -15,6 +15,11 @@
 #include "keyboard.h"
 #include "../../../kernel/tty/terminal.h"
 
+
+/************************************
+ * GLOBAL AND STATIC VARIABLES
+ ************************************/
+
 /*Counter to keep track of current number of characters entered
   before a newline*/
 uint8_t i = 0;
@@ -39,6 +44,11 @@ static char key_codes[] = {
     0,0,0,0,0,0,0,
     0,0,0,0,0,0,0
 };
+
+
+/************************************
+ * FUNCTION DEFINITIONS
+ ************************************/
 
 /*!
  * @brief IRQ handler for IRQ1

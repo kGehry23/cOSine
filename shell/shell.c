@@ -207,7 +207,7 @@ static void exec_command(void)
     else if(check_input("readsec") == true )
     {
         uint16_t buf[SIXTEEN_BIT_ELEMENTS];
-        read_sector(8, buf);
+        read_sector(165, buf);
 
         for(int i = 0; i< SIXTEEN_BIT_ELEMENTS;i++)
             printf("%c ", buf[i]);
@@ -222,7 +222,7 @@ static void exec_command(void)
         for(int i = 0; i< SIXTEEN_BIT_ELEMENTS;i++)
             buf[i] = 'T';
 
-        write_sector(8, buf);
+        write_sector(165, buf);
     }
 
     else if (!check_input("\n"))
