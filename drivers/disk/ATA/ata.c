@@ -38,9 +38,9 @@ void ata_init(void)
 //Reads the contents of a disk sector
 void read_sector(uint32_t lba, uint16_t* data_array)
 {
-    outb(DRIVE_SELECT_PRIMARY, 0xE0 | ((lba & 0x0F000000) >> 24));
-    outb(FEATURES, 0x00);
-    outb(SECTOR_COUNT, 0x01);
+    outb(DRIVE_SELECT_PRIMARY, MASTER | ((lba >> 24)&0x0F));
+    outb(FEATURES, NULL_BYTE);
+    outb(SECTOR_COUNT, SEC_COUNT_256);
     outb(LBALO, (unsigned char)lba);
     outb(LBAMID, ((unsigned char)lba>>8));
     outb(LBAHI, ((unsigned char)lba>>16));
@@ -49,16 +49,16 @@ void read_sector(uint32_t lba, uint16_t* data_array)
 
     poll_status_port();
 
-    for(int i = 0; i < SIXTEEN_BIT_ELEMENTS; i++)
+    for(int i = 0; i < SECTOR_WORDS; i++)
         data_array[i] = inw(SECTOR_DATA_PORT);
 }
 
 //Writes to a disk sector
 void write_sector(uint32_t lba, uint16_t* data_array)
 {
-    outb(DRIVE_SELECT_PRIMARY, 0xE0 | ((lba & 0x0F000000) >> 24));
-    outb(FEATURES, 0x00);
-    outb(SECTOR_COUNT, 0x01);
+    outb(DRIVE_SELECT_PRIMARY, MASTER | ((lba >> 24)&0x0F));
+    outb(FEATURES, NULL_BYTE);
+    outb(SECTOR_COUNT, SEC_COUNT_256);
     outb(LBALO, (unsigned char)lba);
     outb(LBAMID, ((unsigned char)lba>>8));
     outb(LBAHI, ((unsigned char)lba>>16));
@@ -67,7 +67,7 @@ void write_sector(uint32_t lba, uint16_t* data_array)
 
     poll_status_port();
 
-    for(int i = 0; i < SIXTEEN_BIT_ELEMENTS; i++)
+    for(int i = 0; i < SECTOR_WORDS; i++)
     {
         outw(SECTOR_DATA_PORT, data_array[i]);
         flush_cache();

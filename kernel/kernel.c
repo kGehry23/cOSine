@@ -62,7 +62,7 @@ void kernel(void)
     //Initialize terminal
     terminal_initialize();
 
-    printf(" ******** Booted into cOSine ********\n\n");
+    printf("******** Booted into cOSine ********\n\n");
 
     //Remap PIC
     PIC_remap();
@@ -71,7 +71,7 @@ void kernel(void)
     //Masks all interrupts except pit
     outb(PIC_MASTER_DATA,0xfe);
 
-    /*1110 1111 -> irq 12 is the mouse*/ 
+    /*1111 1111 -> irq 12 is the mouse*/ 
     outb(PIC_SLAVE_DATA,0xff);
     
     //Initializes the GDT

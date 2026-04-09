@@ -26,14 +26,14 @@
  ************************************/
 
 //Ports
-#define DRIVE_SELECT_PRIMARY        0x1F6
-#define COMMAND_IO                  0x1F7
-#define SECTOR_COUNT                0x1F2
+#define SECTOR_DATA_PORT            0x1F0
 #define FEATURES                    0x1F1
+#define SECTOR_COUNT                0x1F2
 #define LBALO                       0x1F3
 #define LBAMID                      0x1F4
 #define LBAHI                       0x1F5
-#define SECTOR_DATA_PORT            0x1F0
+#define DRIVE_SELECT_PRIMARY        0x1F6
+#define COMMAND_IO                  0x1F7
 
 //Command bytes
 #define SELECT_PRIMARY              0xA0
@@ -46,8 +46,12 @@
 #define DRQ_BIT                     3
 #define BSY_BIT                     7
 
-//Number of 16 bit entries in a sector (total 512 bytes)
-#define SIXTEEN_BIT_ELEMENTS        256
+//Data bytes
+#define SECTOR_WORDS                256
+#define SEC_COUNT_256               0x01
+#define NULL_BYTE                   0x00
+#define MASTER                      0xE0
+#define SLAVE                       0xF0
 
 
 /************************************

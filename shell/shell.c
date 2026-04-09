@@ -100,10 +100,17 @@ static void echo(void)
 }
 
 
-static void task_func(void)
+static void fcfs_func(void)
 {
     static int tsk_num = 1;
-    printf("Task %d, TID: %d\n", tsk_num, current_task->tid);
+    
+    printf("> ");
+
+    for(int i = 0;i < 5; i++)
+        printf("Task %d\t", tsk_num);
+    
+    printf("\n\n");
+    
     ++tsk_num;
     switch_state(&current_task->registers, &current_task->next_task->registers);
 }
@@ -112,7 +119,6 @@ static void task_func(void)
  * @brief Echos the input entered back to the user
  * @return None
  */
-
 static void fcfs_example(void)
 {
     task t1;
@@ -120,13 +126,13 @@ static void fcfs_example(void)
     task t3;
     task t4;
 
-    create_new_task(&t1, task_func, get_eflags(), get_cr3());
+    create_new_task(&t1, fcfs_func, get_eflags(), get_cr3());
     t1.next_task = &t2;
-    create_new_task(&t2, task_func, get_eflags(), get_cr3());
+    create_new_task(&t2, fcfs_func, get_eflags(), get_cr3());
     t2.next_task = &t3;
-    create_new_task(&t3, task_func, get_eflags(), get_cr3());
+    create_new_task(&t3, fcfs_func, get_eflags(), get_cr3());
     t3.next_task = &t4;
-    create_new_task(&t4, task_func, get_eflags(), get_cr3());
+    create_new_task(&t4, fcfs_func, get_eflags(), get_cr3());
 
     task task_queue[4] = {t1, t2, t3, t4};
 
@@ -206,10 +212,10 @@ static void exec_command(void)
 
     else if(check_input("readsec") == true )
     {
-        uint16_t buf[SIXTEEN_BIT_ELEMENTS];
+        uint16_t buf[SECTOR_WORDS];
         read_sector(165, buf);
 
-        for(int i = 0; i< SIXTEEN_BIT_ELEMENTS;i++)
+        for(int i = 0; i< SECTOR_WORDS;i++)
             printf("%c ", buf[i]);
 
         printf("\n");
@@ -217,9 +223,9 @@ static void exec_command(void)
 
     else if(check_input("writesec") == true )
     {
-        uint16_t buf[SIXTEEN_BIT_ELEMENTS];
+        uint16_t buf[SECTOR_WORDS];
 
-        for(int i = 0; i< SIXTEEN_BIT_ELEMENTS;i++)
+        for(int i = 0; i< SECTOR_WORDS;i++)
             buf[i] = 'T';
 
         write_sector(165, buf);
