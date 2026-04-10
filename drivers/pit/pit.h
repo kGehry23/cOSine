@@ -19,7 +19,7 @@
 #include <stdbool.h>
 #include "../../libc/stdio/stdio.h"
 #include "../../io/io.h"
-#include "../../pic/pic.h"
+#include "../pic/pic.h"
 
 
 /************************************

@@ -10,11 +10,19 @@
  ********************************************************************************
  */
 
+#ifndef FRAME_ALLOCATOR_H
+#define FRAME_ALLOCATOR_H
+
 /************************************
  * INCLUDES
  ************************************/
 #include <stdint.h>
 #include <stddef.h>
+
+
+/************************************
+ * MACROS
+ ************************************/
 
 //Standard 4k page size
 #define PAGE_SIZE   0x1000
@@ -29,15 +37,16 @@
 #define FREE        0x00
 
 
+/************************************
+ * FUNCTION PROTOTYPES
+ ************************************/
+
 /*!
  * @brief Allocates frames when there are no more pages available
  *        from previous allocations
  * @return None
  */
 uint32_t* allocate_frame(void);
-
-
-void available_memory(void);
 
 /*!
  * @brief Frees a frame which has been allocated
@@ -56,3 +65,7 @@ uint32_t* get_free_frame(void);
  * @return None
  */
 void pre_allocate_frames(void);
+
+// void available_memory(void);
+
+#endif //FRAME_ALLOCATOR_H

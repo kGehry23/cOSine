@@ -12,14 +12,18 @@
  ********************************************************************************
  */
 
+#ifndef PIC_H
+#define PIC_H
+
 /************************************
  * INCLUDES
  ************************************/
-#include "../libc/stdio/stdio.h"
-#include "../io/io.h"
+#include "../../libc/stdio/stdio.h"
+#include "../../io/io.h"
+
 
 /************************************
- * DEFINES
+ * MACROS
  ************************************/
 #define PIC_MASTER_BASE 0x20
 #define PIC_SLAVE_BASE  0xA0
@@ -27,7 +31,7 @@
 #define PIC_INIT    0x11
 
 #define PIC_MASTER_COMMAND  PIC_MASTER_BASE
-#define PIC_MASTER_DATA      (PIC_MASTER_BASE + 1)
+#define PIC_MASTER_DATA     (PIC_MASTER_BASE + 1)
 
 //PIC remap offsets
 #define PIC_MASTER_OFFSET   0x20
@@ -44,8 +48,10 @@
 #define PIC_IRR 0x0A
 #define PIC_ISR 0x0B
 
-#ifndef PIC_H
-#define PIC_H
+
+/************************************
+ * FUNCTION PROTOTYPES
+ ************************************/
 
 /*!
  * @brief Sends an end of interrupt command to a pic(s)
@@ -54,7 +60,12 @@
  */
 void PIC_eoi(uint8_t irq_number);
 
-
+/*!
+ * @brief Returns the contents of the combined contents of the master and
+ *        slave PIC IRR or ISR registers. Higher 8 bits are PIC2 register contents,
+ *        lower 8 bits are PIC1 contents
+ * @return None
+ */
 uint16_t get_pic_status(uint16_t pic_reg);
 
 /*!

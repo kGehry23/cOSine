@@ -72,14 +72,18 @@ void shell_init()
 {
     //Clears the terminal 
     terminal_initialize();
+    // terminal_setcolour(2 | 0 << 4);
     printf("cOSh:$ ");
+    // terminal_setcolour(7 | 0 << 4);
 
     while(1)
     {
         if(get_last_char() == '\n')
         {
             exec_command();
+            // terminal_setcolour(2 | 0 << 4);
             printf("%s", shell_prompt);
+            // terminal_setcolour(7 | 0 << 4);
         } 
     }
 }

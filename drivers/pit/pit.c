@@ -22,7 +22,7 @@ volatile uint32_t test_val = 0; //Declared volatile as modified from within ISR
 
 
 /************************************
- * GLOBAL AND STATIC VARIABLES
+ * FUNCTION DEFINITIONS
  ************************************/
 
 //Configures the PIT

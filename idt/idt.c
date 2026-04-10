@@ -17,13 +17,7 @@
 #include "idt.h"
 #include <stdbool.h>
 #include "../libc/stdio/stdio.h"
-#include "../pic/pic.h"
-
-
-/************************************
- * MACROS
- ************************************/
-#define IDT_MAX_DESCRIPTORS 256
+#include "../drivers/pic/pic.h"
 
 
 /************************************

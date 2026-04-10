@@ -1,6 +1,7 @@
 /**
  ********************************************************************************
  * @file    string.c
+ * 
  * @author  Kai Gehry, OSDev Tutorial Reference
  *
  * @date    2025-12-24

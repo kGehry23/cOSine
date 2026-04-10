@@ -76,5 +76,4 @@ void read_sector(uint32_t lba, uint16_t* data_array);
  */
 void write_sector(uint32_t lba, uint16_t* data_array);
 
-
 #endif //ATA_H

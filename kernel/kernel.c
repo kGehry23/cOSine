@@ -18,15 +18,15 @@
 #include "../libc/stdlib/stdlib.h"
 #include "../gdt/gdt.h"
 #include "../idt/idt.h"
-#include "../pic/pic.h"
+
 
 //Drivers
 #include "../drivers/ps2/ps2.h"
 #include "../drivers/disk/ATA/ata.h"
-#include "../drivers/disk/FAT/fat32.h"
 #include "../drivers/ps2/keyboard/keyboard.h"
-#include "../drivers/ps2/mouse/mouse.h"
+// #include "../drivers/ps2/mouse/mouse.h"
 #include "../drivers/pit/pit.h"
+#include "../drivers/pic/pic.h"
 
 #include "../memory/frame_allocator.h"
 #include "../memory/paging/pager.h"
@@ -38,11 +38,6 @@
 /************************************
  * STATIC AND GLOBAL VARIABLES
  ************************************/
-//Address of end of kernel memory 
-extern uint32_t endkernel;
-
-task t1;
-task t2;
 task main_task;
 
 
@@ -57,7 +52,7 @@ task main_task;
 void kernel(void)
 {
     //Creates a page directory, initial page table, and enables paging
-    init_paging();
+    init_paging(); //this is fine, but not being used at all
 
     //Initialize terminal
     terminal_initialize();
@@ -70,8 +65,8 @@ void kernel(void)
 
     //Masks all interrupts except pit
     outb(PIC_MASTER_DATA,0xfe);
-
-    /*1111 1111 -> irq 12 is the mouse*/ 
+    
+    /*1110 1111 -> irq 12 is the mouse*/ 
     outb(PIC_SLAVE_DATA,0xff);
     
     //Initializes the GDT
@@ -108,6 +103,7 @@ void kernel(void)
 
     //Unmask keyboard interrupt
     outb(PIC_MASTER_DATA,0xfc);
+
     shell_init();
 
     for(;;) {

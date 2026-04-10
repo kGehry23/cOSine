@@ -17,11 +17,21 @@
 #include "../frame_allocator.h"
 #include "../../libc/stdio/stdio.h"
 
+
+/************************************
+ * GLOBAL AND STATIC VARIABLES
+ ************************************/
+
 //Page directory. Aligned on 4kB boundary
 uint32_t page_directory[1024] __attribute__((aligned(0x1000)));
 
 //Initial page table. Aligned on 4kB boundary
 uint32_t page_table [1024] __attribute__((aligned(0x1000)));
+
+
+/************************************
+ * FUNCTION DEFINITIONS
+ ************************************/
 
 /*!
  * @brief Initializes a page table

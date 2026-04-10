@@ -9,10 +9,18 @@
  ********************************************************************************
 */
 
+#ifndef PAGER_H
+#define PAGER_H
+
 /************************************
  * INCLUDES
  ************************************/
 #include <stdint.h>
+
+
+/************************************
+ * FUNCTION PROTOTYPES
+ ************************************/
 
 /*!
  * @brief Sets up and enables paging
@@ -43,5 +51,7 @@ void set_cr4(uint32_t pae_set);
  * @return None
  */
 uint32_t* get_cr3();
+
+#endif //PAGER_H
 
 
