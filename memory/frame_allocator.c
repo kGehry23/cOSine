@@ -72,6 +72,7 @@ void free_frame(uint32_t* frame_address)
     frame_array[frame_number] = FREE;
 }
 
+
 /*!
  * @brief Returns an available frame
  * @return None

@@ -73,7 +73,10 @@ void sleep(uint32_t miliseconds)
 void timer_handler(void)
 {    
     if(test_val > 0)
+    {
+        printf(".");
         test_val--;
+    }
 
     //Send end of interrupt
     PIC_eoi(0);

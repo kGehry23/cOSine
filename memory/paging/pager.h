@@ -32,7 +32,7 @@ void init_paging(void);
  * @brief Sets the contents of the CR3 register
  * @return None
  */
-void set_cr3(uint32_t cr3_contents);
+void set_cr3(uint32_t* cr3_contents);
 
 /*!
  * @brief Sets the contents of the CR0 register
@@ -51,6 +51,10 @@ void set_cr4(uint32_t pae_set);
  * @return None
  */
 uint32_t* get_cr3();
+
+void enable_paging(void);
+
+void load_page_dir(uint32_t*);
 
 #endif //PAGER_H
 

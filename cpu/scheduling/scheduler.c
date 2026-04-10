@@ -46,21 +46,38 @@ void fcfs_sched(task *task_queue, int num_tasks)
 }
 
 //Performs round robin scheduling
-void rr_sched(task *task_queue, int num_tasks, uint32_t time_quantum)
+void rm_sched(task *task_queue, int num_tasks)
 {
     task main;
 
-    printf("Beginning Round Robin Scheduling...\n\n");
+    task t;
+    uint32_t current_min;
 
-    //of course does nothing of use rn for this type of scheduling
+    //Selection sort used for selection of task ordering
+    for(int i = 0;i<num_tasks-1;i++)
+    {
+        current_min = i;
 
-    // //Service tasks in the queue in a first come first served order
-    // for(int i = 0;i<num_tasks;i++)
-    // {
-    //     task_queue[i].next_task = &main;
-    //     current_task = &task_queue[i];
-    //     switch_state(&main.registers, &(task_queue[i].registers));
-    // }
+        for(int j = i+1;j < num_tasks; j++)
+        {
+            if(task_queue[j].execution_time < task_queue[current_min].execution_time)
+                current_min = j;    
+        }
+
+        t = task_queue[current_min];
+        task_queue[current_min] = task_queue[i];
+        task_queue[i] = t;
+    }
+
+    printf("Beginning rate monotonic scheduling...\n\n");
+
+    //Service tasks in the queue in a first come first served order
+    for(int i = 0;i<num_tasks;i++)
+    {
+        task_queue[i].next_task = &main;
+        current_task = &task_queue[i];
+        switch_state(&main.registers, &(task_queue[i].registers));
+    }
 
     printf("\n");
 }

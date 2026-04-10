@@ -76,7 +76,7 @@ void init_paging()
     init_page_directory();
 
     //Sets CR3 to contain the address in bits 31-12 (4KB aligned)
-    set_cr3((uint32_t)page_directory);
+    set_cr3(page_directory);
     //Enable 32-bit paging
     set_cr0(0x80000000);
 }

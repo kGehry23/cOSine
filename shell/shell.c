@@ -58,6 +58,7 @@ static void task_func(void);
 static void task_test_2(void);
 static void task_test(void);
 static void task_example(void);
+static void print_shell_prompt(void);
 
 
 /************************************
@@ -72,20 +73,23 @@ void shell_init()
 {
     //Clears the terminal 
     terminal_initialize();
-    // terminal_setcolour(2 | 0 << 4);
-    printf("cOSh:$ ");
-    // terminal_setcolour(7 | 0 << 4);
+    print_shell_prompt();
 
     while(1)
     {
         if(get_last_char() == '\n')
         {
             exec_command();
-            // terminal_setcolour(2 | 0 << 4);
-            printf("%s", shell_prompt);
-            // terminal_setcolour(7 | 0 << 4);
+            print_shell_prompt();
         } 
     }
+}
+
+static void print_shell_prompt(void)
+{
+    terminal_setcolour(SHELL_PROMPT_FG | SHELL_BG << 4);
+    printf("%s", shell_prompt);
+    terminal_setcolour(SHELL_FG | SHELL_BG << 4);
 }
                    
 /*!
@@ -119,6 +123,19 @@ static void fcfs_func(void)
     switch_state(&current_task->registers, &current_task->next_task->registers);
 }
 
+
+static void rm_func(void)
+{   
+    printf("> ");
+
+    printf("Task %d Started ", current_task->tid);
+    sleep(current_task->execution_time);
+    printf("Task %d Complete ", current_task->tid);
+    printf("\n");
+
+    switch_state(&current_task->registers, &current_task->next_task->registers);
+}
+
 /*!
  * @brief Echos the input entered back to the user
  * @return None
@@ -141,6 +158,40 @@ static void fcfs_example(void)
     task task_queue[4] = {t1, t2, t3, t4};
 
     fcfs_sched(task_queue, 4);
+}
+
+
+/*!
+ * @brief Echos the input entered back to the user
+ * @return None
+ */
+static void rate_monotonic_example(void)
+{
+    task t1;
+    task t2;
+    task t3;
+    task t4;
+
+    create_new_task(&t1, rm_func, get_eflags(), get_cr3());
+    t1.next_task = &t2;
+    t1.execution_time = 2500;
+    create_new_task(&t2, rm_func, get_eflags(), get_cr3());
+    t2.next_task = &t3;
+    t2.execution_time = 2000;
+    create_new_task(&t3, rm_func, get_eflags(), get_cr3());
+    t3.next_task = &t4;
+    t3.execution_time = 4000;
+    create_new_task(&t4, rm_func, get_eflags(), get_cr3());
+    t4.execution_time = 500;
+
+    printf("\nExecution times (milliseconds): \nTask %d: %d\n", t1.tid, t1.execution_time);
+    printf("Task %d: %d\n", t2.tid, t2.execution_time);
+    printf("Task %d: %d\n", t3.tid, t3.execution_time);
+    printf("Task %d: %d\n\n", t4.tid, t4.execution_time);
+
+    task task_queue[4] = {t1, t2, t3, t4};
+
+    rm_sched(task_queue, 4);
 }
 
 static void task_test_2(void)
@@ -213,6 +264,9 @@ static void exec_command(void)
 
     else if(check_input("fcfs") == true)
         fcfs_example();
+
+    else if(check_input("rm") == true)
+        rate_monotonic_example();
 
     else if(check_input("readsec") == true )
     {
