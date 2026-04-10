@@ -71,7 +71,7 @@ or using powershell, run
 <br>
 
 
-## Creating a Virtual Disk Image
+## Creating A Virtual Disk Image
 
 If a fresh virtual disk is to be created, delete the original disk and run 
 
