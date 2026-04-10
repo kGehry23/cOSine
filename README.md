@@ -26,6 +26,10 @@ The kernel is being developed as a solo hobby project and has used the following
 
 <br>
 
+*AI has not been used for any of the above development efforts
+
+<br>
+
 
 ## Booting cOSine
 
