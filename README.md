@@ -25,7 +25,6 @@ The kernel is being developed as a solo hobby project and has used the following
 3. Intel x86 Developer Manuals
 
 <br>
-<br>
 
 
 ## Booting cOSine
@@ -64,7 +63,6 @@ or using powershell, run
     ./boos_os.ps1
 
 
-<br>
 <br>
 
 
