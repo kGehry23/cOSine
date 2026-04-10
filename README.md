@@ -14,6 +14,7 @@ To date, the kernel is minimal but has implemented and has support for the follo
 - Handling and setup of the Programmable Interval Timer (PIT)
 - PS/2 driver and PS/2 keyboard driver 
 - A simple ATA disk driver -> Sectors can be read and written
+- Implementation of parts of the C standard library (printf, puts, memcmp, memmove, etc)
 - A simple shell for interacting with the kernel
 
 <br>
@@ -64,7 +65,7 @@ In bash on windows use
 
 or using powershell, run
 
-    ./boos_os.ps1
+    ./boot_os.ps1
 
 
 <br>
