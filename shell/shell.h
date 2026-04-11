@@ -23,6 +23,9 @@
 #define SHELL_FG            7
 #define SHELL_BG            0
 
+//Test macros 
+#define EXAMPLE_TIME_QUANTUM    100
+
 
 /************************************
  * FUNCTION PROTOTYPES

@@ -30,7 +30,7 @@
  * @param num_tasks Number of tasks to schedule
  * @return None
  */
-void fcfs_sched(task *task_queue, int num_tasks);
+void fcfs_sched(task *task_queue, uint32_t num_tasks);
 
 /*!
  * @brief Performs shortest job first scheduling
@@ -38,6 +38,14 @@ void fcfs_sched(task *task_queue, int num_tasks);
  * @param num_tasks Number of tasks to schedule
  * @return None
  */
-void sjf_sched(task *task_queue, int num_tasks);
+void sjf_sched(task *task_queue, uint32_t num_tasks);
+
+/*!
+ * @brief Performs round robin scheduling
+ * @param task_queue Queue of tasks to schedule 
+ * @param num_tasks Number of tasks to schedule
+ * @return None
+ */
+void rr_sched(task *task_queue, uint32_t num_tasks);
 
 #endif //SCHEDULER_H

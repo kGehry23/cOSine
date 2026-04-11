@@ -31,7 +31,8 @@ typedef enum
 {
     READY,
     RUNNING,
-    WAITING
+    WAITING,
+    TERMINATED
 }task_states;
 
 
@@ -46,6 +47,7 @@ typedef struct
 typedef struct task
 {
     uint32_t tid;
+    task_states state;
     uint32_t execution_time;
     Regs registers;
     struct task *next_task;
