@@ -28,7 +28,7 @@
 #define CHANNEL_0_DATA      0x40
 #define CHANNEL_1_DATA      0x41
 #define CHANNEL_2_DATA      0x42
-#define COMMAND_MODE_REG    0x43
+#define COMMAND_MODE_REG    0x43 
 
 
 /************************************
@@ -59,6 +59,12 @@ uint16_t read_count_value(void);
  * @return None
  */
 void timer_handler(void);
+
+/*!
+ * @brief Enables printing a character to the screen when sleep is called
+ * @return None
+ */
+void enable_sleep_print(void);
 
 /*!
  * @brief Provides a delay given a number of milliseconds.

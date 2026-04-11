@@ -24,7 +24,7 @@
 #define SHELL_BG            0
 
 //Test macros 
-#define EXAMPLE_TIME_QUANTUM    100
+#define EXAMPLE_TIME_QUANTUM    150
 
 
 /************************************

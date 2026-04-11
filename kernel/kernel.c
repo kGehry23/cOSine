@@ -51,11 +51,6 @@ task main_task;
  */
 void kernel(void)
 {
-    //Creates a page directory, initial page table, and enables paging
-    pre_allocate_frames();
-    init_paging(); //this is fine, but not being used at all
-
-
     //Initialize terminal
     terminal_initialize();
 
@@ -99,6 +94,10 @@ void kernel(void)
 
     //Select and initialize ATA drive
     ata_init();
+
+    //Creates a page directory, initial page table, and enables paging
+    pre_allocate_frames();
+    init_paging();
 
     //Sleep for 2 seconds before starting shell
     sleep(2000);

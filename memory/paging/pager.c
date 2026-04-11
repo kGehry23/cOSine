@@ -23,10 +23,14 @@
  ************************************/
 
 //Page directory. Aligned on 4kB boundary
-uint32_t page_directory[1024] __attribute__((aligned(0x1000)));
+uint32_t page_directory_1[1024] __attribute__((aligned(0x1000)));
+uint32_t page_directory_2[1024] __attribute__((aligned(0x1000)));
 
 //Initial page table. Aligned on 4kB boundary
-uint32_t page_table [1024] __attribute__((aligned(0x1000)));
+uint32_t page_table_1 [1024] __attribute__((aligned(0x1000)));
+uint32_t page_table_2 [1024] __attribute__((aligned(0x1000)));
+// uint32_t page_table_3 [1024] __attribute__((aligned(0x1000)));
+// uint32_t page_table_4 [1024] __attribute__((aligned(0x1000)));
 
 
 /************************************
@@ -44,7 +48,10 @@ void init_page_table()
         /*Or'ing with 3 specifies that the entry maps to a 4 kB page
           and that the page can be read from and written to
         */
-        page_table[i] = (i*PAGE_SIZE) | 3;
+        page_table_1[i] = (i*PAGE_SIZE) | 3;
+        page_table_2[i] = (i*PAGE_SIZE) | 3;
+        // page_table_3[i] = (i*PAGE_SIZE) | 3;
+        // page_table_4[i] = (i*PAGE_SIZE) | 3;
     }
 }
 
@@ -57,13 +64,44 @@ void init_page_directory()
     for(int i = 0;i<1024;i++)
     {
         //Sets a page as not present when set high
-        page_directory[i] = 0x00000002;
+        page_directory_1[i] = 0x00000002;
+        page_directory_2[i] = 0x00000002;
     }
 
     //Initializes the page table and sets the initial entry in
     //the page directory to the address of the page table
     init_page_table();
-    page_directory[0] = (uint32_t)page_table | 3;
+    page_directory_1[0] = (uint32_t)page_table_1 | 3;
+    page_directory_2[0] = (uint32_t)page_table_2 | 3;
+    // page_directory[1] = (uint32_t)page_table_2 | 3;
+    // page_directory[2] = (uint32_t)page_table_3 | 3;
+    // page_directory[3] = (uint32_t)page_table_4 | 3;
+}
+
+uint32_t alloc_page(void)
+{
+    static uint32_t i = 0;
+    uint32_t page;
+
+    switch (i)
+    {
+        case 0:
+            page = page_table_1[0];
+            break;
+        case 1:
+            page = page_table_2[0];
+            break;
+        // case 2:
+        //     page = page_table_3[0];
+        //     break;
+        // case 3:
+        //     page = page_table_4[0];
+        //     break;
+    }
+
+    i++;
+
+    return page;
 }
 
 
@@ -76,30 +114,12 @@ void init_paging()
     init_page_directory();
 
     //Sets CR3 to contain the address in bits 31-12 (4KB aligned)
-    set_cr3(page_directory);
+    set_cr3(page_directory_1);
     //Enable 32-bit paging
     set_cr0(0x80000000);
 }
 
-//The below translations are managed by the MMU. These translations are therefore not done in software.
 
-// static uint32_t get_pte(uint32_t pde, uint32_t linear_address)
-// {
-//     /*Extracts bits 21-12 of the linear address address shifted down to
-//       positions 11-2. This is or'd with bits 31-12 of the linear pde to 
-//       extract the address of the correct page table entry
-//     */
-
-//     return pde | ((linear_address >> 10) & 0xFFA);
-// }
-
-// uint32_t get_physical_addr(uint32_t pte, uint32_t linear_address)
-// {
-//     /*Retains bits 11-0 from the original linear address, to offset into 
-//       the page table endtry provided
-//     */
-//     return pte | (linear_address & 0xFFF);
-// }
 
 
 

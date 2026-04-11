@@ -28,6 +28,8 @@
  */
 void init_paging(void);
 
+uint32_t alloc_page(void);
+
 /*!
  * @brief Sets the contents of the CR3 register
  * @return None

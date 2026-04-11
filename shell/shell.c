@@ -30,9 +30,10 @@
 static char* cmd_arr[128];
 
 task shell;
-static task t1;
-static task t2;
 extern task* current_task;
+
+task t1;
+task t2; 
 
 static const char *shell_prompt = "cOSh:$ ";
 //Command list
@@ -63,6 +64,13 @@ static void rr_sched_func(void);
 static void print_shell_prompt(void);
 
 
+extern uint32_t page_directory_1[1024] __attribute__((aligned(0x1000)));
+extern uint32_t page_directory_2[1024] __attribute__((aligned(0x1000)));
+
+extern uint32_t page_table_1 [1024] __attribute__((aligned(0x1000)));
+extern uint32_t page_table_2 [1024] __attribute__((aligned(0x1000)));
+
+
 /************************************
  * FUNCTION DEFINITIONS
  ************************************/
@@ -73,6 +81,7 @@ void shell_init(void)
     //Clears the terminal 
     terminal_initialize();
     print_shell_prompt();
+    enable_sleep_print();
 
     while(1)
     {
@@ -142,11 +151,20 @@ static void rr_sched_func(void)
         printf("Task %d Started ", current_task->tid);
 
         //Execute for the time specified by the time quantum, and update the remaining execution time
-        sleep(EXAMPLE_TIME_QUANTUM);
-        current_task->execution_time = current_task->execution_time - EXAMPLE_TIME_QUANTUM;
-
+        
+        if((int32_t)current_task->execution_time - EXAMPLE_TIME_QUANTUM > 0)
+        {
+            current_task->execution_time -= EXAMPLE_TIME_QUANTUM;
+            sleep(EXAMPLE_TIME_QUANTUM);
+        }
+        else
+        {
+            sleep(current_task->execution_time);
+            current_task->execution_time = 0;
+        }
+        
         //If the task has completed, print a message
-        if(current_task->execution_time <= 0)
+        if(current_task->execution_time == 0)
         {
             printf("Task %d Complete ", current_task->tid);
             current_task->state = TERMINATED;
@@ -158,7 +176,7 @@ static void rr_sched_func(void)
 }
 
 /*!
- * @brief Echos the input entered back to the user
+ * @brief First come first served scheduling example
  * @return None
  */
 static void fcfs_example(void)
@@ -190,9 +208,8 @@ static void fcfs_example(void)
     fcfs_sched(task_queue, 4);
 }
 
-
 /*!
- * @brief Echos the input entered back to the user
+ * @brief Shortest job first scheduling example
  * @return None
  */
 static void sjf_example(void)
@@ -224,9 +241,8 @@ static void sjf_example(void)
     sjf_sched(task_queue, 4);
 }
 
-
 /*!
- * @brief Echos the input entered back to the user
+ * @brief Round robin scheduling example
  * @return None
  */
 static void rr_example(void)
@@ -248,7 +264,7 @@ static void rr_example(void)
     create_new_task(&t4, rr_sched_func, get_eflags(), get_cr3());
     t4.execution_time = 500;
 
-    printf("Execution times (milliseconds): \nTask %d: %d\n", t1.tid, t1.execution_time);
+    printf("Execution times (milliseconds) - Time Quantum = %d ms: \nTask %d: %d\n", EXAMPLE_TIME_QUANTUM, t1.tid, t1.execution_time);
     printf("Task %d: %d\n", t2.tid, t2.execution_time);
     printf("Task %d: %d\n", t3.tid, t3.execution_time);
     printf("Task %d: %d\n\n", t4.tid, t4.execution_time);
@@ -258,6 +274,36 @@ static void rr_example(void)
     rr_sched(task_queue, 4);
 }
 
+static void test1(void)
+{
+    int i = 15;
+    printf("value of i in t1: %d, at addr: %p\n", i, &i);
+
+    switch_state(&t1.registers, &t2.registers);
+    printf("value of i in t1: %d, at addr: %p\n", i, &i);
+    switch_state(&t1.registers, &current_task->registers);
+}
+
+static void test2(void)
+{
+    int j = 4;
+    printf("value of j in t2: %d, at addr: %p\n", j, &j);
+
+    switch_state(&t2.registers, &t1.registers);
+}
+
+
+static void virt_mem_example(void)
+{
+    task main;
+
+    create_new_task(&t1, test1, get_eflags(), page_directory_1);
+    create_new_task(&t2, test2, get_eflags(), page_directory_2);
+
+    current_task = &main;
+    switch_state(&main.registers, &t1.registers);
+    printf("Complete\n");
+}
 
 /*!
  * @brief Executes an entered command
@@ -279,7 +325,11 @@ static void exec_command(void)
         outb(PIC_MASTER_DATA,0xfe);
         sleep(2000);
         outb(PIC_MASTER_DATA,0xfc);
+        printf("\n");
     }
+
+    else if(check_input("virtmem") == true)
+        virt_mem_example();
 
     else if(check_input("fcfs") == true)
         fcfs_example();

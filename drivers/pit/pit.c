@@ -19,6 +19,7 @@
  * GLOBAL AND STATIC VARIABLES
  ************************************/
 volatile uint32_t test_val = 0; //Declared volatile as modified from within ISR
+static bool print_timer = false;
 
 
 /************************************
@@ -50,10 +51,13 @@ uint16_t read_count_value(void)
     uint16_t res = inb(CHANNEL_0_DATA);
     res |= inb(CHANNEL_0_DATA) << 8;
 
-    //Re-enable interrupts
-    // __asm__ volatile("sti");
-
     return res;
+}
+
+//Enables character printing (for indication) when sleep is called
+void enable_sleep_print(void)
+{
+    print_timer = true;
 }
 
 //Provides a delay for a specified number of miliseconds
@@ -73,10 +77,10 @@ void sleep(uint32_t miliseconds)
 void timer_handler(void)
 {    
     if(test_val > 0)
-    {
-        printf(".");
         test_val--;
-    }
+
+    if(print_timer && test_val > 0)
+        printf(".");
 
     //Send end of interrupt
     PIC_eoi(0);
