@@ -21,7 +21,7 @@ C_OBJS =	kernel/kernel.o kernel/tty/terminal.o libc/stdio/stdio.o libc/stdlib/st
 			task/task.o gdt/gdt.o idt/idt.o memory/frame_allocator.o drivers/pic/pic.o drivers/ps2/ps2.o\
 			drivers/ps2/keyboard/keyboard.o drivers/ps2/keyboard/keyboard_api.o drivers/ps2/mouse/mouse.o\
 			drivers/disk/ATA/ata.o drivers/disk/FAT/fat32.o memory/paging/pager.o shell/shell.o cpu/scheduling/scheduler.o\
-			drivers/pit/pit.o
+			cpu/dispatcher/dispatcher.o drivers/pit/pit.o
 
 LINK_LIST = $(ASM_OBJS) $(C_OBJS) 
 

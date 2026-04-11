@@ -33,11 +33,11 @@
 void fcfs_sched(task *task_queue, int num_tasks);
 
 /*!
- * @brief Performs round robin scheduling
+ * @brief Performs shortest job first scheduling
  * @param task_queue Queue of tasks to schedule 
  * @param num_tasks Number of tasks to schedule
  * @return None
  */
-void rm_sched(task *task_queue, int num_tasks);
+void sjf_sched(task *task_queue, int num_tasks);
 
 #endif //SCHEDULER_H

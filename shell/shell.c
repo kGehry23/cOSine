@@ -42,6 +42,7 @@ static const char* man_string = "\n\tSupported commands:\n\n"
                     "\tsleep - Test timer interrupt. Sleep for 2 seconds.\n"
                     "\tmultitask - Context switch example\n"
                     "\tfcfs - First come first served scheduling example\n"
+                    "\tsjf - Shortest job first scheduling example\n"
                     "\treadsec - Read ATA disk sector.\n"
                     "\twritesec - Write to ATA disk sector.\n"
                     "\n";
@@ -124,7 +125,7 @@ static void fcfs_func(void)
 }
 
 
-static void rm_func(void)
+static void sjf_func(void)
 {   
     printf("> ");
 
@@ -165,23 +166,23 @@ static void fcfs_example(void)
  * @brief Echos the input entered back to the user
  * @return None
  */
-static void rate_monotonic_example(void)
+static void sjf_example(void)
 {
     task t1;
     task t2;
     task t3;
     task t4;
 
-    create_new_task(&t1, rm_func, get_eflags(), get_cr3());
+    create_new_task(&t1, sjf_func, get_eflags(), get_cr3());
     t1.next_task = &t2;
     t1.execution_time = 2500;
-    create_new_task(&t2, rm_func, get_eflags(), get_cr3());
+    create_new_task(&t2, sjf_func, get_eflags(), get_cr3());
     t2.next_task = &t3;
     t2.execution_time = 2000;
-    create_new_task(&t3, rm_func, get_eflags(), get_cr3());
+    create_new_task(&t3, sjf_func, get_eflags(), get_cr3());
     t3.next_task = &t4;
     t3.execution_time = 4000;
-    create_new_task(&t4, rm_func, get_eflags(), get_cr3());
+    create_new_task(&t4, sjf_func, get_eflags(), get_cr3());
     t4.execution_time = 500;
 
     printf("\nExecution times (milliseconds): \nTask %d: %d\n", t1.tid, t1.execution_time);
@@ -191,7 +192,7 @@ static void rate_monotonic_example(void)
 
     task task_queue[4] = {t1, t2, t3, t4};
 
-    rm_sched(task_queue, 4);
+    sjf_sched(task_queue, 4);
 }
 
 static void task_test_2(void)
@@ -265,8 +266,8 @@ static void exec_command(void)
     else if(check_input("fcfs") == true)
         fcfs_example();
 
-    else if(check_input("rm") == true)
-        rate_monotonic_example();
+    else if(check_input("sjf") == true)
+        sjf_example();
 
     else if(check_input("readsec") == true )
     {

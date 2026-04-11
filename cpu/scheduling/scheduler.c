@@ -14,6 +14,7 @@
 * INCLUDES
 ************************************/
 #include "scheduler.h"
+#include "../dispatcher/dispatcher.h"
 
 
 /************************************
@@ -21,6 +22,12 @@
 ************************************/
 task* current_task;
 extern volatile uint32_t test_val;
+
+
+/************************************
+ * FUNCTION PROTOTYPES
+ ************************************/
+static void run_tasks(task* main, task* task_queue, int num_tasks);
 
 
 /************************************
@@ -33,20 +40,13 @@ void fcfs_sched(task *task_queue, int num_tasks)
     task main;
 
     printf("Beginning First Come First Served Scheduling...\n\n");
-
     //Service tasks in the queue in a first come first served order
-    for(int i = 0;i<num_tasks;i++)
-    {
-        task_queue[i].next_task = &main;
-        current_task = &task_queue[i];
-        switch_state(&main.registers, &(task_queue[i].registers));
-    }
-
+    run_tasks(&main, task_queue, num_tasks);
     printf("\n");
 }
 
 //Performs round robin scheduling
-void rm_sched(task *task_queue, int num_tasks)
+void sjf_sched(task *task_queue, int num_tasks)
 {
     task main;
 
@@ -69,15 +69,24 @@ void rm_sched(task *task_queue, int num_tasks)
         task_queue[i] = t;
     }
 
-    printf("Beginning rate monotonic scheduling...\n\n");
+    printf("Beginning shortest job first scheduling...\n\n");
+    run_tasks(&main, task_queue, num_tasks);
+    printf("\n");
+}
 
-    //Service tasks in the queue in a first come first served order
+/*!
+ * @brief Runs the tasks organized by the scheduler
+ * @param main Task to context switch from 
+ * @param task_queue Queue of tasks to dispatch 
+ * @param num_tasks Number of tasks to dispatch
+ * @return None
+ */
+static void run_tasks(task* main, task* task_queue, int num_tasks)
+{
     for(int i = 0;i<num_tasks;i++)
     {
-        task_queue[i].next_task = &main;
+        task_queue[i].next_task = main;
         current_task = &task_queue[i];
-        switch_state(&main.registers, &(task_queue[i].registers));
+        dispatch(main, &task_queue[i]);
     }
-
-    printf("\n");
 }
