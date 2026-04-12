@@ -8,12 +8,12 @@ To date, the kernel is minimal but has implemented and has support for the follo
 
 - 32-bit paging  (default paging mode on IA-32 when enabled)
 - Cooperative multitasking
-- First come first served CPU scheduling
+- Implementations of First Come First Served, Shortest Job First (example) and Round Robin CPU schedulers
 - Remapping of the Programmable Interrupt Controller (PIC)
 - Initialization and setup of the Global Descriptor Table (GDT) and Interrupt Descriptor Table (IDT)
 - Handling and setup of the Programmable Interval Timer (PIT)
 - PS/2 driver and PS/2 keyboard driver 
-- A simple ATA disk driver -> Sectors can be read and written
+- A simple ATA disk driver (Programmed IO, 28 bit LBA addressing) -> Sectors can be read and written
 - Implementation of parts of the C standard library (printf, puts, memcmp, memmove, etc)
 - A simple shell for interacting with the kernel
 
