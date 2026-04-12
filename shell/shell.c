@@ -47,6 +47,7 @@ static const char* man_string = "\n\tSupported commands:\n\n"
                     "\trr - Round robin scheduling example\n"
                     "\treadsec - Read ATA disk sector.\n"
                     "\twritesec - Write to ATA disk sector.\n"
+                    "\twipesec - Wipes the data written to an ATA disk sector.\n"
                     "\n";
 
 
@@ -357,6 +358,16 @@ static void exec_command(void)
 
         for(int i = 0; i< SECTOR_WORDS;i++)
             buf[i] = 'T';
+
+        write_sector(165, buf);
+    }
+
+    else if(check_input("wipesec") == true )
+    {
+        uint16_t buf[SECTOR_WORDS];
+
+        for(int i = 0; i< SECTOR_WORDS;i++)
+            buf[i] = 0;
 
         write_sector(165, buf);
     }

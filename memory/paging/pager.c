@@ -86,10 +86,10 @@ uint32_t alloc_page(void)
     switch (i)
     {
         case 0:
-            page = page_table_1[0];
+            page = page_table_1[i];
             break;
         case 1:
-            page = page_table_2[0];
+            page = page_table_2[i];
             break;
         // case 2:
         //     page = page_table_3[0];
