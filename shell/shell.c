@@ -65,13 +65,6 @@ static void rr_sched_func(void);
 static void print_shell_prompt(void);
 
 
-extern uint32_t page_directory_1[1024] __attribute__((aligned(0x1000)));
-extern uint32_t page_directory_2[1024] __attribute__((aligned(0x1000)));
-
-extern uint32_t page_table_1 [1024] __attribute__((aligned(0x1000)));
-extern uint32_t page_table_2 [1024] __attribute__((aligned(0x1000)));
-
-
 /************************************
  * FUNCTION DEFINITIONS
  ************************************/
@@ -98,7 +91,7 @@ void shell_init(void)
  * @brief Prints the shell prompt. Changes the color of the prompt.
  * @return None
  */
-static void print_shell_prompt(void)
+void print_shell_prompt(void)
 {
     terminal_setcolour(SHELL_PROMPT_FG | SHELL_BG << 4);
     printf("%s", shell_prompt);
@@ -275,8 +268,9 @@ static void rr_example(void)
     rr_sched(task_queue, 4);
 }
 
-static void test1(void)
+void test1(void)
 {
+    printf("Here\n");
     int i = 15;
     printf("value of i in t1: %d, at addr: %p\n", i, &i);
 
@@ -285,7 +279,7 @@ static void test1(void)
     switch_state(&t1.registers, &current_task->registers);
 }
 
-static void test2(void)
+void test2(void)
 {
     int j = 4;
     printf("value of j in t2: %d, at addr: %p\n", j, &j);
@@ -298,10 +292,12 @@ static void virt_mem_example(void)
 {
     task main;
 
-    create_new_task(&t1, test1, get_eflags(), page_directory_1);
-    create_new_task(&t2, test2, get_eflags(), page_directory_2);
+    create_new_task(&t1, test1, get_eflags(), get_cr3());
+    create_new_task(&t2, test2, get_eflags(), get_cr3());
 
     current_task = &main;
+
+    printf("Got here\n");
     switch_state(&main.registers, &t1.registers);
     printf("Complete\n");
 }
@@ -341,7 +337,7 @@ static void exec_command(void)
     else if(check_input("rr") == true)
         rr_example();
 
-    else if(check_input("readsec") == true )
+    else if(check_input("readsec") == true)
     {
         uint16_t buf[SECTOR_WORDS];
         read_sector(165, buf);
@@ -352,7 +348,7 @@ static void exec_command(void)
         printf("\n");
     }
 
-    else if(check_input("writesec") == true )
+    else if(check_input("writesec") == true)
     {
         uint16_t buf[SECTOR_WORDS];
 
@@ -375,5 +371,3 @@ static void exec_command(void)
     else if (!check_input("\n"))
         printf("Command not found.\n");
 }
-
-

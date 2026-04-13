@@ -54,9 +54,6 @@ void set_cr4(uint32_t pae_set);
  */
 uint32_t* get_cr3();
 
-void enable_paging(void);
-
-void load_page_dir(uint32_t*);
 
 #endif //PAGER_H
 

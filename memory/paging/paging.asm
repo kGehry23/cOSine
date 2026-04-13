@@ -15,9 +15,6 @@ global _get_cr3
 global _set_cr0
 global _set_cr4
 
-global _enable_paging
-global _load_page_dir
-
 ;Moves the address of the page directory into CR3
 _set_cr3:
     mov edx, [esp + 4]
@@ -43,26 +40,3 @@ _set_cr4:
     mov edx, [esp + 4]
     mov cr4, edx
     ret
-
-
-; _load_page_dir:
-;     push edx
-;     mov edx, esp
-;     mov eax, [esp+8]
-;     mov cr3, eax
-;     mov esp, edx
-;     pop edx
-;     ret
-
-; _enable_paging:
-;     push ebp
-;     mov ebp, esp
-;     mov eax, cr0
-;     or eax, 0x80000000
-;     mov cr0, eax
-;     mov esp, ebp
-;     pop ebp
-;     ret
-
-
-

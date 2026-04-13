@@ -25,7 +25,7 @@
 extern uint32_t endkernel;
 
 //Base address of allocatable memory
-static uint32_t* base_addr = &endkernel;
+uint32_t* base_addr = &endkernel;
 
 //Array to keep track of which pages are allocated and which are free
 static uint8_t frame_array[MAX_PAGES];
@@ -105,8 +105,3 @@ void pre_allocate_frames()
         pre_alloced_frames[i] = get_free_frame();
     }
 }
-
-// void available_memory(void)
-// {
-//     printf("Available memory: %dM\n", (MAX_PAGES*PAGE_SIZE - (uint32_t)base_addr)/1000000);
-// }

@@ -66,6 +66,5 @@ uint32_t* get_free_frame(void);
  */
 void pre_allocate_frames(void);
 
-// void available_memory(void);
 
 #endif //FRAME_ALLOCATOR_H

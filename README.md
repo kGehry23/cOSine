@@ -31,6 +31,13 @@ The kernel is being developed as a solo hobby project and has used the following
 
 <br>
 
+## Conventions and Commenting Standards
+
+Commenting and general conventions used throughout the project loosely follow the Michael Bar Embedded C Programming Standard. Doxygen style comments have been used for future documentation generation.
+
+Michael Bar Embedded C Programming Standard: https://barrgroup.com/sites/default/files/barr_c_coding_standard_2018.pdf
+
+<br>
 
 ## Booting cOSine
 
