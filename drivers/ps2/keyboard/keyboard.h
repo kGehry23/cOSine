@@ -37,7 +37,7 @@
  ************************************/
 
 /*!
- * @brief IRQ handler for IRQ0
+ * @brief IRQ handler for IRQ1
  * @return None
  */
 void handle_key_press(void);

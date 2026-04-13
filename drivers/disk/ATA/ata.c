@@ -157,7 +157,7 @@ static void identify_ata(uint16_t device_select_port, uint16_t device_select_byt
         if((status_port_data&0x1) == 0)
             printf("Ready to read/write data from the ATA device.\n\n");
 
-        //Clears garbage data in disk cache from call to identify
+        //Clears garbage data in disk cache after identify sequence
         for(int i = 0; i < SECTOR_WORDS; i++)
             inw(SECTOR_DATA_PORT);
     }
