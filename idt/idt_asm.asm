@@ -13,7 +13,7 @@
 
 global _setIDT
 global _isr_stub_table
-global _irq_stub_table
+; global _irq_stub_table
 
 %macro isr_err_stub 1
 isr_stub_%+%1:

@@ -17,12 +17,12 @@
 #include "idt.h"
 #include <stdbool.h>
 #include "../libc/stdio/stdio.h"
-#include "../pic/pic.h"
+#include "../drivers/pic/pic.h"
+
 
 /************************************
- * DEFINES
+ * STATIC AND GLOBAL VARIABLES
  ************************************/
-#define IDT_MAX_DESCRIPTORS 256
 
 //Interrupt descriptor table. Contains 256 entries
 __attribute__((aligned(0x10)))
@@ -37,6 +37,11 @@ static bool vectors[IDT_MAX_DESCRIPTORS];
 extern void* isr_stub_table[];
 void *irq_functions[16];
 
+
+/************************************
+ * FUNCTION DEFINITIONS
+ ************************************/
+
 /*!
  * @brief Generic exception handler
  * @return None
@@ -44,7 +49,6 @@ void *irq_functions[16];
 void exception_handler()
 {
     //Disables interrupts and halts the cpu
-    printf("Test\n");
     __asm__ volatile ("cli; hlt");
 }
 
@@ -100,10 +104,8 @@ void idt_init()
         vectors[vector] = true;
     }
 
-
     //Sets the IDT. Called from asm file instead of inline asm. Issues with base address otherwise 
     setIDT(idtr.limit, idtr.base);
-
 }
 
 

@@ -13,26 +13,12 @@
 /************************************
 * INCLUDES
 ************************************/
-#include <stdint.h>
 #include "gdt.h"
-#include "../libc/stdio/stdio.h"
+
 
 /************************************
- * DEFINES
+ * FUNCTION DEFINITIONS
  ************************************/
-#define NUM_GDT_ENTRIES 3
-#define GDT_ENTRY_SIZE 8
-
-//Struct which represents a GDT entry
-struct segment
-{
-    unsigned int seg_num;
-    unsigned int offset;
-    unsigned int base;
-    unsigned int limit;
-    uint8_t access_byte;
-    uint8_t flags;
-};
 
 //Initializes a segment to be placed in the GDT
 void init_segment(struct segment *seg, 
@@ -60,14 +46,10 @@ void init_segment(struct segment *seg,
  */
 void encodedGDTEntry(uint8_t *target, struct segment source)
 {
-
-    if(source.limit > 0xFFFFF)
-        printf("GDT cannot encode limits larger than 0xFFFFF\n");
-
     //Encode limit
     target[0] = source.limit & 0xFF;
     target[1] = (source.limit >> 8) & 0xFF;
-    target[6] = (source.limit >> 16) & 0x0F; //unsure of this... why & with 0x0F?
+    target[6] = (source.limit >> 16) & 0x0F;
 
 
     //Encode base
@@ -80,7 +62,7 @@ void encodedGDTEntry(uint8_t *target, struct segment source)
     target[5] = source.access_byte;
 
     //Encode flags
-    target[6] |= (source.flags << 4);  //also unsure here... why are we oring with the flag (likely need at least 8 bits.. only using 4 for flag?)
+    target[6] |= (source.flags << 4); 
 
 }
 
@@ -106,7 +88,6 @@ void init_GDT(void)
     struct segment kernel_mode_data;
     init_segment(&kernel_mode_data, 2, 0x0010, 0, 0xFFFFF, 0x92, 0xC);
     
-    
     uint8_t* null_desc_logical_addr = (uint8_t*)((uint32_t)&gdt + null_desc.offset);
     encodedGDTEntry(null_desc_logical_addr, null_desc);
 
@@ -126,6 +107,5 @@ void init_GDT(void)
 
     printf("Code and data segment registers reloaded.\n");
     printf("GDT loaded at address %p\n", &gdt);
-
 }
 

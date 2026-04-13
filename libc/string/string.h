@@ -17,6 +17,11 @@
  ************************************/
 #include <stddef.h>
 
+
+/************************************
+* FUNCTION PROTOTYPES
+************************************/
+
 /*!
  * @brief Returns the number of elements in a provided character array
  * @param str Character pointer to check length of

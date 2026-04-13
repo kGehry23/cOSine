@@ -15,6 +15,22 @@
 #include <stdbool.h>
 #include "../io/io.h"
 
+
+/************************************
+ * MACROS
+ ************************************/
+#define SHELL_PROMPT_FG     12
+#define SHELL_FG            7
+#define SHELL_BG            0
+
+//Test macros 
+#define EXAMPLE_TIME_QUANTUM    150
+
+
+/************************************
+ * FUNCTION PROTOTYPES
+ ************************************/
+
 /*!
  * @brief Initializes and starts cOSh
  * @return None

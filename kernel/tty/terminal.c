@@ -18,12 +18,14 @@
 #include "../../libc/string/string.h"
 #include "../../io/io.h"
 
+
 /************************************
- * DEFINES
+ * MACROS
  ************************************/
 #define VGA_WIDTH   80
 #define VGA_HEIGHT  25
 #define VGA_MEMORY  0xB8000
+
 
 /************************************
  * ENUMS
@@ -48,14 +50,20 @@ enum vga_colour
     VGA_COLOR_WHITE = 15,
 };
 
+
 /************************************
  * GLOBALS
  ************************************/
-size_t terminal_row;
-size_t terminal_column;
-uint8_t terminal_colour;
+static size_t terminal_row;
+static size_t terminal_column;
+static uint8_t terminal_colour;
 //Define a pointer to vram memory start location
-uint16_t *terminal_buffer = (uint16_t*)VGA_MEMORY;
+static uint16_t *terminal_buffer = (uint16_t*)VGA_MEMORY;
+
+
+/************************************
+ * FUNCTION DEFINITIONS
+ ************************************/
 
 /*!
  * @brief Formats the selected background and foreground colours appropriately for use by the VGA

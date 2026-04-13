@@ -13,30 +13,38 @@
  * INCLUDES
  ************************************/
 #include "pager.h"
-#include <stddef.h>
 #include "../frame_allocator.h"
 #include "../../libc/stdio/stdio.h"
 
+
+/************************************
+ * GLOBAL AND STATIC VARIABLES
+ ************************************/
+
 //Page directory. Aligned on 4kB boundary
-uint32_t page_directory[1024] __attribute__((aligned(0x1000)));
+uint32_t page_directory_1[1024] __attribute__((aligned(0x1000)));
 
 //Initial page table. Aligned on 4kB boundary
-uint32_t page_table [1024] __attribute__((aligned(0x1000)));
+uint32_t page_table_1 [1024] __attribute__((aligned(0x1000)));
+
+
+/************************************
+ * FUNCTION DEFINITIONS
+ ************************************/
 
 /*!
  * @brief Initializes a page table
  * @return None
  */
-void init_page_table()
+void init_page_table(void)
 {
-    //This is just an initial page table to first setup paging.
-    //Subsequent initializations will use the frame allocator
     for(int i = 0;i<1024;i++)
     {
         /*Or'ing with 3 specifies that the entry maps to a 4 kB page
           and that the page can be read from and written to
         */
-        page_table[i] = (i*0x1000) | 3;
+
+        page_table_1[i] = (i*PAGE_SIZE) | 3;
     }
 }
 
@@ -44,18 +52,18 @@ void init_page_table()
  * @brief Initializes the page directory
  * @return None
  */
-void init_page_directory()
+void init_page_directory(void)
 {
     for(int i = 0;i<1024;i++)
     {
         //Sets a page as not present when set high
-        page_directory[i] = 0x00000002;
+        page_directory_1[i] = 0x00000002;
     }
 
     //Initializes the page table and sets the initial entry in
     //the page directory to the address of the page table
     init_page_table();
-    page_directory[0] = (uint32_t)page_table | 3;
+    page_directory_1[0] = (uint32_t)page_table_1 | 3;
 }
 
 
@@ -63,33 +71,17 @@ void init_page_directory()
  * @brief Sets up and enables paging
  * @return None
  */
-void init_paging()
+void init_paging(void)
 {
     init_page_directory();
 
     //Sets CR3 to contain the address in bits 31-12 (4KB aligned)
-    set_cr3((uint32_t)page_directory);
+    set_cr3(page_directory_1);
     //Enable 32-bit paging
-    set_cr0(0x80000000);
+    set_cr0(0x80000001);
 }
 
-static uint32_t get_pte(uint32_t pde, uint32_t linear_address)
-{
-    /*Extracts bits 21-12 of the linear address address shifted down to
-      positions 11-2. This is or'd with bits 31-12 of the linear pde to 
-      extract the address of the correct page table entry
-    */
 
-    return pde | ((linear_address >> 10) & 0xFFA);
-}
-
-uint32_t get_physical_addr(uint32_t pte, uint32_t linear_address)
-{
-    /*Retains bits 11-0 from the original linear address, to offset into 
-      the page table endtry provided
-    */
-    return pte | (linear_address & 0xFFF);
-}
 
 
 

@@ -10,13 +10,18 @@
  ********************************************************************************
  */
 
+#ifndef IO_H
+#define IO_H
+
 /************************************
 * INCLUDES
 ************************************/
 #include <stdint.h>
 
-#ifndef IO_H
-#define IO_H
+
+/************************************
+* FUNCTION PROTOTYPES
+************************************/
 
 /*!
  * @brief Writes a byte an I/O port
@@ -33,6 +38,20 @@ void outb(uint16_t port, uint8_t data);
  */
 uint8_t inb(uint16_t port);
 
+/*!
+ * @brief Reads a short from an I/O port
+ * @param port Port to write to
+ * @param data Data to write to the port
+ * @return None
+ */
+void outw(uint16_t port, uint16_t data);
+
+/*!
+ * @brief Reads a short (16 bits) from an I/O port
+ * @param port Port to read from
+ * @return Short available at port
+ */
+uint16_t inw(uint16_t port);
 
 #endif //IO_H
 

@@ -1,6 +1,7 @@
 /**
  ********************************************************************************
- * @file    string.h
+ * @file    string.c
+ * 
  * @author  Kai Gehry, OSDev Tutorial Reference
  *
  * @date    2025-12-24
@@ -14,6 +15,10 @@
  * INCLUDES
  ************************************/
 #include "string.h"
+
+/************************************
+ * FUNCTION DEFINITIONS
+ ************************************/
 
 /*!
  * @brief Returns the number of elements in a provided character array
@@ -123,7 +128,6 @@ void *memmove(void* s1, const void* s2, size_t n)
 
     return dest;
 }
-
 
 
 

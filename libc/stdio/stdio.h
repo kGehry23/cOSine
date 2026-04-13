@@ -17,10 +17,16 @@
  ************************************/
 #include <stdarg.h>
 
+
 /************************************
- * DEFINES
+ * MACROS
  ************************************/
 #define EOF (-1)
+
+
+/************************************
+ * FUNCTION PROTOTYPES
+ ************************************/
 
 /*!
  * @brief Writes a formatted string to the terminal followed by a newline

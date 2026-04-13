@@ -9,11 +9,18 @@
  ********************************************************************************
  */
 
-
-#include <stddef.h>
-
 #ifndef STDLIB_H
 #define STDLIB_H
+
+/************************************
+ * INCLUDES
+ ************************************/
+#include <stddef.h>
+
+
+/************************************
+ * FUNCTION PROTOTYPES
+ ************************************/
 
 /*!
  * @brief Causes abnormal process termination to occur

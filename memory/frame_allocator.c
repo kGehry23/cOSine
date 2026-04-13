@@ -16,6 +16,11 @@
 #include "frame_allocator.h"
 #include "../libc/stdio/stdio.h"
 
+
+/************************************
+ * GLOBAL AND STATIC VARIABLES
+ ************************************/
+
 //End of kernel memory
 extern uint32_t endkernel;
 
@@ -23,9 +28,13 @@ extern uint32_t endkernel;
 uint32_t* base_addr = &endkernel;
 
 //Array to keep track of which pages are allocated and which are free
-uint8_t frame_array[MAX_PAGES];
-uint32_t* pre_alloced_frames[PAGE_BLOCK];
+static uint8_t frame_array[MAX_PAGES];
+static uint32_t* pre_alloced_frames[PAGE_BLOCK];
 
+
+/************************************
+ * FUNCTION DEFINITIONS
+ ************************************/
 
 /*!
  * @brief Allocates frames when there are no more pages available
@@ -70,7 +79,7 @@ void free_frame(uint32_t* frame_address)
  */
 uint32_t* get_free_frame()
 {
-    uint32_t i = 0;
+    static uint32_t i = 0;
 
     while(frame_array[i] != FREE)
     {
@@ -79,6 +88,7 @@ uint32_t* get_free_frame()
     }
 
     frame_array[i] = ALLOCATED;
+    // i++;
 
     //Returns address of new page relative to base address
     return base_addr + (PAGE_SIZE*i);

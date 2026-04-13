@@ -17,6 +17,11 @@
  ************************************/
 #include "pic.h"
 
+
+/************************************
+ * FUNCTION DEFINITIONS
+ ************************************/
+
 /*!
  * @brief Sends an end of interrupt command to a pic(s)
  * @param irq_number Number of the irq the EOI command is sent for

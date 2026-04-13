@@ -4,7 +4,7 @@
 #  * @author  Kai Gehry
 #  * @date    2026-01-10
 #  *
-#  * @brief   Compiles or assembles all relevant kernel c and asm files
+#  * @brief   Compiles and assembles all relevant kernel c and asm files
 #  ********************************************************************************
 #  */
 
@@ -15,8 +15,13 @@ ASM=nasm
 #Required compilation flags
 CFLAGS= -m32 -c -ffreestanding -nostdlib
 
-ASM_OBJS = kernel/kernel_asm.o gdt/gdt_asm.o idt/idt_asm.o io/io.o memory/paging/paging.o
-C_OBJS = kernel/kernel.o kernel/tty/terminal.o libc/stdio/stdio.o libc/stdlib/stdlib.o libc/string/string.o gdt/gdt.o idt/idt.o memory/frame_allocator.o pic/pic.o drivers/ps2/ps2.o drivers/ps2/keyboard/keyboard.o memory/paging/pager.o shell/shell.o
+ASM_OBJS =kernel/kernel_asm.o task/task_asm.o gdt/gdt_asm.o idt/idt_asm.o io/io.o memory/paging/paging.o
+
+C_OBJS =	kernel/kernel.o kernel/tty/terminal.o libc/stdio/stdio.o libc/stdlib/stdlib.o libc/string/string.o\
+			task/task.o gdt/gdt.o idt/idt.o memory/frame_allocator.o drivers/pic/pic.o drivers/ps2/ps2.o\
+			drivers/ps2/keyboard/keyboard.o drivers/ps2/keyboard/keyboard_api.o drivers/ps2/mouse/mouse.o\
+			drivers/disk/ATA/ata.o drivers/disk/FAT/fat32.o memory/paging/pager.o shell/shell.o cpu/scheduling/scheduler.o\
+			cpu/dispatcher/dispatcher.o drivers/pit/pit.o
 
 LINK_LIST = $(ASM_OBJS) $(C_OBJS) 
 

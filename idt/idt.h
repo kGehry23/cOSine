@@ -11,13 +11,24 @@
  ********************************************************************************
  */
 
+#ifndef IDT_H
+#define IDT_H
+
 /************************************
  * INCLUDES
  ************************************/
 #include <stdint.h>
 
-#ifndef IDT_H
-#define IDT_H
+
+/************************************
+ * MACROS
+ ************************************/
+#define IDT_MAX_DESCRIPTORS 256
+
+
+/************************************
+ * TYPEDEFS
+ ************************************/
 
 /*
     Struct representing a gate descriptor
@@ -41,17 +52,28 @@ typedef struct
 }__attribute__((packed)) idtr_t;
 
 
+/************************************
+ * FUNCTION PROTOTYPES
+ ************************************/
+
 /*!
  * @brief Generic exception handler
+ * @return None
  */
 void exception_handler(void);
 
 /*!
  * @brief Interrupt handler
+ * @return None
  */
 void interrupt_handler(void);
 
-
+/*!
+ * @brief Points an appropriate handler to an IRQ
+ * @param handler Pointer to handler (function pointer)
+ * @param irq_number Number of IRQ to assign handler to
+ * @return None
+ */
 void set_irq_handler(void (*handler)(), uint8_t irq_number);
 
 /*!
@@ -69,7 +91,14 @@ void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags);
  */
 void idt_init(void);
 
+/*!
+ * @brief Tells the CPU where the IDT is located
+ * @param limit IDT limit
+ * @param base IDT base address
+ * @return None
+ */
 void setIDT(unsigned int limit, unsigned int base);
+
 
 #endif //IDT_H
 

@@ -9,19 +9,32 @@
  ********************************************************************************
 */
 
+#ifndef KEYBOARD_H 
+#define KEYBOARD_H 
+
 /************************************
  * INCLUDES
  ************************************/
 #include "../../../libc/stdio/stdio.h"
 #include "../../../io/io.h"
 #include "../../../idt/idt.h"
-#include "../../../pic/pic.h"
+#include "../../pic/pic.h"
 #include <stdbool.h>
 
+
+/************************************
+ * MACROS
+ ************************************/
+//Key codes
 #define BACKSPACE   0x66
 
+//Ports 
 #define DATA_PORT   0x60
 #define STATUS_PORT 0x64
+
+/************************************
+ * FUNCTION PROTOTYPES
+ ************************************/
 
 /*!
  * @brief IRQ handler for IRQ0
@@ -29,12 +42,4 @@
  */
 void handle_key_press(void);
 
-/*!
- * @brief Returns the last character read from the keyboard
- * @return The last read character
- */
-char get_last_char(void);
-
-bool check_input(const char* input_str);
-
-// char* arr(void);
+#endif //KEYBOARD_H

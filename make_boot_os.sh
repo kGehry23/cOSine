@@ -8,6 +8,12 @@
 #  ********************************************************************************
 #  */
 
+#Create empty disk image with
+#
+#       qemu-img create -f qcow2 disk.img 100M
+#
+
 #Boots into vm
-eval "make clean;make "
+eval "make clean;make -j 6"
+# eval "qemu-system-i386 -kernel kernel.elf -monitor stdio -drive file=fat:rw:file_system,format=raw,media=disk"
 eval "qemu-system-i386 -kernel kernel.elf -monitor stdio -hda disk.img"

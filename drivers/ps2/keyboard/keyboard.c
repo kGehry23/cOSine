@@ -2,9 +2,9 @@
  * @file    keyboard.c
  * 
  * @author  Kai Gehry
- * @date    2026-01-14
+ * @date    2026-02-26
  *
- * @brief   Keyboard driver 
+ * @brief   PS/2 Keyboard Driver
  * 
  ********************************************************************************
 */
@@ -15,8 +15,19 @@
 #include "keyboard.h"
 #include "../../../kernel/tty/terminal.h"
 
+
+/************************************
+ * GLOBAL AND STATIC VARIABLES
+ ************************************/
+
+/*Counter to keep track of current number of characters entered
+  before a newline*/
+uint8_t i = 0;
+//Character buffer for read characters
+char input_array[128];
+
 //Scan code mappings
-char key_codes[] = {
+static char key_codes[] = {
     0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,
@@ -34,12 +45,10 @@ char key_codes[] = {
     0,0,0,0,0,0,0
 };
 
-//Character buffer for read characters
-char input_array[128];
 
-/*Counter to keep track of current number of characters entered
-  before a newline*/
-uint8_t i = 0;
+/************************************
+ * FUNCTION DEFINITIONS
+ ************************************/
 
 /*!
  * @brief IRQ handler for IRQ1
@@ -55,20 +64,20 @@ void handle_key_press()
         //Checks for multi byte scan codes. Prevents key codes from being reprinted when
         //a key is released
         while((inb(STATUS_PORT)&0x01) == 1)
-        {
             reg_contents += inb(DATA_PORT);
-        }
 
         //Converts the scan code to a key code
         if(reg_contents <= sizeof(key_codes)/sizeof(char))
         {
             //Removes previously written text from the terminal if
-            if(reg_contents == BACKSPACE)
+
+            /*Malformed driver. Need to reorganize. This should not be where specific character input is tracked.*/
+            if(reg_contents == BACKSPACE && i > 0)
             {
                 terminal_remove_last_character();
                 i--;
             }
-            else
+            else if(reg_contents != BACKSPACE)
             {
                 input_array[i] = key_codes[reg_contents];
                 i++;
@@ -80,42 +89,6 @@ void handle_key_press()
 
     //Send EOI to PIC
     outb(0x20, 0x20);
-}
-
-/*!
- * @brief Returns the last character read from the keyboard
- * @return The last read character
- */
-char get_last_char()
-{
-    char last_char = input_array[i-1];
-    return last_char;
-}
-
-/*!
- * @brief Returns the last character read from the keyboard
- * @return The last read character
- */
-bool check_input(const char* input_str)
-{
-    uint8_t counter = 0;
-    uint8_t j = 0;
-
-    while(input_str[j] != '\0')
-    {
-        if(input_str[j] == input_array[j])
-        {
-            counter++;
-        }
-        j++;
-    }
-
-    i = 0;
-
-    if(counter == j)
-        return true;
-    else
-        return false; 
 }
 
 
