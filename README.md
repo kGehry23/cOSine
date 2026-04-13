@@ -6,7 +6,6 @@ cOSine is a 32-bit operating system kernel for the IA-32 x86 architecture. The p
 
 To date, the kernel is minimal but has implemented and has support for the following features:
 
-- 32-bit paging  (default paging mode on IA-32 when enabled)
 - Cooperative multitasking
 - Implementations of First Come First Served, Shortest Job First (example) and Round Robin CPU schedulers
 - Remapping of the Programmable Interrupt Controller (PIC)
@@ -16,6 +15,10 @@ To date, the kernel is minimal but has implemented and has support for the follo
 - A simple ATA disk driver (Programmed IO, 28 bit LBA addressing) -> Sectors can be read and written
 - Implementation of parts of the C standard library (printf, puts, memcmp, memmove, etc)
 - A simple shell for interacting with the kernel
+
+Needs improvement/continued development:
+
+- 32-bit paging  (default paging mode on IA-32 when enabled)
 
 <br>
 

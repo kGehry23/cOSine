@@ -5,6 +5,9 @@
  * @date    2026-03-08
  *
  * @brief   Defines the structure of a processs.
+ * 
+ *          Reference:  https://wiki.osdev.org/Cooperative_Multitasking
+ * 
  ********************************************************************************
  */
 
@@ -36,7 +39,6 @@ void create_new_task(task* new_task, void (*func)(), uint32_t eflags, uint32_t* 
     
     //Need to allocate a page here, then point to the correct location within the page
     uint32_t* frame = allocate_frame();
-    // printf("Frame addr: %p\n", frame);
     new_task->registers.esp = (uint32_t)frame + PAGE_SIZE; //Begin stack at bottom of allocated frame, work way up
 
     new_task->tid = task_identifier++;

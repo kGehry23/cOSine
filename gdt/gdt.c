@@ -46,14 +46,10 @@ void init_segment(struct segment *seg,
  */
 void encodedGDTEntry(uint8_t *target, struct segment source)
 {
-
-    // if(source.limit > 0xFFFFF)
-    //     printf("GDT cannot encode limits larger than 0xFFFFF\n");
-
     //Encode limit
     target[0] = source.limit & 0xFF;
     target[1] = (source.limit >> 8) & 0xFF;
-    target[6] = (source.limit >> 16) & 0x0F; //unsure of this... why & with 0x0F?
+    target[6] = (source.limit >> 16) & 0x0F;
 
 
     //Encode base
@@ -66,7 +62,7 @@ void encodedGDTEntry(uint8_t *target, struct segment source)
     target[5] = source.access_byte;
 
     //Encode flags
-    target[6] |= (source.flags << 4);  //also unsure here... why are we oring with the flag (likely need at least 8 bits.. only using 4 for flag?)
+    target[6] |= (source.flags << 4); 
 
 }
 
