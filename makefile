@@ -15,6 +15,7 @@ ASM=nasm
 #Required compilation flags
 CFLAGS= -m32 -c -ffreestanding -nostdlib
 
+#Compiler includes
 INC=-I"drivers\ps2" -I"drivers\ps2\keyboard" -I"drivers\disk\ATA" -I"drivers\pit" \
 	-I"drivers\pic" -I"gdt" -I"idt" -I"memory" -I"memory\paging" -I"shell" -I"task" \
 	-I"kernel\tty" -I"cpu\scheduling" -I"cpu\dispatcher" -I"io" 

@@ -13,26 +13,27 @@
  * INCLUDES
  ************************************/
 #include <stdbool.h>
-#include "tty/terminal.h"
 #include "stdio.h"
 #include "stdlib.h"
+#include "terminal.h"
 #include "gdt.h"
 #include "idt.h"
-
 
 //Drivers
 #include "ps2.h"
 #include "ata.h"
 #include "keyboard.h"
-// #include "../drivers/ps2/mouse/mouse.h"
+// #include "mouse.h"
 #include "pit.h"
 #include "pic.h"
 
+//Memory
 #include "frame_allocator.h"
 #include "pager.h"
-#include "shell.h"
 
+//Tasks and shell
 #include "task.h"
+#include "shell.h"
 
 
 /************************************
@@ -51,7 +52,6 @@ task main_task;
  */
 void kernel(void)
 {
-
     //Creates a page directory, initial page table, and enables paging
     pre_allocate_frames();
     init_paging();
