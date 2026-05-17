@@ -15,9 +15,9 @@
  * INCLUDES
  ************************************/
 #include <stdint.h>
-#include "../libc/stdio/stdio.h"
-#include "../memory/paging/pager.h"
-#include "../memory/frame_allocator.h"
+#include "stdio.h"
+#include "pager.h"
+#include "frame_allocator.h"
 
 
 /************************************

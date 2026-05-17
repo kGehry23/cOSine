@@ -16,7 +16,7 @@
  * INCLUDES
  ************************************/
 #include "keyboard.h"
-#include "../../../libc/string/string.h"
+#include "string.h"
 
 
 /************************************

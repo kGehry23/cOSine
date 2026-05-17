@@ -15,6 +15,10 @@ ASM=nasm
 #Required compilation flags
 CFLAGS= -m32 -c -ffreestanding -nostdlib
 
+INC=-I"drivers\ps2" -I"drivers\ps2\keyboard" -I"drivers\disk\ATA" -I"drivers\pit" \
+	-I"drivers\pic" -I"gdt" -I"idt" -I"memory" -I"memory\paging" -I"shell" -I"task" \
+	-I"kernel\tty" -I"cpu\scheduling" -I"cpu\dispatcher" -I"io" 
+
 ASM_OBJS =kernel/kernel_asm.o task/task_asm.o gdt/gdt_asm.o idt/idt_asm.o io/io.o memory/paging/paging.o
 
 C_OBJS =	kernel/kernel.o kernel/tty/terminal.o libc/stdio/stdio.o libc/stdlib/stdlib.o libc/string/string.o\
@@ -29,7 +33,7 @@ all: $(ASM_OBJS) $(C_OBJS) kernel.bin kernel.elf
 
 #Compiles all .c files
 $(C_OBJS): %.o: %.c 
-	$(CC) -o $@ $< $(CFLAGS)
+	$(CC) $(INC) -o $@ $< $(CFLAGS)
 
 #Assembles as .asm files
 $(ASM_OBJS): %.o: %.asm 

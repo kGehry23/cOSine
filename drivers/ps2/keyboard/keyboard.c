@@ -13,7 +13,7 @@
  * INCLUDES
  ************************************/
 #include "keyboard.h"
-#include "../../../kernel/tty/terminal.h"
+#include "terminal.h"
 
 
 /************************************

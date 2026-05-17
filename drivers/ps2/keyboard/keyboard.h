@@ -15,11 +15,11 @@
 /************************************
  * INCLUDES
  ************************************/
-#include "../../../libc/stdio/stdio.h"
-#include "../../../io/io.h"
-#include "../../../idt/idt.h"
-#include "../../pic/pic.h"
 #include <stdbool.h>
+#include "stdio.h"
+#include "io.h"
+#include "idt.h"
+#include "pic.h"
 
 
 /************************************

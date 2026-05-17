@@ -4,7 +4,7 @@
 ;  *      
 ;  * Date         2025-12-30
 ;  *
-;  * Brief        Defines the outb and inb functions for essentiual I/O operations
+;  * Brief        Defines the outb and inb functions for essential I/O operations
 ;  *
 ;  *              Adapted from: https://littleosbook.github.io/book.pdf
 ;  *              

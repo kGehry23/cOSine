@@ -16,9 +16,9 @@
 /************************************
  * INCLUDES
  ************************************/
-#include "../../../libc/stdio/stdio.h"
-#include "../../../io/io.h"
-#include "../../pit/pit.h"
+#include "stdio.h"
+#include "io.h"
+#include "pit.h"
 
 
 /************************************

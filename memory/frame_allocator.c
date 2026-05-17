@@ -14,7 +14,7 @@
  * INCLUDES
  ************************************/
 #include "frame_allocator.h"
-#include "../libc/stdio/stdio.h"
+#include "stdio.h"
 
 
 /************************************

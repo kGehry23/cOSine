@@ -13,8 +13,8 @@
  * INCLUDES
  ************************************/
 #include "pager.h"
-#include "../frame_allocator.h"
-#include "../../libc/stdio/stdio.h"
+#include "frame_allocator.h"
+#include "stdio.h"
 
 
 /************************************

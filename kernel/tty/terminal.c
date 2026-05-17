@@ -15,8 +15,8 @@
  * INCLUDES
  ************************************/
 #include "terminal.h"
-#include "../../libc/string/string.h"
-#include "../../io/io.h"
+#include "string.h"
+#include "io.h"
 
 
 /************************************

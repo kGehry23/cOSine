@@ -15,8 +15,6 @@
  * INCLUDES
  ************************************/
 #include "ps2.h"
-#include "../pit/pit.h"
-#include "../../libc/stdio/stdio.h"
 
 
 /************************************
