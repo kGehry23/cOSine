@@ -1,8 +1,8 @@
 
 #include "../bitmap.h"
-#include "../../libc/stdio/stdio.h"
+#include "stdio.h"
 
-void bmp_test_ex()
+int main(void)
 {
     bitmap_t bmp;
 
@@ -22,5 +22,4 @@ void bmp_test_ex()
     printf("bitmap: %p\n", bmp.bitmap);
 
     printf("Bit state: %d\n", bit_state(&bmp, 0));
-
 }
