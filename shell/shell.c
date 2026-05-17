@@ -13,13 +13,13 @@
  * INCLUDES
  ************************************/
 #include "shell.h"
-#include "../libc/stdio/stdio.h"
-#include "../kernel/tty/terminal.h"
-#include "../drivers/ps2/keyboard/keyboard_api.h"
-#include "../drivers/disk/ata/ata.h"
-#include "../drivers/pit/pit.h"
-#include "../cpu/scheduling/scheduler.h"
-#include "../cpu/dispatcher/dispatcher.h"
+#include "stdio.h"
+#include "terminal.h"
+#include "keyboard_api.h"
+#include "ata.h"
+#include "pit.h"
+#include "scheduler.h"
+#include "dispatcher.h"
 
 
 /************************************

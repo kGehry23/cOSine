@@ -17,7 +17,7 @@
 * INCLUDES
 ************************************/
 #include <stdint.h>
-#include "../libc/stdio/stdio.h"
+#include "stdio.h"
 
 
 /************************************

@@ -14,10 +14,10 @@
 /************************************
  * INCLUDES
  ************************************/
-#include "idt.h"
 #include <stdbool.h>
-#include "../libc/stdio/stdio.h"
-#include "../drivers/pic/pic.h"
+#include "idt.h"
+#include "stdio.h"
+#include "pic.h"
 
 
 /************************************

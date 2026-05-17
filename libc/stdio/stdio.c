@@ -15,7 +15,7 @@
  ************************************/
 #include "stdio.h"
 #include "string.h"
-#include "../../kernel/tty/terminal.h"
+#include "terminal.h"
 
 
 /************************************

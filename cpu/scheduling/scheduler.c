@@ -14,7 +14,7 @@
 * INCLUDES
 ************************************/
 #include "scheduler.h"
-#include "../dispatcher/dispatcher.h"
+#include "dispatcher.h"
 
 
 /************************************

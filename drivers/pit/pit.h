@@ -17,9 +17,9 @@
  ************************************/
 #include <stdint.h>
 #include <stdbool.h>
-#include "../../libc/stdio/stdio.h"
-#include "../../io/io.h"
-#include "../pic/pic.h"
+#include "stdio.h"
+#include "io.h"
+#include "pic.h"
 
 
 /************************************

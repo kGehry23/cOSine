@@ -13,7 +13,7 @@
  * INCLUDES
  ************************************/
 #include "stdlib.h"
-#include "../stdio/stdio.h"
+#include "stdio.h"
 
 
 /************************************

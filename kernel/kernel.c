@@ -14,25 +14,25 @@
  ************************************/
 #include <stdbool.h>
 #include "tty/terminal.h"
-#include "../libc/stdio/stdio.h"
-#include "../libc/stdlib/stdlib.h"
-#include "../gdt/gdt.h"
-#include "../idt/idt.h"
+#include "stdio.h"
+#include "stdlib.h"
+#include "gdt.h"
+#include "idt.h"
 
 
 //Drivers
-#include "../drivers/ps2/ps2.h"
-#include "../drivers/disk/ATA/ata.h"
-#include "../drivers/ps2/keyboard/keyboard.h"
+#include "ps2.h"
+#include "ata.h"
+#include "keyboard.h"
 // #include "../drivers/ps2/mouse/mouse.h"
-#include "../drivers/pit/pit.h"
-#include "../drivers/pic/pic.h"
+#include "pit.h"
+#include "pic.h"
 
-#include "../memory/frame_allocator.h"
-#include "../memory/paging/pager.h"
-#include "../shell/shell.h"
+#include "frame_allocator.h"
+#include "pager.h"
+#include "shell.h"
 
-#include "../task/task.h"
+#include "task.h"
 
 
 /************************************
