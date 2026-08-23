@@ -23,7 +23,7 @@
 #include "ps2.h"
 #include "ata.h"
 #include "keyboard.h"
-// #include "mouse.h"
+#include "mouse.h"
 #include "pit.h"
 #include "pic.h"
 
@@ -66,8 +66,6 @@ void kernel(void)
 
     //Masks all interrupts except pit
     outb(PIC_MASTER_DATA,0xfe);
-    
-    /*1110 1111 -> irq 12 is the mouse*/ 
     outb(PIC_SLAVE_DATA,0xff);
     
     //Initializes the GDT
@@ -88,6 +86,10 @@ void kernel(void)
     //Setup IRQ1 and initialize keyboard
     void (*keyboard_handle)() = handle_key_press;
     set_irq_handler(keyboard_handle,2);
+
+    //Setup IRQ12 and initialize mouse
+    void (*mouse_handle)() = handle_mouse;
+    set_irq_handler(mouse_handle, 13);
 
     //Set interrupt flag (enables interrupts) 
     __asm__ volatile ("sti");

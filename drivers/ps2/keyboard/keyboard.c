@@ -88,7 +88,7 @@ void handle_key_press()
     }
 
     //Send EOI to PIC
-    outb(0x20, 0x20);
+    outb(PIC_MASTER_BASE, EOI);
 }
 
 

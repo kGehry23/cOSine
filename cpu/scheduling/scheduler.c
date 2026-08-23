@@ -48,7 +48,7 @@ void fcfs_sched(task *task_queue, uint32_t num_tasks)
 //Performs shortest job first scheduling
 void sjf_sched(task *task_queue, uint32_t num_tasks)
 {
-    task main;
+    task main; 
 
     task t;
     uint32_t current_min;
