@@ -19,7 +19,7 @@
 /************************************
  * INCLUDES
 ************************************/
-#include <stdint.h>
+#include "stdint.h"
 #include "../../../libc/stdio/stdio.h"
 
 

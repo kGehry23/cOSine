@@ -18,7 +18,7 @@
  * INCLUDES
  ************************************/
 #include <stddef.h>
-#include <stdint.h>
+#include "stdint.h"
 
 
 /************************************

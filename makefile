@@ -18,7 +18,7 @@ CFLAGS= -m32 -c -ffreestanding -nostdlib
 #Compiler includes
 INC=-I"drivers\ps2" -I"drivers\ps2\keyboard" -I"drivers\ps2\mouse" -I"drivers\disk\ATA" -I"drivers\pit" \
 	-I"drivers\pic" -I"gdt" -I"idt" -I"memory" -I"memory\paging" -I"shell" -I"task" \
-	-I"kernel\tty" -I"cpu\scheduling" -I"cpu\dispatcher" -I"io" 
+	-I"kernel\tty" -I"cpu\scheduling" -I"cpu\dispatcher" -I"io" -I"libc\stdint" 
 
 ASM_OBJS =kernel/kernel_asm.o task/task_asm.o gdt/gdt_asm.o idt/idt_asm.o io/io.o memory/paging/paging.o
 
